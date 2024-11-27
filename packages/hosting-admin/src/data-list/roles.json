@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "roleName": "Super admin",
+    "roleCode": "super_admin",
+    "redirectTo": "/"
+  },
+  {
+    "id": "2",
+    "roleName": "Client admin",
+    "roleCode": "client_admin",
+    "redirectTo": "/"
+  },
+  {
+    "id": "3",
+    "roleName": "Marketing",
+    "roleCode": "marketing",
+    "redirectTo": "/"
+  }
+]

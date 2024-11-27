@@ -1,0 +1,30 @@
+{
+  "development": {
+    "version": "0.0.1",
+    "firebaseApp": {
+      "apiKey": "AIzaSyC-4kivVRgljpSQ5kQzkSTHEFOf5FY8j2k",
+      "authDomain": "tu-plan-hoy.firebaseapp.com",
+      "projectId": "tu-plan-hoy",
+      "storageBucket": "tu-plan-hoy.firebasestorage.app",
+      "messagingSenderId": "239001093655",
+      "appId": "1:239001093655:web:356ef1b53796274aa8be52",
+      "measurementId": "G-1896RM2FM7"
+    },
+    "buckets": {},
+    "apiUrl": "https://api-tuplanhoy-dev.web.app"
+  },
+  "production": {
+    "version": "0.0.1",
+    "firebaseApp": {
+      "apiKey": "AIzaSyC-4kivVRgljpSQ5kQzkSTHEFOf5FY8j2k",
+      "authDomain": "tu-plan-hoy.firebaseapp.com",
+      "projectId": "tu-plan-hoy",
+      "storageBucket": "tu-plan-hoy.firebasestorage.app",
+      "messagingSenderId": "239001093655",
+      "appId": "1:239001093655:web:356ef1b53796274aa8be52",
+      "measurementId": "G-1896RM2FM7"
+    },
+    "buckets": {},
+    "apiUrl": "https://api-tuplanhoy.web.app"
+  }
+}

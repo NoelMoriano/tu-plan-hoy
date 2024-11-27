@@ -1,0 +1,21 @@
+{
+  "name": "tu-plan-hoy",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "functions": "yarn --cwd packages/functions",
+    "hosting-admin": "yarn --cwd packages/hosting-admin",
+    "hosting": "yarn --cwd packages/hosting",
+    "install:all": "yarn functions install && yarn hosting-admin install && yarn hosting install",
+    "deploy": "firebase deploy",
+    "deploy:simple": "firebase deploy --only functions,hosting",
+    "deploy:functions": "yarn functions deploy",
+    "deploy:hosting-admin": "yarn hosting-admin deploy",
+    "deploy:hosting": "yarn hosting deploy",
+    "deploy:indexes": "firebase deploy --only firestore:indexes",
+    "deploy:extensions": "firebase deploy --only extensions",
+    "export:extensions": "firebase ext:export",
+    "swagger": "yarn functions swagger",
+    "postswagger": "yarn hosting openapi && yarn hosting-admin openapi"
+  }
+}
