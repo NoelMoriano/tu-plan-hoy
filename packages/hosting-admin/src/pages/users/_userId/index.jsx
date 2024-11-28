@@ -20,8 +20,9 @@ import { firestore } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
 import { assign, capitalize } from "lodash";
 import { useApiUserPost, useApiUserPut } from "../../../api";
-import { phoneCodes, roles } from "../../../data-list";
+import { genders, phoneCodes, roles } from "../../../data-list";
 import { Typography } from "antd";
+import { countriesISO } from "../../../data-list/countriesISO.js";
 
 const { Title } = Typography;
 
@@ -78,6 +79,8 @@ export const UserIntegration = () => {
         firstName: formData.firstName,
         paternalSurname: formData.paternalSurname,
         maternalSurname: formData.maternalSurname,
+        nationality: formData.nationality,
+        gender: formData.gender,
         email: formData.email.toLowerCase(),
         password: formData.password,
         phone: {
@@ -109,6 +112,8 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     firstName: yup.string().required(),
     paternalSurname: yup.string().required(),
     maternalSurname: yup.string().required(),
+    nationality: yup.string().required(),
+    gender: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
     prefixNumber: yup.string().required(),
@@ -132,14 +137,16 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
 
   const resetForm = () => {
     reset({
-      roleCode: user?.roleCode || "",
+      roleCode: user?.roleCode || null,
       firstName: user?.firstName || "",
       paternalSurname: user?.paternalSurname || "",
       maternalSurname: user?.maternalSurname || "",
-      email: user?.email || "",
-      password: user?.password || "",
+      nationality: user?.nationality || null,
+      gender: user?.gender || null,
       prefixNumber: user?.phone?.prefix || "+51",
       phoneNumber: user?.phone?.number || "",
+      email: user?.email || "",
+      password: user?.password || "",
       profileImage: user?.profileImage || null,
     });
   };
@@ -158,7 +165,6 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
               <Controller
                 name="roleCode"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Select
                     label="Rol"
@@ -178,7 +184,6 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
               <Controller
                 name="firstName"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
                     label="Nombres"
@@ -195,7 +200,6 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
               <Controller
                 name="paternalSurname"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
                     label="Apellido paterno"
@@ -212,7 +216,6 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
               <Controller
                 name="maternalSurname"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
                     label="Apellido materno"
@@ -227,34 +230,35 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             </Col>
             <Col span={24}>
               <Controller
-                name="email"
+                name="nationality"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
-                  <Input
-                    label="Email"
-                    name={name}
+                  <Select
+                    label="Nacionalidad"
                     value={value}
                     onChange={onChange}
                     error={error(name)}
                     required={required(name)}
+                    options={countriesISO.map((countryIso) => ({
+                      label: countryIso.name,
+                      value: countryIso.alpha2,
+                    }))}
                   />
                 )}
               />
             </Col>
             <Col span={24}>
               <Controller
-                name="password"
+                name="gender"
                 control={control}
-                defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
-                  <InputPassword
-                    label="Contraseña"
-                    name={name}
+                  <Select
+                    label="Genero"
                     value={value}
                     onChange={onChange}
                     error={error(name)}
                     required={required(name)}
+                    options={genders}
                   />
                 )}
               />
@@ -262,7 +266,6 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             <Col xs={24} sm={6} md={6}>
               <Controller
                 name="prefixNumber"
-                defaultValue="+51"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Select
@@ -298,9 +301,40 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             </Col>
             <Col span={24}>
               <Controller
+                name="email"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Input
+                    label="Email"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="password"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <InputPassword
+                    label="Contraseña"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
                 name="profileImage"
                 control={control}
-                defaultValue={null}
                 render={({ field: { onChange, value, name } }) => (
                   <Upload
                     label="Foto"

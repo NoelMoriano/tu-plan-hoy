@@ -1,20 +1,20 @@
 import React from "react";
 import { SelectAntd } from "./index.js";
 import { ComponentContainer } from "./component-container";
-import { defaultTo } from "lodash";
 import { lighten } from "polished";
 import styled, { css } from "styled-components";
 
-const defaultFilterOption = (inputValue, optionLabel) =>
-  defaultTo(optionLabel, "").toUpperCase().indexOf(inputValue.toUpperCase()) ===
-  0;
+const defaultFilterOption = (inputValue, optionLabel) => {
+  const labelParts = optionLabel.toLowerCase().split(" - ");
+  return labelParts.some((part) => part.includes(inputValue.toLowerCase()));
+};
 
 export const Select = ({
   value = undefined,
   required = false,
   error = false,
   disabled = false,
-  animation = false,
+  animation,
   isMobile = false,
   label,
   children,
@@ -60,17 +60,18 @@ export const Select = ({
         </StyledSelectMobile>
       ) : (
         <SelectAntd
+          showSearch
+          size="large"
+          placeholder=""
+          optionFilterProp="label"
           allowClear={disabled ? false : allowClear}
           variant="borderless"
           disabled={disabled}
           value={fixValue}
           onChange={onChange}
           filterOption={(inputValue, option) =>
-            filterOption(inputValue, option?.children)
+            filterOption(inputValue, option?.label)
           }
-          showSearch
-          size="large"
-          placeholder=""
           options={options.map((option) => ({
             label: option.label,
             value: option.value,

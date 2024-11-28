@@ -29,10 +29,10 @@ export const Filled = ({
       hidden={hidden}
       animation={animation}
     >
-      <div className="item-wrapper">{children}</div>
       <label htmlFor={componentId} className="item-label">
         {label}
       </label>
+      <div className="item-wrapper">{children}</div>
     </Container>
     {helperText && (
       <Error error={error}>{capitalize(startCase(helperText))}</Error>
@@ -43,12 +43,13 @@ export const Filled = ({
 const labelAnimate = css`
   padding: 0 5px;
   border-radius: ${({ theme }) => theme.border_radius.xx_small};
-  top: -11px;
+  top: -7px;
   left: 6px;
   bottom: auto;
   font-weight: 600;
-  font-size: ${({ theme }) => theme.font_sizes.x_small};
+  font-size: ${({ theme }) => theme.font_sizes.xx_small};
   background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => lighten(0.3, theme.colors.black)};
 `;
 
 const Container = styled.div`

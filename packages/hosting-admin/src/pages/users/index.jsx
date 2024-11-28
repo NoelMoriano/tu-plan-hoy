@@ -18,8 +18,9 @@ import { useDevice } from "../../hooks";
 import { roles } from "../../data-list";
 import { useApiUserPatch } from "../../api";
 import { assign } from "lodash";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { userFullName } from "../../utils/index.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const { Title, Text } = Typography;
 
@@ -70,7 +71,11 @@ export const Users = () => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Button type="primary" onClick={() => onAddUser()}>
+        <Button
+          type="primary"
+          onClick={() => onAddUser()}
+          icon={<FontAwesomeIcon icon={faPlus} />}
+        >
           Agregar usuario
         </Button>
       </Col>
@@ -82,7 +87,7 @@ export const Users = () => {
         <ListAntd
           className="demo-loadmore-list"
           loading={false}
-          itemLayout="horizontal"
+          itemLayout={isMobile ? "vertical" : "horizontal"}
           dataSource={users}
           renderItem={(user) => (
             <ListAntd.Item
@@ -109,7 +114,9 @@ export const Users = () => {
                   avatar={
                     <Avatar
                       src={
-                        user?.profileImage?.thumbUrl || user?.profileImage?.url
+                        user?.profileImage?.thumbUrl ||
+                        user?.profileImage?.url ||
+                        "/avatar.webp"
                       }
                     />
                   }

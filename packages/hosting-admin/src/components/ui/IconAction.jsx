@@ -20,7 +20,7 @@ export const IconAction = ({
 );
 
 const IconWrapper = styled.div`
-  ${({ theme, size, onClick, styled: { color = () => "#142b41" } }) => css`
+  ${({ theme, size, onClick, styled: { color = () => "#000" } }) => css`
     display: flex;
     justify-content: center;
     align-items: center;
