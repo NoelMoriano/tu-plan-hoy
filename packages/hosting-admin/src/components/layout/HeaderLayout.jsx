@@ -2,9 +2,9 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { AvatarNoFound, Logo } from "../../images";
+import { AvatarNoFound } from "../../images";
 import { mediaQuery } from "../../styles";
-import { Space, Layout } from "../ui";
+import { Layout, Space } from "../ui";
 import { capitalize } from "lodash";
 
 const { Header } = Layout;
@@ -19,8 +19,7 @@ export const HeaderLayout = ({
     <HeaderContainer>
       <div className="item-logo" onClick={() => onNavigateTo("/")}>
         <Space align="center">
-          <img src={Logo} width={35} alt="Tu plan hoy logo" />
-          <h3>Tu plan hoy</h3>
+          <img src="/logotipo.webp" width={130} alt="Tu plan hoy logo" />
         </Space>
       </div>
       <div className="user-items">

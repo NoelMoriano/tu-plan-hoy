@@ -1,6 +1,5 @@
 import { css, createGlobalStyle } from "styled-components";
 import { mediaQuery } from "../constants";
-import { darken } from "polished";
 
 const global = css`
   * {
@@ -16,10 +15,8 @@ const global = css`
   }
 
   body {
-    background: #e9eef6;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
       sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: ${({ theme }) => theme.colors.font2};
   }
 
   h1,

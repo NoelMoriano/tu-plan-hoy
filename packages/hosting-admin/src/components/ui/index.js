@@ -37,6 +37,8 @@ import {
   notification as notificationAntd,
   Upload as UploadAntd,
   message as messageAntd,
+  List as ListAntd,
+  Avatar,
 } from "antd";
 
 export * from "./component-container";
@@ -96,4 +98,6 @@ export {
   notificationAntd,
   UploadAntd,
   messageAntd,
+  ListAntd,
+  Avatar,
 };

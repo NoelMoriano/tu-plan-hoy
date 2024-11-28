@@ -13,22 +13,23 @@ import "antd/dist/reset.css";
 const config = {
   components: {
     Button: {
+      borderRadius: 9,
       colorPrimary: theme.colors.primary,
       colorPrimaryHover: theme.colors.secondary,
       colorPrimaryActive: theme.colors.secondary,
     },
     Drawer: {
-      colorBgElevated: darken(0.1, theme.colors.secondary),
+      colorBgElevated: theme.colors.primary,
       colorIcon: "#fff",
       colorIconHover: "rgba(255,255,255,0.69)",
       algorithm: true,
     },
     Menu: {
-      colorPrimary: theme.colors.secondary,
+      colorPrimary: theme.colors.primary,
+      itemBg: theme.colors.primary,
       colorPrimaryHover: lighten(0.05, theme.colors.secondary),
       itemHoverBg: lighten(0.02, theme.colors.secondary),
       colorBgElevated: darken(0.1, theme.colors.secondary),
-      itemBg: darken(0.1, theme.colors.secondary),
       subMenuItemBg: darken(0.14, theme.colors.secondary),
       colorText: theme.colors.white,
       itemColor: theme.colors.white,
@@ -47,6 +48,7 @@ const config = {
       colorPrimaryActive: theme.colors.secondary,
     },
     Card: {
+      borderRadius: 9,
       colorFillAlter: theme.colors.secondary,
       colorTextHeading: "white",
     },

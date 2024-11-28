@@ -6,9 +6,11 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuthentication } from "../../providers";
 import { useFormUtils } from "../../hooks";
-import Title from "antd/es/typography/Title";
+import { Typography } from "antd";
 import { mediaQuery } from "../../styles";
 import { useNavigate } from "react-router";
+
+const { Title } = Typography;
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -131,7 +133,7 @@ const Container = styled.div`
       .radial-gradient-item {
         width: 100%;
         height: 20em;
-        background: radial-gradient(rgb(47 84 235 / 17%) 0%, transparent 67%);
+        background: radial-gradient(rgb(35 26 115 / 21%) 0%, transparent 67%);
         margin: auto;
         position: absolute;
         top: -14em;

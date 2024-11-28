@@ -7,7 +7,7 @@ export const theme = {
   border_radius: {
     xx_small: ".3em",
     x_small: ".5em",
-    small: ".7em",
+    small: ".6em",
     medium: ".9em",
     large: "1em",
     x_large: "1.2em",
@@ -50,7 +50,7 @@ export const theme = {
     heading: "#040c10",
     body: "#171d1f",
 
-    gray: "#D3DEE6",
+    gray: "#959ba1",
     gray2: "#F2F6F8",
 
     black: "#000000",

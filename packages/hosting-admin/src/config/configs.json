@@ -10,8 +10,10 @@
       "appId": "1:239001093655:web:356ef1b53796274aa8be52",
       "measurementId": "G-1896RM2FM7"
     },
-    "buckets": {},
-    "apiUrl": "https://api-tuplanhoy-dev.web.app"
+    "buckets": {
+      "thpUsers": "gs://tph-users"
+    },
+    "apiUrl": "https://api-tu-plan-hoy.web.app"
   },
   "production": {
     "version": "0.0.1",
@@ -24,7 +26,9 @@
       "appId": "1:239001093655:web:356ef1b53796274aa8be52",
       "measurementId": "G-1896RM2FM7"
     },
-    "buckets": {},
-    "apiUrl": "https://api-tuplanhoy.web.app"
+    "buckets": {
+      "thpUsers": "gs://tph-users"
+    },
+    "apiUrl": "https://api-tu-plan-hoy.web.app"
   }
 }

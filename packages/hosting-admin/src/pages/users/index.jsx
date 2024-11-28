@@ -1,24 +1,25 @@
 import React from "react";
-import Row from "antd/lib/row";
-import Col from "antd/lib/col";
-import Typography from "antd/lib/typography";
-import List from "antd/lib/list";
-import Tag from "antd/lib/tag";
+import { Skeleton, Typography } from "antd";
 import {
+  Avatar,
   Button,
+  Col,
+  Divider,
   IconAction,
+  ListAntd,
   modalConfirm,
   notification,
+  Row,
+  Tag,
 } from "../../components/ui";
-import { Divider } from "antd";
 import { useAuthentication, useGlobalData } from "../../providers";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import { useDevice } from "../../hooks";
-import { Link } from "react-router-dom";
 import { roles } from "../../data-list";
 import { useApiUserPatch } from "../../api";
 import { assign } from "lodash";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { userFullName } from "../../utils/index.js";
 
 const { Title, Text } = Typography;
 
@@ -28,8 +29,6 @@ export const Users = () => {
   const { authUser } = useAuthentication();
   const { users } = useGlobalData();
   const { patchUser, patchUserResponse } = useApiUserPatch();
-
-  console.log("users: ", users);
 
   const navigateTo = (userId) => {
     const url = `/users/${userId}`;
@@ -80,51 +79,49 @@ export const Users = () => {
         <Title level={3}>Usuarios</Title>
       </Col>
       <Col span={24}>
-        <List
+        <ListAntd
           className="demo-loadmore-list"
-          itemLayout={isMobile}
+          loading={false}
+          itemLayout="horizontal"
           dataSource={users}
           renderItem={(user) => (
-            <List.Item
+            <ListAntd.Item
               actions={[
                 <IconAction
-                  key={user.id}
-                  tooltipTitle="Editar"
-                  icon={faEdit}
+                  key="edit"
+                  data-testid="edit"
                   onClick={() => onEditUser(user)}
+                  icon={faEdit}
                 />,
                 <IconAction
-                  key={user.id}
-                  tooltipTitle="Eliminar"
-                  styled={{ color: (theme) => theme.colors.error }}
-                  icon={faTrash}
+                  key="delete"
+                  data-testid="delete"
                   onClick={() => onConfirmRemoveUser(user)}
+                  icon={faTrash}
+                  styled={{
+                    color: () => "rgb(241, 13, 13)",
+                  }}
                 />,
               ]}
             >
-              <List.Item.Meta
-                title={
-                  <Link to={`/users/${user.id}`}>
-                    <h3 className="link-color">{user.email}</h3>
-                  </Link>
-                }
-                description={
-                  <>
+              <Skeleton avatar title={false} loading={false} active>
+                <ListAntd.Item.Meta
+                  avatar={
+                    <Avatar
+                      src={
+                        user?.profileImage?.thumbUrl || user?.profileImage?.url
+                      }
+                    />
+                  }
+                  title={<a href="https://ant.design">{userFullName(user)}</a>}
+                  description={
                     <div>
-                      <Text>{`${user?.firstName} ${user?.paternalName}`}</Text>
+                      <Tag color="blue">{user?.email}</Tag>
                     </div>
-                    <div>
-                      <Text>
-                        Rol:{" "}
-                        <Tag color="blue">{`${
-                          findRole(user?.roleCode)?.roleName || ""
-                        }`}</Tag>
-                      </Text>
-                    </div>
-                  </>
-                }
-              />
-            </List.Item>
+                  }
+                />
+              </Skeleton>
+            </ListAntd.Item>
           )}
         />
       </Col>

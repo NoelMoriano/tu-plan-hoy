@@ -3,8 +3,14 @@
     {
       "public": "packages/hosting-admin/build",
       "target": "admin",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "predeploy": ["yarn hosting-admin build"],
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "predeploy": [
+        "yarn hosting-admin build"
+      ],
       "headers": [
         {
           "source": "/index.html",
@@ -36,8 +42,14 @@
     {
       "public": "packages/hosting/build",
       "target": "hosting",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "predeploy": ["yarn hosting build"],
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "predeploy": [
+        "yarn hosting build"
+      ],
       "headers": [
         {
           "source": "/index.html",
@@ -69,6 +81,16 @@
           "destination": "/index.html"
         }
       ]
+    },
+    {
+      "target": "api",
+      "rewrites": [
+        {
+          "source": "/**",
+          "function": "api"
+        }
+      ],
+      "headers": []
     }
   ],
   "firestore": {
@@ -76,10 +98,12 @@
     "rules": "firestore.rules"
   },
   "extensions": {
-    "storage-resize-images-photos": "firebase/storage-resize-images@0.1.33"
+    "resize-user-profile-picture": "firebase/storage-resize-images@0.2.6"
   },
   "functions": {
-    "predeploy": ["yarn functions build"],
+    "predeploy": [
+      "yarn functions build"
+    ],
     "source": "packages/functions"
   }
 }

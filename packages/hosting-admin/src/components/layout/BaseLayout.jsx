@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Layout } from "../ui";
-import { DrawerLayout } from "./DrawerLayout";
-import { HeaderLayout } from "./HeaderLayout";
-import { FooterLayout } from "./FooterLayout";
 import { useNavigate } from "react-router";
-import { BreadcrumbLayout } from "./Breadcrumb";
 import { useAuthentication } from "../../providers";
+import { theme } from "antd";
+import { DrawerLayout } from "./DrawerLayout.jsx";
+import { HeaderLayout } from "./HeaderLayout.jsx";
+import { BreadcrumbLayout } from "./Breadcrumb.jsx";
+import { Layout } from "../ui";
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 export const BaseLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -18,28 +18,41 @@ export const BaseLayout = ({ children }) => {
 
   const onNavigateTo = (url) => navigate(url);
 
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   return (
     <LayoutContainer>
-      <Layout className="site-layout">
-        <DrawerLayout
-          isVisibleDrawer={isVisibleDrawer}
-          setIsVisibleDrawer={setIsVisibleDrawer}
-          user={authUser}
-          onNavigateTo={onNavigateTo}
-        />
+      <DrawerLayout
+        isVisibleDrawer={isVisibleDrawer}
+        setIsVisibleDrawer={setIsVisibleDrawer}
+        user={authUser}
+        onNavigateTo={onNavigateTo}
+      />
+      <Layout>
         <HeaderLayout
           onNavigateTo={onNavigateTo}
           isVisibleDrawer={isVisibleDrawer}
           setIsVisibleDrawer={setIsVisibleDrawer}
           user={authUser}
         />
-        <Content style={{ margin: "0 16px" }}>
-          <BreadcrumbLayout user={authUser} />
-          <div className="site-layout-background" style={{ padding: 24 }}>
+        <BreadcrumbLayout user={authUser} />
+        <Content style={{ margin: "16px" }}>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 360,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
             {children}
           </div>
         </Content>
-        <FooterLayout />
+        <Footer style={{ textAlign: "center" }}>
+          Tu Plan Hoy © {new Date().getFullYear()}
+        </Footer>
       </Layout>
     </LayoutContainer>
   );
@@ -47,14 +60,5 @@ export const BaseLayout = ({ children }) => {
 
 const LayoutContainer = styled(Layout)`
   min-width: 100vw;
-  min-height: 100vh;
-  .site-layout-background {
-    background: #fff;
-  }
-
-  .logo {
-    height: 32px;
-    margin: 16px;
-    background: rgba(255, 255, 255, 0.3);
-  }
+  min-height: 100svh;
 `;

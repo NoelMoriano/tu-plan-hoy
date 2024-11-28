@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { version } from "../../firebase";
 import { useAuthentication } from "../../providers";
 import {
-  faAddressBook,
+  faBuilding,
   faHome,
-  faLayerGroup,
   faSignOutAlt,
+  faSolarPanel,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +21,7 @@ export const DrawerLayout = ({
 }) => {
   const { logout } = useAuthentication();
 
-  const items = [
+  const menuItems = [
     {
       label: "Home",
       key: "home",
@@ -33,32 +33,32 @@ export const DrawerLayout = ({
       },
     },
     {
-      label: "Clientes API",
-      key: "clients",
-      icon: <FontAwesomeIcon icon={faLayerGroup} size="lg" />,
-      isVisible: user?.roleCode === "super_admin",
-      onClick: () => {
-        onNavigateTo("/clients");
-        setIsVisibleDrawer(false);
-      },
-    },
-    {
-      label: "Contactos",
-      key: "contacts",
-      icon: <FontAwesomeIcon icon={faAddressBook} size="lg" />,
-      isVisible: true,
-      onClick: () => {
-        onNavigateTo("/contacts");
-        setIsVisibleDrawer(false);
-      },
-    },
-    {
       label: "Usuarios",
       key: "users",
       icon: <FontAwesomeIcon icon={faUsers} size="lg" />,
-      isVisible: user?.roleCode === "super_admin",
+      isVisible: true,
       onClick: () => {
         onNavigateTo("/users");
+        setIsVisibleDrawer(false);
+      },
+    },
+    {
+      label: "Companias",
+      key: "companies",
+      icon: <FontAwesomeIcon icon={faBuilding} size="lg" />,
+      isVisible: true,
+      onClick: () => {
+        onNavigateTo("/companies");
+        setIsVisibleDrawer(false);
+      },
+    },
+    {
+      label: "Anuncios",
+      key: "advertisements",
+      icon: <FontAwesomeIcon icon={faSolarPanel} size="lg" />,
+      isVisible: true,
+      onClick: () => {
+        onNavigateTo("/advertisements");
         setIsVisibleDrawer(false);
       },
     },
@@ -78,31 +78,36 @@ export const DrawerLayout = ({
 
   return (
     <DrawerContainer
+      key="right"
       title={
-        <div style={{ width: "100%", textAlign: "right" }}>
-          <h5>version: {version}</h5>
+        <div className="header-title">
+          <span>version: {version}</span>
         </div>
       }
       placement="right"
       closable={true}
       onClose={() => setIsVisibleDrawer(!isVisibleDrawer)}
       open={isVisibleDrawer}
-      key="right"
       className="drawer-content"
       bodyStyle={{ padding: "0" }}
     >
-      <div className="logo" />
       <Menu
-        defaultSelectedKeys={["1"]}
         mode="inline"
-        items={filterByRoleCode(items)}
+        defaultSelectedKeys={["1"]}
+        items={filterByRoleCode(menuItems)}
       />
     </DrawerContainer>
   );
 };
 
 const DrawerContainer = styled(Drawer)`
-  .ant-drawer-content-wrapper {
+  .header-title {
+    color: #fff;
+    text-align: right;
+    font-size: 0.8em;
+    font-weight: 400;
+  }
+  .drawer-content {
     width: 100% !important;
     ${mediaQuery.minTablet} {
       width: 300px !important;

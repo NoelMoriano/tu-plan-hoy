@@ -11,6 +11,9 @@
         ],
         "hosting": [
           "tu-plan-hoy"
+        ],
+        "api": [
+          "api-tu-plan-hoy"
         ]
       }
     },
@@ -21,14 +24,17 @@
         ],
         "hosting": [
           "tu-plan-hoy-dev"
+        ],
+        "api": [
+          "api-tu-plan-hoy-dev"
         ]
       }
     }
   },
   "etags": {
-    "tu-plan-hoy-dev": {
+    "tu-plan-hoy": {
       "extensionInstances": {
-        "storage-resize-images-photos": "ea176abf15c07510a2405d45e2e64242d0a5f8d20263d2090d8f4bebde36c151"
+        "resize-user-profile-picture": "bfcad97b24d142b2472e083c9aa5d1dd17d08da7057cc83e9a8dd6f6f381b968"
       }
     }
   }

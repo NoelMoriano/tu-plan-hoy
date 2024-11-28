@@ -9,6 +9,17 @@ export const Router = () => (
     <Route exact path="/login" element={<Login />} />
     <Route
       exact
+      path="/"
+      element={
+        <PrivateRoute>
+          <BaseLayout>
+            <Users />
+          </BaseLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      exact
       path="/users"
       element={
         <PrivateRoute>
@@ -25,6 +36,28 @@ export const Router = () => (
         <PrivateRoute>
           <BaseLayout>
             <UserIntegration />
+          </BaseLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      exact
+      path="/companies"
+      element={
+        <PrivateRoute>
+          <BaseLayout>
+            <h2>Modulo de companias</h2>
+          </BaseLayout>
+        </PrivateRoute>
+      }
+    />
+    <Route
+      exact
+      path="/advertisements"
+      element={
+        <PrivateRoute>
+          <BaseLayout>
+            <h2>Modulo donde se visualizaran los anuncios</h2>
           </BaseLayout>
         </PrivateRoute>
       }

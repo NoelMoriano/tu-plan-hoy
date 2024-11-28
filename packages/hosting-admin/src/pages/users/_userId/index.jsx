@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Row from "antd/lib/row";
-import Col from "antd/lib/col";
 import { useNavigate, useParams } from "react-router";
-import Title from "antd/lib/typography/Title";
 import {
   Button,
   Form,
@@ -11,17 +8,22 @@ import {
   InputPassword,
   notification,
   Select,
+  Row,
+  Col,
 } from "../../../components/ui";
+import { Upload } from "../../../components";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useFormUtils } from "../../../hooks";
-import { Upload } from "../../../components";
 import { firestore } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
 import { assign, capitalize } from "lodash";
-import { phoneCodes, roles } from "../../../data-list";
 import { useApiUserPost, useApiUserPut } from "../../../api";
+import { phoneCodes, roles } from "../../../data-list";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 export const UserIntegration = () => {
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ export const UserIntegration = () => {
   const { postUser, postUserResponse, postUserLoading } = useApiUserPost();
   const { putUser, putUserResponse, putUserLoading } = useApiUserPut();
 
-  const { users, clients } = useGlobalData();
+  const { users } = useGlobalData();
 
   const [user, setUser] = useState({});
 
@@ -74,12 +76,13 @@ export const UserIntegration = () => {
         id: user.id,
         roleCode: formData.roleCode,
         firstName: formData.firstName,
-        lastName: formData.lastName,
+        paternalSurname: formData.paternalSurname,
+        maternalSurname: formData.maternalSurname,
         email: formData.email.toLowerCase(),
         password: formData.password,
         phone: {
+          prefix: formData.prefixNumber,
           number: formData.phoneNumber,
-          countryCode: formData.countryCode,
         },
         ...(formData?.profileImage && { profileImage: formData.profileImage }),
       }
@@ -91,7 +94,6 @@ export const UserIntegration = () => {
   return (
     <User
       user={user}
-      clients={clients}
       onSubmitSaveUser={onSubmitSaveUser}
       onGoBack={onGoBack}
       isSavingUser={postUserLoading || putUserLoading}
@@ -99,17 +101,18 @@ export const UserIntegration = () => {
   );
 };
 
-const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
+const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
     roleCode: yup.string().required(),
     firstName: yup.string().required(),
-    lastName: yup.string().required(),
+    paternalSurname: yup.string().required(),
+    maternalSurname: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
-    countryCode: yup.string().required(),
-    phoneNumber: yup.number().required(),
+    prefixNumber: yup.string().required(),
+    phoneNumber: yup.string().required(),
   });
 
   const {
@@ -117,7 +120,6 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     handleSubmit,
     control,
     reset,
-    watch,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -132,10 +134,11 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     reset({
       roleCode: user?.roleCode || "",
       firstName: user?.firstName || "",
-      lastName: user?.lastName || "",
+      paternalSurname: user?.paternalSurname || "",
+      maternalSurname: user?.maternalSurname || "",
       email: user?.email || "",
       password: user?.password || "",
-      countryCode: user?.phone?.countryCode || "+51",
+      prefixNumber: user?.phone?.prefix || "+51",
       phoneNumber: user?.phone?.number || "",
       profileImage: user?.profileImage || null,
     });
@@ -190,12 +193,29 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             </Col>
             <Col span={24}>
               <Controller
-                name="lastName"
+                name="paternalSurname"
                 control={control}
                 defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
-                    label="Apellidos"
+                    label="Apellido paterno"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="maternalSurname"
+                control={control}
+                defaultValue=""
+                render={({ field: { onChange, value, name } }) => (
+                  <Input
+                    label="Apellido materno"
                     name={name}
                     value={value}
                     onChange={onChange}
@@ -241,7 +261,7 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             </Col>
             <Col xs={24} sm={6} md={6}>
               <Controller
-                name="countryCode"
+                name="prefixNumber"
                 defaultValue="+51"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
@@ -287,8 +307,9 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                     accept="image/*"
                     name={name}
                     value={value}
-                    filePath={`users/${user.id}`}
-                    resize="400x400"
+                    bucket="tphUsers"
+                    filePath={`${user.id}/profile`}
+                    resize="250x250"
                     buttonText="Subir foto"
                     error={error(name)}
                     required={required(name)}
@@ -306,7 +327,7 @@ const User = ({ user, clients, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                 size="large"
                 block
                 onClick={() => onGoBack()}
-                disabled={uploadingImage | isSavingUser}
+                disabled={uploadingImage || isSavingUser}
               >
                 Cancelar
               </Button>

@@ -1,18 +1,5 @@
 import { breakPoints } from "./breakPoints";
 
-// interface Props {
-//     minMobileS: string;
-//     minMobile: string;
-//     minTablet: string;
-//     minDesktop: string;
-//     minHighResolution: string;
-//     maxMobileS: string;
-//     maxMobile: string;
-//     maxTablet: string;
-//     maxDesktop: string;
-//     maxDesktopLarge: string;
-// }
-
 export const mediaQuery = {
   minMobileS: `@media (min-width: ${breakPoints.mobile_s}px)`,
   minMobile: `@media (min-width: ${breakPoints.mobile}px)`,
