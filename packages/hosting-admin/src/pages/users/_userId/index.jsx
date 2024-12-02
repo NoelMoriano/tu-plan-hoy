@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   Button,
+  Checkbox,
   Col,
   Form,
   Input,
@@ -78,7 +79,7 @@ export const UserIntegration = () => {
         firstName: formData.firstName,
         paternalSurname: formData.paternalSurname,
         maternalSurname: formData.maternalSurname,
-        nationality: formData.nationality,
+        countryCode: formData.countryCode,
         gender: formData.gender,
         email: formData.email.toLowerCase(),
         password: formData.password,
@@ -87,6 +88,9 @@ export const UserIntegration = () => {
           number: formData.phoneNumber,
         },
         ...(formData?.profileImage && { profileImage: formData.profileImage }),
+        termsAndConditions: formData.termsAndConditions,
+        sendingInformationAndPromotions:
+          formData.sendingInformationAndPromotions,
       }
     );
   };
@@ -111,12 +115,14 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     firstName: yup.string().required(),
     paternalSurname: yup.string().required(),
     maternalSurname: yup.string().required(),
-    nationality: yup.string().required(),
+    countryCode: yup.string().required(),
     gender: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
     prefixNumber: yup.string().required(),
     phoneNumber: yup.string().required(),
+    termsAndConditions: yup.boolean().required(),
+    sendingInformationAndPromotions: yup.boolean().required(),
   });
 
   const {
@@ -126,6 +132,10 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     reset,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      termsAndConditions: true,
+      sendingInformationAndPromotions: true,
+    },
   });
 
   const { required, error } = useFormUtils({ errors, schema });
@@ -140,13 +150,15 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
       firstName: user?.firstName || "",
       paternalSurname: user?.paternalSurname || "",
       maternalSurname: user?.maternalSurname || "",
-      nationality: user?.nationality || null,
+      countryCode: user?.countryCode || null,
       gender: user?.gender || null,
       prefixNumber: user?.phone?.prefix || "+51",
       phoneNumber: user?.phone?.number || "",
       email: user?.email || "",
       password: user?.password || "",
       profileImage: user?.profileImage || null,
+      termsAndConditions: user?.termsAndConditions,
+      sendingInformationAndPromotions: user?.sendingInformationAndPromotions,
     });
   };
 
@@ -232,11 +244,11 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
             </Col>
             <Col span={24}>
               <Controller
-                name="nationality"
+                name="countryCode"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Select
-                    label="Nacionalidad"
+                    label="Pais"
                     value={value}
                     onChange={onChange}
                     error={error(name)}
@@ -356,6 +368,42 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                     onChange={(file) => onChange(file)}
                     onUploading={setUploadingImage}
                   />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="termsAndConditions"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Checkbox
+                    value={value}
+                    name={name}
+                    checked={value}
+                    onChange={(checked) => onChange(checked)}
+                    required={required(name)}
+                    error={error(name)}
+                  >
+                    Términos y condiciones
+                  </Checkbox>
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="sendingInformationAndPromotions"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Checkbox
+                    value={value}
+                    name={name}
+                    checked={value}
+                    onChange={(checked) => onChange(checked)}
+                    required={required(name)}
+                    error={error(name)}
+                  >
+                    Envío de información y promociones
+                  </Checkbox>
                 )}
               />
             </Col>

@@ -21,7 +21,7 @@ export const Login = () => {
   const onNavigateTo = (url) => navigate(url);
 
   useMemo(() => {
-    authUser && onNavigateTo("/");
+    authUser && onNavigateTo(authUser?.role?.initialPathname || "/home");
   }, [authUser]);
 
   const schema = yup.object({

@@ -1,10 +1,10 @@
 import React from "react";
-import { Skeleton, Typography } from "antd";
+import { Skeleton, Space, Typography } from "antd";
 import {
   Avatar,
   Button,
   Col,
-  Divider,
+  Flex,
   IconAction,
   ListAntd,
   modalConfirm,
@@ -21,6 +21,7 @@ import { assign } from "lodash";
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { userFullName } from "../../utils/index.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
@@ -33,7 +34,6 @@ export const Users = () => {
 
   const navigateTo = (userId) => {
     const url = `/users/${userId}`;
-
     navigate(url);
   };
 
@@ -41,8 +41,7 @@ export const Users = () => {
 
   const onEditUser = (user) => navigateTo(user.id);
 
-  const findRole = (roleCode) =>
-    roles.find((role) => role.roleCode === roleCode);
+  const findRole = (roleCode) => roles.find((role) => role.code === roleCode);
 
   const onDeleteUser = async (_user) => {
     const user_ = assign({}, _user, { updateBy: authUser?.email });
@@ -71,17 +70,16 @@ export const Users = () => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Button
-          type="primary"
-          onClick={() => onAddUser()}
-          icon={<FontAwesomeIcon icon={faPlus} />}
-        >
-          Agregar usuario
-        </Button>
-      </Col>
-      <Divider />
-      <Col span={24}>
-        <Title level={3}>Usuarios</Title>
+        <Flex justify="space-between" wrap="wrap" size="middle">
+          <Title level={3}>Usuarios</Title>
+          <Button
+            type="primary"
+            onClick={() => onAddUser()}
+            icon={<FontAwesomeIcon icon={faPlus} />}
+          >
+            Agregar usuario
+          </Button>
+        </Flex>
       </Col>
       <Col span={24}>
         <ListAntd
@@ -104,7 +102,7 @@ export const Users = () => {
                   onClick={() => onConfirmRemoveUser(user)}
                   icon={faTrash}
                   styled={{
-                    color: () => "rgb(241, 13, 13)",
+                    color: (theme) => theme.colors.error,
                   }}
                 />,
               ]}
@@ -120,11 +118,16 @@ export const Users = () => {
                       }
                     />
                   }
-                  title={<a href="https://ant.design">{userFullName(user)}</a>}
+                  title={
+                    <Link to={`/users/${user.id}`}>{userFullName(user)}</Link>
+                  }
                   description={
-                    <div>
-                      <Tag color="blue">{user?.email}</Tag>
-                    </div>
+                    <Space direction="vertical">
+                      <Text>{user?.email}</Text>
+                      <Tag color="blue">
+                        {findRole(user?.roleCode)?.name || ""}
+                      </Tag>
+                    </Space>
                   }
                 />
               </Skeleton>

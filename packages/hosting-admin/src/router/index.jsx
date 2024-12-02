@@ -7,61 +7,55 @@ import { PrivateRoute } from "./PrivateRoute";
 export const Router = () => (
   <Routes>
     <Route exact path="/login" element={<Login />} />
-    <Route
-      exact
-      path="/"
-      element={
-        <PrivateRoute>
+
+    <Route path="/" element={<PrivateRoute />}>
+      <Route
+        exact
+        path="/"
+        element={
           <BaseLayout>
             <Users />
           </BaseLayout>
-        </PrivateRoute>
-      }
-    />
-    <Route
-      exact
-      path="/users"
-      element={
-        <PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/users"
+        element={
           <BaseLayout>
             <Users />
           </BaseLayout>
-        </PrivateRoute>
-      }
-    />
-    <Route
-      exact
-      path="/users/:userId"
-      element={
-        <PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/users/:userId"
+        element={
           <BaseLayout>
             <UserIntegration />
           </BaseLayout>
-        </PrivateRoute>
-      }
-    />
-    <Route
-      exact
-      path="/companies"
-      element={
-        <PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/companies"
+        element={
           <BaseLayout>
             <h2>Modulo de companias</h2>
           </BaseLayout>
-        </PrivateRoute>
-      }
-    />
-    <Route
-      exact
-      path="/advertisements"
-      element={
-        <PrivateRoute>
+        }
+      />
+      <Route
+        exact
+        path="/advertisements"
+        element={
           <BaseLayout>
             <h2>Modulo donde se visualizaran los anuncios</h2>
           </BaseLayout>
-        </PrivateRoute>
-      }
-    />
+        }
+      />
+    </Route>
+
     <Route
       exact
       path="/403"

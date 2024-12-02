@@ -1,14 +1,14 @@
 [
   {
     "id": "1",
-    "roleName": "Super admin",
-    "roleCode": "super_admin",
+    "name": "Super admin",
+    "code": "super_admin",
     "redirectTo": "/"
   },
   {
     "id": "2",
-    "roleName": "user",
-    "roleCode": "user",
+    "name": "user",
+    "code": "user",
     "redirectTo": "/"
   }
 ]

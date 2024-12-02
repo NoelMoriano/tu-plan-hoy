@@ -181,7 +181,7 @@ const Container = styled.div`
 const Error = styled(Text)`
   ${({ error, theme }) => css`
     color: ${theme.colors.error};
-    font-size: ${({ theme }) => theme.font_sizes.x_small};
+    font-size: ${({ theme }) => theme.font_sizes.xx_small};
     ${error &&
     css`
       animation: ${keyframes.shake} 340ms;

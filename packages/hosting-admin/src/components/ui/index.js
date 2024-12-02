@@ -43,6 +43,7 @@ import {
 
 export * from "./component-container";
 
+export * from "./Checkbox";
 export * from "./CheckboxGroup";
 export * from "./DatePicker";
 export * from "./Form";

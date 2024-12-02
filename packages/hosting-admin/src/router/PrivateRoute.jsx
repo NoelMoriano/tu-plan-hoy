@@ -1,11 +1,20 @@
 import React from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuthentication } from "../providers";
-import { Navigate } from "react-router-dom";
 
-export const PrivateRoute = ({ children }) => {
+export const PrivateRoute = () => {
   const { authUser } = useAuthentication();
+  const location = useLocation();
 
   const isLoginPage = location.pathname === "/login";
 
-  return isLoginPage || authUser ? children : <Navigate to="/login" />;
+  const isEnabledAccess = () => {
+    const rules = {
+      isAuth: authUser,
+    };
+
+    return Object.values(rules).every((rule) => !!rule);
+  };
+
+  return isLoginPage || isEnabledAccess() ? <Outlet /> : <Navigate to="/" />;
 };
