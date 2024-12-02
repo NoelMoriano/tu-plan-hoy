@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import {
   Button,
+  Col,
   Form,
   Input,
   InputNumber,
   InputPassword,
   notification,
-  Select,
   Row,
-  Col,
+  Select,
 } from "../../../components/ui";
 import { Upload } from "../../../components";
 import { Controller, useForm } from "react-hook-form";
@@ -20,9 +20,8 @@ import { firestore } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
 import { assign, capitalize } from "lodash";
 import { useApiUserPost, useApiUserPut } from "../../../api";
-import { genders, phoneCodes, roles } from "../../../data-list";
+import { countriesISO, genders, roles } from "../../../data-list";
 import { Typography } from "antd";
-import { countriesISO } from "../../../data-list/countriesISO.js";
 
 const { Title } = Typography;
 
@@ -151,6 +150,9 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
     });
   };
 
+  const filterOptionPhone = (inputValue, optionLabel) =>
+    optionLabel.toUpperCase().includes(inputValue.toUpperCase());
+
   const submitSaveUser = (formData) => onSubmitSaveUser(formData);
 
   return (
@@ -239,9 +241,10 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                     onChange={onChange}
                     error={error(name)}
                     required={required(name)}
-                    options={countriesISO.map((countryIso) => ({
-                      label: countryIso.name,
-                      value: countryIso.alpha2,
+                    options={countriesISO.map((country) => ({
+                      key: country.alpha2,
+                      label: country.name,
+                      value: country.alpha2,
                     }))}
                   />
                 )}
@@ -269,15 +272,18 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Select
-                    label="Código"
+                    label="Prefijo"
                     value={value}
                     onChange={onChange}
                     error={error(name)}
                     required={required(name)}
-                    options={phoneCodes.map((phoneCode) => ({
-                      code: phoneCode.code,
-                      label: `${phoneCode.name} (${phoneCode.dial_code})`,
-                      value: phoneCode.dial_code,
+                    filterOption={filterOptionPhone}
+                    options={countriesISO.map((country) => ({
+                      key: country.alpha2,
+                      label: `(${country.phonePrefix}) ${capitalize(
+                        country.name
+                      )}`,
+                      value: country.phonePrefix,
                     }))}
                   />
                 )}

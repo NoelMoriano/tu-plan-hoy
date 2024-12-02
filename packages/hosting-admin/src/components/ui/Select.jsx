@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { SelectAntd } from "./index.js";
 import { ComponentContainer } from "./component-container";
 import { lighten } from "polished";
 import styled, { css } from "styled-components";
+import { cloneDeep, isString } from "lodash";
 
 const defaultFilterOption = (inputValue, optionLabel) => {
   const labelParts = optionLabel.toLowerCase().split(" - ");
@@ -25,11 +26,24 @@ export const Select = ({
   options = [],
   placeholder = "",
   onChange = (value) => value,
+  autoFocus,
+  mode,
   ...props
 }) => {
+  const [search, setSearch] = useState("");
+
   const Container = ComponentContainer[variant];
 
   const fixValue = value ? value : undefined;
+
+  const selectFilterOption = (inputValue, option) =>
+    option && isString(option.label)
+      ? filterOption(inputValue, option.label)
+      : true;
+
+  const filterOptions = cloneDeep(options)
+    ?.filter((option) => (search ? filterOption(search, option.label) : true))
+    .filter((option) => (option.label ? option.label : true));
 
   return (
     <Container
@@ -60,22 +74,24 @@ export const Select = ({
         </StyledSelectMobile>
       ) : (
         <SelectAntd
-          showSearch
-          size="large"
-          placeholder=""
-          optionFilterProp="label"
+          mode={mode}
           allowClear={disabled ? false : allowClear}
           variant="borderless"
           disabled={disabled}
           value={fixValue}
           onChange={onChange}
-          filterOption={(inputValue, option) =>
-            filterOption(inputValue, option?.label)
-          }
-          options={options.map((option) => ({
-            label: option.label,
-            value: option.value,
-          }))}
+          onBlur={() => setSearch("")}
+          onSelect={() => setSearch("")}
+          onDeselect={() => setSearch("")}
+          onFocus={() => setSearch("")}
+          filterOption={selectFilterOption}
+          showSearch
+          size="large"
+          options={filterOptions}
+          onSearch={setSearch}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
+          autoComplete="chrome-off"
           {...props}
         />
       )}
