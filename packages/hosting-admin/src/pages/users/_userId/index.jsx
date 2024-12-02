@@ -76,6 +76,10 @@ export const UserIntegration = () => {
       {
         id: user.id,
         roleCode: formData.roleCode,
+        document: {
+          type: "dni",
+          number: formData.documentNumber,
+        },
         firstName: formData.firstName,
         paternalSurname: formData.paternalSurname,
         maternalSurname: formData.maternalSurname,
@@ -112,6 +116,7 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
 
   const schema = yup.object({
     roleCode: yup.string().required(),
+    documentNumber: yup.string().required(),
     firstName: yup.string().required(),
     paternalSurname: yup.string().required(),
     maternalSurname: yup.string().required(),
@@ -147,6 +152,7 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
   const resetForm = () => {
     reset({
       roleCode: user?.roleCode || null,
+      documentNumber: user?.document?.number || "",
       firstName: user?.firstName || "",
       paternalSurname: user?.paternalSurname || "",
       maternalSurname: user?.maternalSurname || "",
@@ -190,6 +196,22 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                       label: capitalize(role.roleName),
                       value: role.roleCode,
                     }))}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="documentNumber"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Input
+                    label="Numero de documento"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
                   />
                 )}
               />
