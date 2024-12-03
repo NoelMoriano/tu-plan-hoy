@@ -86,8 +86,8 @@ export const CompanyIntegration = () => {
           type: formData.documentType,
           number: formData.documentNumber,
         },
-        commercialName: formData.commercialName,
-        socialReason: formData?.socialReason || "",
+        commercialName: formData.commercialName.toUpperCase(),
+        socialReason: (formData?.socialReason || "").toUpperCase(),
         overview: formData.overview,
         logo: formData.logo,
         userId: formData.userId,
@@ -138,8 +138,8 @@ const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
 
   const resetForm = () => {
     reset({
-      documentType: company?.documentType || "",
-      documentNumber: company?.documentNumber || "",
+      documentType: company?.document?.type || "",
+      documentNumber: company?.document?.number || "",
       commercialName: company?.commercialName || null,
       socialReason: company?.socialReason || "",
       overview: company?.overview || "",

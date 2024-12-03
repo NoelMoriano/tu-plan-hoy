@@ -15,7 +15,7 @@ import { useAuthentication, useGlobalData } from "../../providers";
 import { useNavigate } from "react-router";
 import { useDevice } from "../../hooks";
 import { useApiUserPatch } from "../../api";
-import { assign } from "lodash";
+import { assign, capitalize } from "lodash";
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -115,7 +115,7 @@ export const Companies = () => {
                   }
                   title={
                     <Link to={`/companies/${company.id}`}>
-                      {company?.commercialName}
+                      {capitalize(company?.commercialName)}
                     </Link>
                   }
                 />
