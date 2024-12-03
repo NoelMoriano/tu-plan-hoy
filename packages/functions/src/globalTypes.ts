@@ -1,36 +1,70 @@
-import * as admin from "firebase-admin";
+export type Timestamp = FirebaseFirestore.Timestamp;
 
+type OmitDefaultFirestoreProps<T> = Omit<T, keyof PickDefaultFirestoreProps>;
+
+type PickDefaultFirestoreProps = Pick<
+  DefaultFirestoreProps,
+  "createAt" | "isDeleted" | "updateAt"
+>;
+
+interface DefaultFirestoreProps {
+  createAt: Timestamp;
+  updateAt: Timestamp;
+  updateBy: string;
+  isDeleted: boolean;
+}
+
+export type RoleCode = "super_admin" | "user";
 export type CurrencyCode = "PEN" | "USD";
 
-export interface DocumentCreate {
-  createAt: admin.firestore.Timestamp;
-  updateBy: string;
-  isDeleted?: boolean; // only false;
-}
-
-export interface DocumentUpdate {
-  updateAt: admin.firestore.Timestamp;
-  updateBy: string;
-}
-
-export interface DocumentDelete {
-  updateAt: admin.firestore.Timestamp;
-  updateBy: string;
-  isDeleted?: boolean; // only true;
-}
-
-export type RoleCode = "super_admin" | "admin" | "user";
-
 export interface _Image {
-  createAt: admin.firestore.Timestamp;
+  createAt: Timestamp;
   name: string;
+  status?: string;
+  thumbUrl: string;
   uid: string;
   url: string;
-  thumbUrl?: string;
 }
 
-export type ApiToFirestore<T> = {
-  [P in keyof T]: T[P] extends Date ? admin.firestore.Timestamp : T[P];
-};
-
 export type Image = Omit<_Image, "createAt"> & { createAt: Date };
+
+export interface Archive {
+  name: string;
+  status?: string;
+  uid: string;
+  url: string;
+}
+
+export interface User extends DefaultFirestoreProps {
+  id: string;
+  acls: string[];
+  roleCode: RoleCode;
+  firstName: string;
+  paternalSurname: string;
+  maternalSurname: string;
+  email: string;
+  password: string;
+  dni: string;
+  phone: {
+    prefix: string;
+    number: string;
+  };
+  iAcceptPrivacyPolicies: boolean;
+  profilePhoto?: Image;
+  dniPhoto?: Image;
+  address?: boolean;
+  updateBy: string;
+}
+
+export interface Company extends DefaultFirestoreProps {
+  id: string;
+  identification: {
+    type: string;
+    number: string;
+  };
+  commercialName: string;
+  socialReason: string;
+  overview: string;
+  logo: Image;
+  userId: string;
+}

@@ -1,37 +1,11 @@
-type RoleCode = "super_admin" | "user";
+type Translate = (
+  key: string,
+  params?: string[],
+  defaultTranslation?: string
+) => string;
 
-interface User extends DefaultFirestoreProps {
-  id: string;
-  acls: string[];
-  roleCode: RoleCode;
-  firstName: string;
-  paternalSurname: string;
-  maternalSurname: string;
-  email: string;
-  password: string;
-  dni: string;
-  phone: {
-    prefix: string;
-    number: string;
-  };
-  iAcceptPrivacyPolicies: boolean;
-  profilePhoto?: Image;
-  dniPhoto?: Image;
-  address?: boolean;
-  updateBy: string;
-}
+type Translation = Record<string, string>;
 
-interface Image {
-  name: string;
-  status?: string;
-  thumbUrl: string;
-  uid: string;
-  url: string;
-}
+type Environment = "production" | "development";
 
-interface Archive {
-  name: string;
-  status?: string;
-  uid: string;
-  url: string;
-}
+type ProjectId = "tu-plan-hoy";

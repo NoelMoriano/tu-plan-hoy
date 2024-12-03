@@ -1,6 +1,7 @@
 import { auth, firestore } from "../../_firebase";
 import { defaultFirestoreProps } from "../../utils";
 import { NextFunction, Request, Response } from "express";
+import { User } from "../../globalTypes";
 
 interface Params {
   userId: string;

@@ -1,13 +1,14 @@
 import {
   auth,
-  firestore,
   fetchCollection,
   fetchDocument,
+  firestore,
 } from "../../_firebase";
 import { NextFunction, Request, Response } from "express";
 import { isEmpty } from "lodash";
 import assert from "assert";
 import { defaultFirestoreProps } from "../../utils";
+import { User } from "../../globalTypes";
 
 interface Params {
   userId: string;
