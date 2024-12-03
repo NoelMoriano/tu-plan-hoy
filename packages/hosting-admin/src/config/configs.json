@@ -11,7 +11,8 @@
       "measurementId": "G-1896RM2FM7"
     },
     "buckets": {
-      "thpUsers": "gs://tph-users"
+      "tphUsers": "gs://tph-users",
+      "tphCompanies": "gs://tph-companies"
     },
     "apiUrl": "https://api-tu-plan-hoy.web.app"
   },
@@ -27,7 +28,8 @@
       "measurementId": "G-1896RM2FM7"
     },
     "buckets": {
-      "thpUsers": "gs://tph-users"
+      "tphUsers": "gs://tph-users",
+      "tphCompanies": "gs://tph-companies"
     },
     "apiUrl": "https://api-tu-plan-hoy.web.app"
   }

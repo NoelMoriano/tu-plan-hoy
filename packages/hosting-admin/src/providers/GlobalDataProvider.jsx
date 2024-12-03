@@ -4,9 +4,11 @@ import { useAuthentication } from "./AuthenticationProvider";
 import { notification, Spinner } from "../components/ui";
 import { orderBy } from "lodash";
 import { usersRef } from "../firebase/collections/index.js";
+import { companiesRef } from "../firebase/collections/companies.js";
 
 const GlobalDataContext = createContext({
   users: [],
+  companies: [],
 });
 
 export const GlobalDataProvider = ({ children }) => {
@@ -16,8 +18,12 @@ export const GlobalDataProvider = ({ children }) => {
     authUser ? usersRef.where("isDeleted", "==", false) : null
   );
 
-  const error = usersError;
-  const loading = usersLoading;
+  const [companies = [], companiesLoading, companiesError] = useCollectionData(
+    authUser ? companiesRef.where("isDeleted", "==", false) : null
+  );
+
+  const error = usersError || companiesError;
+  const loading = usersLoading || companiesLoading;
 
   useEffect(() => {
     error && notification({ type: "error" });
@@ -29,6 +35,9 @@ export const GlobalDataProvider = ({ children }) => {
     <GlobalDataContext.Provider
       value={{
         users: orderBy(users, (user) => [user.createAt], ["desc"]),
+        companies: orderBy(companies, (company) => [company.createAt], [
+          "desc",
+        ]),
       }}
     >
       {children}

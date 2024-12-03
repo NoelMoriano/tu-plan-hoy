@@ -9,11 +9,6 @@ export const getCompanyId = () => companiesRef.doc().id;
 export const fetchCompany = () => async (id) =>
   fetchDocumentOnce(companiesRef.doc(id));
 
-export const fetchCompanyByRuc = async (ruc = "") =>
-  fetchCollectionOnce(
-    companiesRef.where("ruc", "==", ruc).where("isDeleted", "==", false)
-  );
-
 export const fetchCompanies = async () =>
   fetchCollectionOnce(companiesRef.where("isDeleted", "==", false));
 

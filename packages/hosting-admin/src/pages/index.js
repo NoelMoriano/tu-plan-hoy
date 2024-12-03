@@ -3,3 +3,5 @@ export * from "./403";
 export * from "./login";
 export * from "./users";
 export * from "./users/_userId";
+export * from "./companies";
+export * from "./companies/_companyId";

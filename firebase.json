@@ -98,7 +98,8 @@
     "rules": "firestore.rules"
   },
   "extensions": {
-    "resize-user-profile-picture": "firebase/storage-resize-images@0.2.6"
+    "resize-user-profile-picture": "firebase/storage-resize-images@0.2.6",
+    "resize-company-logo": "firebase/storage-resize-images@0.2.6"
   },
   "functions": {
     "predeploy": [

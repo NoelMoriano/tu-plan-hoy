@@ -12,7 +12,10 @@ import { currentConfig } from "../config";
 
 export const buckets = {
   default: storage,
-  tphUsers: firebase.app().storage(currentConfig.buckets.thpUsers),
+  tphUsers: firebase.app().storage(currentConfig.buckets.tphUsers),
+  tphCompanies: firebase.app().storage(currentConfig.buckets.tphCompanies),
 };
+
+console.log("buckets: ", buckets);
 
 export const imageResizes = ["400x400", "250x250"];

@@ -1,8 +1,16 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Login, Page403, Page404, UserIntegration, Users } from "../pages";
+import {
+  CompanyIntegration,
+  Login,
+  Page403,
+  Page404,
+  UserIntegration,
+  Users,
+} from "../pages";
 import { BaseLayout } from "../components/layout";
 import { PrivateRoute } from "./PrivateRoute";
+import { Companies } from "../pages/companies/index.jsx";
 
 export const Router = () => (
   <Routes>
@@ -41,7 +49,16 @@ export const Router = () => (
         path="/companies"
         element={
           <BaseLayout>
-            <h2>Modulo de companias</h2>
+            <Companies />
+          </BaseLayout>
+        }
+      />
+      <Route
+        exact
+        path="/companies/:companyId"
+        element={
+          <BaseLayout>
+            <CompanyIntegration />
           </BaseLayout>
         }
       />
