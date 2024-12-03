@@ -1,5 +1,6 @@
 import { DasRequest, DegreesArmy } from "../data-list";
 import { capitalize } from "lodash";
+import { User } from "../globalTypes";
 
 export const uniq = (strings: string[]): string[] =>
   strings.map((string) =>
