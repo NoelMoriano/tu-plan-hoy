@@ -17,7 +17,7 @@ import * as yup from "yup";
 import { useFormUtils } from "../../../hooks";
 import { useGlobalData } from "../../../providers";
 import { assign } from "lodash";
-import { useApiUserPost, useApiUserPut } from "../../../api";
+import { useApiCompanyPost, useApiCompanyPut } from "../../../api";
 import { Typography } from "antd";
 import { userFullName } from "../../../utils/index.js";
 import { getCompanyId } from "../../../firebase/collections/companies.js";
@@ -27,8 +27,10 @@ const { Title } = Typography;
 export const CompanyIntegration = () => {
   const navigate = useNavigate();
   const { companyId } = useParams();
-  const { postUser, postUserResponse, postUserLoading } = useApiUserPost();
-  const { putUser, putUserResponse, putUserLoading } = useApiUserPut();
+  const { postCompany, postCompanyResponse, postCompanyLoading } =
+    useApiCompanyPost();
+  const { putCompany, putCompanyResponse, putCompanyLoading } =
+    useApiCompanyPut();
 
   const { users, companies } = useGlobalData();
 
@@ -61,9 +63,11 @@ export const CompanyIntegration = () => {
   };
 
   const saveCompany = async (company) => {
-    companyId === "new" ? await postUser(company) : await putUser(company);
+    companyId === "new"
+      ? await postCompany(company)
+      : await putCompany(company);
 
-    const responseStatus = postUserResponse.ok || putUserResponse.ok;
+    const responseStatus = postCompanyResponse.ok || putCompanyResponse.ok;
 
     if (!responseStatus) return notification({ type: "error" });
   };
@@ -92,7 +96,7 @@ export const CompanyIntegration = () => {
       users={users}
       onSubmitSaveCompany={onSubmitSaveCompany}
       onGoBack={onGoBack}
-      isSavingCompany={postUserLoading || putUserLoading}
+      isSavingCompany={postCompanyLoading || putCompanyLoading}
     />
   );
 };

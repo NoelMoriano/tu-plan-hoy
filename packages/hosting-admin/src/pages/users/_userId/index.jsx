@@ -17,12 +17,12 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useFormUtils } from "../../../hooks";
-import { firestore } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
 import { assign, capitalize } from "lodash";
 import { useApiUserPost, useApiUserPut } from "../../../api";
 import { countriesISO, genders, roles } from "../../../data-list";
 import { Typography } from "antd";
+import { getUserId } from "../../../firebase/collections/index.js";
 
 const { Title } = Typography;
 
@@ -39,7 +39,7 @@ export const UserIntegration = () => {
   useEffect(() => {
     const _user =
       userId === "new"
-        ? { id: firestore.collection("users").doc().id }
+        ? { id: getUserId() }
         : users.find((user) => user.id === userId);
 
     if (!_user) return navigate(-1);

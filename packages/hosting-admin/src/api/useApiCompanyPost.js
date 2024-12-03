@@ -8,11 +8,11 @@ import { useApi } from "./useApi";
 // }
 
 export const useApiCompanyPost = () => {
-  const { post, loading, response } = useApi("/companies");
+  const { post, loading, response } = useApi("/company");
 
   const postCompany = useCallback(
     async (company) => {
-      const url = `/${company.id}`;
+      const url = `/`;
 
       return post(url, company);
     },
