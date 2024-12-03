@@ -21,55 +21,60 @@ import { useApiCompanyPost, useApiCompanyPut } from "../../../api";
 import { Typography } from "antd";
 import { userFullName } from "../../../utils/index.js";
 import { getCompanyId } from "../../../firebase/collections/companies.js";
+import {
+  apiErrorNotification,
+  getApiErrorResponse,
+} from "../../../api/apiErrors.js";
 
 const { Title } = Typography;
 
 export const CompanyIntegration = () => {
   const navigate = useNavigate();
   const { companyId } = useParams();
+  const { users, companies } = useGlobalData();
+
   const { postCompany, postCompanyResponse, postCompanyLoading } =
     useApiCompanyPost();
   const { putCompany, putCompanyResponse, putCompanyLoading } =
     useApiCompanyPut();
 
-  const { users, companies } = useGlobalData();
-
   const [company, setCompany] = useState({});
 
+  const isNew = companyId === "new";
+
   useEffect(() => {
-    const _company =
-      companyId === "new"
-        ? { id: getCompanyId() }
-        : companies.find((company) => company.id === companyId);
+    const _company = isNew
+      ? { id: getCompanyId() }
+      : companies.find((company) => company.id === companyId);
 
     if (!_company) return navigate(-1);
 
     setCompany(_company);
   }, []);
 
-  const onSubmitSaveCompany = async (formData) => {
+  const saveCompany = async (formData) => {
     try {
       const _company = mapCompany(formData);
 
-      await saveCompany(_company);
+      const response = isNew
+        ? await postCompany(_company)
+        : await putCompany(_company);
 
-      notification({ type: "success" });
+      if (isNew ? !postCompanyResponse.ok : !putCompanyResponse.ok) {
+        throw new Error(response);
+      }
 
-      onGoBack();
+      notification({
+        type: "success",
+        title: "Empresa creada exitosamente!",
+      });
+
+      return onGoBack();
     } catch (e) {
-      console.log("ErrorSaveCompany: ", e);
-      notification({ type: "error" });
+      console.log("saveCompany: ", e);
+      const errorResponse = await getApiErrorResponse(e);
+      apiErrorNotification(errorResponse);
     }
-  };
-
-  const saveCompany = async (company) => {
-    companyId === "new"
-      ? await postCompany(company)
-      : await putCompany(company);
-
-    const responseStatus = postCompanyResponse.ok || putCompanyResponse.ok;
-
-    if (!responseStatus) return notification({ type: "error" });
   };
 
   const mapCompany = (formData) => {
@@ -77,8 +82,10 @@ export const CompanyIntegration = () => {
       {},
       {
         id: company.id,
-        identificationType: formData.identificationType,
-        identificationNumber: formData.identificationNumber,
+        document: {
+          type: formData.documentType,
+          number: formData.documentNumber,
+        },
         commercialName: formData.commercialName,
         socialReason: formData?.socialReason || "",
         overview: formData.overview,
@@ -94,25 +101,19 @@ export const CompanyIntegration = () => {
     <User
       company={company}
       users={users}
-      onSubmitSaveCompany={onSubmitSaveCompany}
+      onSaveCompany={saveCompany}
       onGoBack={onGoBack}
       isSavingCompany={postCompanyLoading || putCompanyLoading}
     />
   );
 };
 
-const User = ({
-  company,
-  users,
-  onSubmitSaveCompany,
-  onGoBack,
-  isSavingCompany,
-}) => {
+const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
-    identificationType: yup.string().required(),
-    identificationNumber: yup.string().required(),
+    documentType: yup.string().required(),
+    documentNumber: yup.string().required(),
     commercialName: yup.string().required(),
     socialReason: yup.string(),
     overview: yup.string().required(),
@@ -137,8 +138,8 @@ const User = ({
 
   const resetForm = () => {
     reset({
-      identificationType: company?.identificationType || "",
-      identificationNumber: company?.identificationNumber || "",
+      documentType: company?.documentType || "",
+      documentNumber: company?.documentNumber || "",
       commercialName: company?.commercialName || null,
       socialReason: company?.socialReason || "",
       overview: company?.overview || "",
@@ -147,7 +148,7 @@ const User = ({
     });
   };
 
-  const submitSaveCompany = (formData) => onSubmitSaveCompany(formData);
+  const submitSaveCompany = (formData) => onSaveCompany(formData);
 
   return (
     <Row>
@@ -159,18 +160,18 @@ const User = ({
           <Row gutter={[16, 16]}>
             <Col span={24}>
               <Controller
-                name="identificationType"
+                name="documentType"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Select
-                    label="Tipo de identificación"
+                    label="Tipo de documento"
                     value={value}
                     onChange={onChange}
                     error={error(name)}
                     required={required(name)}
-                    options={["ruc", "otro"].map((identification) => ({
-                      label: identification.toUpperCase(),
-                      value: identification,
+                    options={["ruc", "otro"].map((document) => ({
+                      label: document.toUpperCase(),
+                      value: document,
                     }))}
                   />
                 )}
@@ -178,11 +179,11 @@ const User = ({
             </Col>
             <Col span={24}>
               <Controller
-                name="identificationNumber"
+                name="documentNumber"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Input
-                    label="Numero de identificación"
+                    label="Numero de documento"
                     value={value}
                     onChange={onChange}
                     error={error(name)}

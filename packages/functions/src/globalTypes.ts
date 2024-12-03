@@ -44,7 +44,10 @@ export interface User extends DefaultFirestoreProps {
   maternalSurname: string;
   email: string;
   password: string;
-  dni: string;
+  document: {
+    type: string;
+    number: string;
+  };
   phone: {
     prefix: string;
     number: string;
@@ -58,7 +61,7 @@ export interface User extends DefaultFirestoreProps {
 
 export interface Company extends DefaultFirestoreProps {
   id: string;
-  identification: {
+  document: {
     type: string;
     number: string;
   };

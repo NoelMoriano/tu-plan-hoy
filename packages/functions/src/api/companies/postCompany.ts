@@ -6,6 +6,7 @@ import {
   getCompanyId,
 } from "../../_firebase/collections";
 import { Company } from "../../globalTypes";
+import { defaultFirestoreProps } from "../../utils";
 
 export const postCompany = async (
   req: Request<unknown, unknown, Company, unknown>,
@@ -13,16 +14,20 @@ export const postCompany = async (
   next: NextFunction
 ): Promise<void> => {
   const { body: company } = req;
+  const { assignCreateProps } = defaultFirestoreProps();
 
   console.log("「Add company」Initialize", {
     body: req.body,
   });
 
   try {
-    const _isCompanyExists = await isCompanyExists(company.identification);
-    if (_isCompanyExists) res.status(412).send("company_already_exists").end();
+    const _isCompanyExists = await isCompanyExists(company.document);
+    if (_isCompanyExists) {
+      res.status(412).send("company/company_already_exists").end();
+      return;
+    }
 
-    await addCompany(mapCompany(company));
+    await addCompany(assignCreateProps(mapCompany(company)));
 
     res.sendStatus(200).end();
   } catch (error) {
@@ -37,11 +42,10 @@ const mapCompany = (company: Company): Company => ({
 });
 
 const isCompanyExists = async (
-  identification: Company["identification"]
+  document: Company["document"]
 ): Promise<boolean> => {
   const companies = await fetchCompanies([
-    ["identification.type", "==", identification.type],
-    ["identification.number", "==", identification.number],
+    ["document.number", "==", document.number],
     ["isDeleted", "==", false],
   ]);
 

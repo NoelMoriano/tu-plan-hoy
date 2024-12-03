@@ -30,12 +30,13 @@ export const putCompany = async (
   try {
     const companyFirestore = await fetchFirestoreCompany(companyId);
     const changeCompany =
-      companyFirestore?.identification.type !== company.identification.type ||
-      companyFirestore?.identification.number !== company.identification.number;
+      companyFirestore?.document.type !== company.document.type ||
+      companyFirestore?.document.number !== company.document.number;
 
     if (changeCompany) {
-      const companyExists = await isCompanyExists(company.identification);
-      if (companyExists) res.status(412).send("company_already_exists").end();
+      const companyExists = await isCompanyExists(company.document);
+      if (companyExists)
+        res.status(412).send("company/company_already_exists").end();
     }
 
     await updateCompany(companyId, company);
@@ -48,11 +49,10 @@ export const putCompany = async (
 };
 
 const isCompanyExists = async (
-  identification: Company["identification"]
+  document: Company["document"]
 ): Promise<boolean> => {
   const companies = await fetchCompanies([
-    ["identification.type", "==", identification.type],
-    ["identification.number", "==", identification.number],
+    ["document.number", "==", document.number],
     ["isDeleted", "==", false],
   ]);
 

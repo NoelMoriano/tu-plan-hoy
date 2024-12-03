@@ -31,6 +31,10 @@
     "title": "El código de matricula ya está registrado",
     "description": "Si no reconoces el registro del código de matricula, comunicate con soporte"
   },
+  "user/document_already_exists": {
+    "title": "El documento ya está registrado",
+    "description": "La documento especificado ya existe."
+  },
   "user/dni_already_exists": {
     "title": "El Dni ya está registrado",
     "description": "El Dni especificado ya existe."
@@ -46,5 +50,13 @@
   "user/not_found_type_user": {
     "title": "No existe el campo tipo para el registro",
     "description": "Se debe de enviar el campo tipo: person o company."
+  },
+  "company/company_already_exists": {
+    "title": "La empresa ya está registrado",
+    "description": "La empresa especificada ya existe."
+  },
+  "company/document_already_exists": {
+    "title": "El documento ya está registrado",
+    "description": "La documento especificado ya existe."
   }
 }

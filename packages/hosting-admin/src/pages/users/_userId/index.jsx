@@ -23,6 +23,10 @@ import { useApiUserPost, useApiUserPut } from "../../../api";
 import { countriesISO, genders, roles } from "../../../data-list";
 import { Typography } from "antd";
 import { getUserId } from "../../../firebase/collections/index.js";
+import {
+  apiErrorNotification,
+  getApiErrorResponse,
+} from "../../../api/apiErrors.js";
 
 const { Title } = Typography;
 
@@ -35,6 +39,8 @@ export const UserIntegration = () => {
   const { users } = useGlobalData();
 
   const [user, setUser] = useState({});
+  const isNew = userId === "new";
+  const onGoBack = () => navigate(-1);
 
   useEffect(() => {
     const _user =
@@ -47,27 +53,27 @@ export const UserIntegration = () => {
     setUser(_user);
   }, []);
 
-  const onSubmitSaveUser = async (formData) => {
+  const saveUser = async (formData) => {
     try {
       const _user = mapUser(formData);
 
-      await saveUser(_user);
+      const response = isNew ? await postUser(_user) : await putUser(_user);
 
-      notification({ type: "success" });
+      if (isNew ? !postUserResponse.ok : !putUserResponse.ok) {
+        throw new Error(response);
+      }
 
-      onGoBack();
+      notification({
+        type: "success",
+        title: "Usuario creado exitosamente!",
+      });
+
+      return onGoBack();
     } catch (e) {
-      console.log("ErrorSaveUser: ", e);
-      notification({ type: "error" });
+      console.log("saveUser: ", e);
+      const errorResponse = await getApiErrorResponse(e);
+      apiErrorNotification(errorResponse);
     }
-  };
-
-  const saveUser = async (user) => {
-    userId === "new" ? await postUser(user) : await putUser(user);
-
-    const responseStatus = postUserResponse.ok || putUserResponse.ok;
-
-    if (!responseStatus) return notification({ type: "error" });
   };
 
   const mapUser = (formData) => {
@@ -99,19 +105,17 @@ export const UserIntegration = () => {
     );
   };
 
-  const onGoBack = () => navigate(-1);
-
   return (
     <User
       user={user}
-      onSubmitSaveUser={onSubmitSaveUser}
+      onSaveUser={saveUser}
       onGoBack={onGoBack}
       isSavingUser={postUserLoading || putUserLoading}
     />
   );
 };
 
-const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
+const User = ({ user, onSaveUser, onGoBack, isSavingUser }) => {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
@@ -171,7 +175,7 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
   const filterOptionPhone = (inputValue, optionLabel) =>
     optionLabel.toUpperCase().includes(inputValue.toUpperCase());
 
-  const submitSaveUser = (formData) => onSubmitSaveUser(formData);
+  const submitSaveUser = (formData) => onSaveUser(formData);
 
   return (
     <Row>
@@ -193,8 +197,8 @@ const User = ({ user, onSubmitSaveUser, onGoBack, isSavingUser }) => {
                     error={error(name)}
                     required={required(name)}
                     options={roles.map((role) => ({
-                      label: capitalize(role.roleName),
-                      value: role.roleCode,
+                      label: capitalize(role.name),
+                      value: role.code,
                     }))}
                   />
                 )}

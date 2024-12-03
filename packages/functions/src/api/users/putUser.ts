@@ -1,14 +1,10 @@
-import {
-  auth,
-  fetchCollection,
-  fetchDocument,
-  firestore,
-} from "../../_firebase";
+import { auth } from "../../_firebase";
 import { NextFunction, Request, Response } from "express";
 import { isEmpty } from "lodash";
 import assert from "assert";
 import { defaultFirestoreProps } from "../../utils";
 import { User } from "../../globalTypes";
+import { fetchUser, fetchUsers, updateUser } from "../../_firebase/collections";
 
 interface Params {
   userId: string;
@@ -24,22 +20,27 @@ export const putUser = async (
     body: user,
   } = req;
 
+  const { assignUpdateProps } = defaultFirestoreProps();
+
   console.log(userId, "「Update user」Initialize", {
     params: req.params,
     body: req.body,
   });
 
   try {
-    const userFirestore = await fetchUser(user.id);
+    const userFirestore = await fetchUserFirestore(user.id);
     const changeEmail = userFirestore.email !== user.email;
 
     if (changeEmail) {
       const emailExists = await isEmailExists(user.email);
 
-      if (emailExists) res.status(412).send("email_already_exists").end();
+      if (emailExists) {
+        res.status(412).send("user/email_already_exists").end();
+        return;
+      }
     }
 
-    const p0 = updateUser(user);
+    const p0 = updateUser(userId, assignUpdateProps(user));
     const p1 = updateUserAuth(user, changeEmail);
 
     await Promise.all([p0, p1]);
@@ -49,15 +50,6 @@ export const putUser = async (
     console.error(error);
     next(error);
   }
-};
-
-const updateUser = async (user: User): Promise<void> => {
-  const { assignUpdateProps } = defaultFirestoreProps();
-
-  await firestore
-    .collection("users")
-    .doc(user.id)
-    .set(assignUpdateProps(user), { merge: true });
 };
 
 const updateUserAuth = async (
@@ -71,20 +63,16 @@ const updateUserAuth = async (
 };
 
 const isEmailExists = async (email: string): Promise<boolean> => {
-  const users = await fetchCollection<User>(
-    firestore
-      .collection("users")
-      .where("isDeleted", "==", false)
-      .where("email", "==", email)
-  );
+  const users = fetchUsers([
+    ["email", "==", email],
+    ["isDeleted", "==", false],
+  ]);
 
   return !isEmpty(users);
 };
 
-const fetchUser = async (userId: string): Promise<User> => {
-  const user = await fetchDocument<User>(
-    firestore.collection("users").doc(userId)
-  );
+const fetchUserFirestore = async (userId: string): Promise<User> => {
+  const user = await fetchUser(userId);
 
   assert(user, `User doesn't exist: ${userId}`);
 

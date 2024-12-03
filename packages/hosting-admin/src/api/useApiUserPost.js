@@ -12,9 +12,7 @@ export const useApiUserPost = () => {
 
   const postUser = useCallback(
     async (user) => {
-      const url = `/`;
-
-      return post(url, user);
+      return post(user);
     },
     [post]
   );
