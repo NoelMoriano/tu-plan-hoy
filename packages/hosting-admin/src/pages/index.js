@@ -5,3 +5,5 @@ export * from "./users";
 export * from "./users/_userId";
 export * from "./companies";
 export * from "./companies/_companyId";
+export * from "./advertisements";
+export * from "./advertisements/_advertisementId";

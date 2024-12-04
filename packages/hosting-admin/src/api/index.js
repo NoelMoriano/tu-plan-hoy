@@ -5,3 +5,6 @@ export * from "./useApiUserPatch";
 export * from "./useApiCompanyPost";
 export * from "./useApiCompanyPut";
 export * from "./useApiCompanyPatch";
+export * from "./useApiAdvertisementPost";
+export * from "./useApiAdvertisementPut";
+export * from "./useApiAdvertisementPatch";

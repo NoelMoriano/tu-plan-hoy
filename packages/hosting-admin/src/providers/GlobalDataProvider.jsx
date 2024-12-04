@@ -3,12 +3,16 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthentication } from "./AuthenticationProvider";
 import { notification, Spinner } from "../components/ui";
 import { orderBy } from "lodash";
-import { usersRef } from "../firebase/collections/index.js";
-import { companiesRef } from "../firebase/collections/companies.js";
+import {
+  advertisementsRef,
+  companiesRef,
+  usersRef,
+} from "../firebase/collections";
 
 const GlobalDataContext = createContext({
   users: [],
   companies: [],
+  advertisements: [],
 });
 
 export const GlobalDataProvider = ({ children }) => {
@@ -22,8 +26,13 @@ export const GlobalDataProvider = ({ children }) => {
     authUser ? companiesRef.where("isDeleted", "==", false) : null
   );
 
-  const error = usersError || companiesError;
-  const loading = usersLoading || companiesLoading;
+  const [advertisements = [], advertisementsLoading, advertisementsError] =
+    useCollectionData(
+      authUser ? advertisementsRef.where("isDeleted", "==", false) : null
+    );
+
+  const error = usersError || companiesError || advertisementsError;
+  const loading = usersLoading || companiesLoading || advertisementsLoading;
 
   useEffect(() => {
     error && notification({ type: "error" });
@@ -38,6 +47,11 @@ export const GlobalDataProvider = ({ children }) => {
         companies: orderBy(companies, (company) => [company.createAt], [
           "desc",
         ]),
+        advertisements: orderBy(
+          advertisements,
+          (advertisement) => [advertisement.createAt],
+          ["desc"]
+        ),
       }}
     >
       {children}

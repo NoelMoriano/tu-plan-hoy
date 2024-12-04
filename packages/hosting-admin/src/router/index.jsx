@@ -1,6 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import {
+  AdvertisementIntegration,
+  Advertisements,
+  Companies,
   CompanyIntegration,
   Login,
   Page403,
@@ -10,7 +13,6 @@ import {
 } from "../pages";
 import { BaseLayout } from "../components/layout";
 import { PrivateRoute } from "./PrivateRoute";
-import { Companies } from "../pages/companies/index.jsx";
 
 export const Router = () => (
   <Routes>
@@ -67,7 +69,16 @@ export const Router = () => (
         path="/advertisements"
         element={
           <BaseLayout>
-            <h2>Modulo donde se visualizaran los anuncios</h2>
+            <Advertisements />
+          </BaseLayout>
+        }
+      />
+      <Route
+        exact
+        path="/advertisements/:advertisementId"
+        element={
+          <BaseLayout>
+            <AdvertisementIntegration />
           </BaseLayout>
         }
       />

@@ -4,6 +4,11 @@ import { errorHandler, hostingToApi } from "./_middlewares";
 import { body } from "express-validator";
 import { patchUser, postUser, putUser } from "./users";
 import { patchCompany, postCompany, putCompany } from "./companies";
+import {
+  patchAdvertisement,
+  postAdvertisement,
+  putAdvertisement,
+} from "./advertisements";
 
 const app: express.Application = express();
 
@@ -34,6 +39,14 @@ app.post(
 );
 app.put("/companies/:companyId", putCompany);
 app.patch("/companies/:companyId", [body("updateBy").exists()], patchCompany);
+
+app.post("/advertisement", postAdvertisement);
+app.put("/advertisements/:advertisementId", putAdvertisement);
+app.patch(
+  "/advertisements/:advertisementId",
+  [body("updateBy").exists()],
+  patchAdvertisement
+);
 
 app.use(errorHandler);
 

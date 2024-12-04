@@ -71,3 +71,13 @@ export interface Company extends DefaultFirestoreProps {
   logo: Image;
   userId: string;
 }
+
+export interface Advertisement extends DefaultFirestoreProps {
+  id: string;
+  adImage: Image;
+  title: string;
+  address: string;
+  overview: string;
+  company: Company;
+  user: User;
+}
