@@ -16,5 +16,9 @@ export const PrivateRoute = () => {
     return Object.values(rules).every((rule) => !!rule);
   };
 
-  return isLoginPage || isEnabledAccess() ? <Outlet /> : <Navigate to="/" />;
+  return isLoginPage || isEnabledAccess() ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" />
+  );
 };

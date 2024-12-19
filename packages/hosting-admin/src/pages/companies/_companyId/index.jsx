@@ -20,7 +20,7 @@ import { assign } from "lodash";
 import { useApiCompanyPost, useApiCompanyPut } from "../../../api";
 import { Typography } from "antd";
 import { userFullName } from "../../../utils/index.js";
-import { getCompanyId } from "../../../firebase/collections/companies.js";
+import { getCompanyId } from "../../../firebase/collections";
 import {
   apiErrorNotification,
   getApiErrorResponse,
@@ -88,8 +88,35 @@ export const CompanyIntegration = () => {
         },
         commercialName: formData.commercialName.toUpperCase(),
         socialReason: (formData?.socialReason || "").toUpperCase(),
-        overview: formData.overview,
         logo: formData.logo,
+        description: formData.description,
+        socialMedia: {
+          fb: {
+            name: formData.socialMedia.fb.name,
+            url: formData.socialMedia.fb.url,
+          },
+          tiktok: {
+            name: formData.socialMedia.tiktok.name,
+            url: formData.socialMedia.tiktok.url,
+          },
+          instagram: {
+            name: formData.socialMedia.instagram.name,
+            url: formData.socialMedia.instagram.url,
+          },
+          x: {
+            name: formData.socialMedia.x.name,
+            url: formData.socialMedia.x.url,
+          },
+          linkedin: {
+            name: formData.socialMedia.linkedin.name,
+            url: formData.socialMedia.linkedin.url,
+          },
+        },
+        phone: {
+          prefix: "+51",
+          number: formData.phoneNumber,
+        },
+        address: formData.address,
         userId: formData.userId,
       }
     );
@@ -98,7 +125,7 @@ export const CompanyIntegration = () => {
   const onGoBack = () => navigate(-1);
 
   return (
-    <User
+    <Company
       company={company}
       users={users}
       onSaveCompany={saveCompany}
@@ -108,7 +135,13 @@ export const CompanyIntegration = () => {
   );
 };
 
-const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
+const Company = ({
+  company,
+  users,
+  onSaveCompany,
+  onGoBack,
+  isSavingCompany,
+}) => {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
@@ -116,8 +149,11 @@ const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
     documentNumber: yup.string().required(),
     commercialName: yup.string().required(),
     socialReason: yup.string(),
-    overview: yup.string().required(),
     logo: yup.mixed().required(),
+    description: yup.string().required(),
+    prefixNumber: yup.string().required(),
+    phoneNumber: yup.string().required(),
+    address: yup.string().required(),
     userId: yup.string().required(),
   });
 
@@ -142,8 +178,8 @@ const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
       documentNumber: company?.document?.number || "",
       commercialName: company?.commercialName || null,
       socialReason: company?.socialReason || "",
-      overview: company?.overview || "",
       logo: company?.logo || null,
+      description: company?.description || "",
       userId: company?.userId || "",
     });
   };
@@ -248,6 +284,39 @@ const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
             </Col>
             <Col span={24}>
               <Controller
+                name="description"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <TextArea
+                    label="Descripción"
+                    rows={6}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
+                name="address"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Input
+                    label="Dirección"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24}>
+              <Controller
                 name="userId"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
@@ -261,23 +330,6 @@ const User = ({ company, users, onSaveCompany, onGoBack, isSavingCompany }) => {
                       label: userFullName(user),
                       value: user.id,
                     }))}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="overview"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <TextArea
-                    label="Descripción"
-                    rows={6}
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    error={error(name)}
-                    required={required(name)}
                   />
                 )}
               />

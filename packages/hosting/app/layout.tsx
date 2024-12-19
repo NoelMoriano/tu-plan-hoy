@@ -1,12 +1,22 @@
 import type { Metadata } from "next";
-import { Noto_Sans_Display } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { PublicHeaderLayout } from "@/components/PublicHeaderLayout";
+import { PublicFooterLayout } from "@/components/PublicFooterLayout";
 
-const noto = Noto_Sans_Display({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Tu plan hoy",
-  description: "¿Cual es tu plan para hoy?",
+  title: "Tu Pan Hoy",
+  description: "Las mejores discotecas a tu disposicion",
 };
 
 export default function RootLayout({
@@ -16,7 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={noto.className}>{children}</body>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <PublicHeaderLayout />
+        {children}
+        <PublicFooterLayout />
+      </body>
     </html>
   );
 }

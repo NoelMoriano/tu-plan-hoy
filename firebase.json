@@ -9,7 +9,7 @@
         "**/node_modules/**"
       ],
       "predeploy": [
-        "yarn hosting-admin build"
+        "yarn admin build"
       ],
       "headers": [
         {

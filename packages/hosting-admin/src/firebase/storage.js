@@ -16,6 +16,4 @@ export const buckets = {
   tphCompanies: firebase.app().storage(currentConfig.buckets.tphCompanies),
 };
 
-console.log("buckets: ", buckets);
-
 export const imageResizes = ["400x400", "250x250"];

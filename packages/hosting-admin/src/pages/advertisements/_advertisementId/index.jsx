@@ -99,6 +99,8 @@ export const AdvertisementIntegration = () => {
         title: formData.title,
         address: formData.address,
         overview: formData.overview,
+        imageGallery: formData.imageGallery,
+        videoGallery: formData.videoGallery,
         company: _company,
         user: users.find((user) => user.id === _company.userId),
       }
@@ -249,7 +251,7 @@ const Advertisement = ({
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <TextArea
-                    label="Descripción"
+                    label="Descripción general"
                     rows={10}
                     name={name}
                     value={value}
