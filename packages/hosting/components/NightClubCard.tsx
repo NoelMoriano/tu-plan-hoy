@@ -4,7 +4,7 @@ import { ImageComponent } from "@/components/ui/Image";
 
 export const NightClubCard = () => {
   return (
-    <div className="w-full max-w-[17em] p-5 bg-quaternary rounded-[10px]">
+    <div className="w-full max-w-[17em] p-3 bg-quaternary rounded-[10px]">
       <div className="img">
         <ImageComponent
           src="/images/img-night-club.jpg"
@@ -13,7 +13,7 @@ export const NightClubCard = () => {
       </div>
       <div className="footer pt-3">
         <div className="title">
-          <h3 className="text-primary font-bold text-[24px]">Inka Team</h3>
+          <h3 className="text-primary font-bold text-[20px]">Inka Team</h3>
         </div>
         <div className="price-and-btn flex items-center justify-between">
           <h4>
@@ -21,7 +21,7 @@ export const NightClubCard = () => {
           </h4>
           <Button
             variant="tertiary"
-            className="grid place-items-center py-[.2em]"
+            className="grid place-items-center h-[37px] py-1 px-3 text-[14px]"
           >
             <span className="m-auto">Ver más</span>
           </Button>

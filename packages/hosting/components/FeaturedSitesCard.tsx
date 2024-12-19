@@ -4,7 +4,7 @@ import { ImageComponent } from "@/components/ui/Image";
 
 export const FeaturedSitesCard = () => {
   return (
-    <div className="w-full max-w-[24em] p-5 bg-quaternary rounded-[10px]">
+    <div className="w-full max-w-[24em] p-3 bg-quaternary rounded-[10px]">
       <div className="img">
         <ImageComponent
           src="/images/img-anuncio.jpg"
@@ -19,7 +19,10 @@ export const FeaturedSitesCard = () => {
           <h4>
             Desde <strong>S/10.00</strong>
           </h4>
-          <Button variant="tertiary" className="grid place-items-center">
+          <Button
+            variant="tertiary"
+            className="grid place-items-center h-[37px] py-1 px-3 text-[14px]"
+          >
             <span className="m-auto">Ver más</span>
           </Button>
         </div>

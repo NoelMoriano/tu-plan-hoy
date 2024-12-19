@@ -10,7 +10,7 @@ import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
 export default function HomePage() {
   return (
     <div className="general-wrapper">
-      <div className="w-full h-[91svh] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
+      <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
         <video
           width="1243"
           height="970"
@@ -28,7 +28,7 @@ export default function HomePage() {
           className="bg-item absolute z-40 w-full h-full"
           style={{
             background:
-              "linear-gradient(to right, rgba(35, 20, 115, 70%), rgba(35, 20, 115, 70%)",
+              "linear-gradient(to right, rgba(35, 20, 115, 87%), rgba(35, 20, 115, 87%)",
           }}
         />
         <FormSearchNightClubs />
@@ -38,7 +38,7 @@ export default function HomePage() {
           <div className="content-wrapper px-3 py-11 text-secondary">
             <div className="title flex items-center gap-2 mb-5">
               <Star size={30} />{" "}
-              <h2 className="text-4xl font-bold ">Sitios destacados</h2>
+              <h2 className="text-[32px] font-bold ">Sitios destacados</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap gap-5">
               <FeaturedSitesCard />
@@ -69,7 +69,7 @@ export default function HomePage() {
         <WrapperComponent>
           <div className="content-wrapper px-3 py-11 text-secondary">
             <div className="title flex items-center gap-2 mb-5">
-              <h2 className="text-4xl font-bold ">Más opciones</h2>
+              <h2 className="text-[24px] font-bold ">Más opciones</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap gap-5">
               <NightClubCard />

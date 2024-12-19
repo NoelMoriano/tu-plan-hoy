@@ -11,14 +11,14 @@ export const PublicHeaderLayout = () => {
     <div className="w-full h-auto bg-quaternary">
       <WrapperComponent>
         <div className="py-3 px-5 grid grid-cols-[auto,auto,auto,auto]">
-          <div className="logotipo flex justify-start items-center pr-3">
+          <div className="logotipo flex justify-start items-center pr-2">
             <ImageComponent
               src="/images/logotipo.png"
               className="w-[167px] h-[30px] object-contain"
             />
           </div>
           <div className="search grid place-items-center px-3">
-            <InputSearch placeholder="Encuentra discos" className="w-[25em]" />
+            <InputSearch placeholder="Encuentra discos" className="w-[26em]" />
           </div>
           <div className="filters flex items-center justify-center gap-x-5 px-3">
             <div className="category-icon flex flex-col items-center justify-center text-primary gap-[1px] hover:bg-tertiary p-1 px-1.5 rounded-[5px] cursor-pointer">
