@@ -4,9 +4,15 @@ interface Props {
   children?: React.ReactNode;
   variant?: "primary" | "secondary" | "tertiary";
   className?: string;
+  onClick?: () => void;
 }
 
-export const Button = ({ variant = "primary", className, children }: Props) => {
+export const Button = ({
+  variant = "primary",
+  className,
+  onClick,
+  children,
+}: Props) => {
   const variants = {
     primary: "bg-primary text-white hover:bg-primary-dark focus-none",
     secondary: "bg-tertiary text-primary hover:bg-tertiary-dark focus-none",
@@ -15,7 +21,8 @@ export const Button = ({ variant = "primary", className, children }: Props) => {
 
   return (
     <button
-      className={`w-auto h-[47px] p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
+      className={`w-auto min-h-[47px] h-auto p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
+      onClick={onClick}
     >
       {children}
     </button>

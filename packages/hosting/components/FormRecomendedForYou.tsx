@@ -27,7 +27,7 @@ export const FormRecomendedForYou = () => {
         />
         <Button
           variant="tertiary"
-          className="w-[20em] max-w-[27em] m-auto my-2 px-2"
+          className="w-[20em] max-w-[27em] m-auto my-2 px-10"
         >
           Ver sitios recomendados para tí
         </Button>

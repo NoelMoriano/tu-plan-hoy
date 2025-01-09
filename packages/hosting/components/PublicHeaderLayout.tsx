@@ -5,8 +5,13 @@ import { ImageComponent } from "@/components/ui/Image";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import { MapPin, Tags } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
 
 export const PublicHeaderLayout = () => {
+  const router = useRouter();
+
+  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
+
   return (
     <div className="w-full h-auto bg-quaternary">
       <WrapperComponent>
@@ -32,10 +37,18 @@ export const PublicHeaderLayout = () => {
           </div>
           <div className="buttons-and-avatar flex justify-end items-center pl-3 gap-2">
             <Button className="leading-3">Crear anuncio</Button>
-            <Button variant="secondary" className="leading-3">
+            <Button
+              variant="secondary"
+              className="leading-3"
+              onClick={() => onNavigateGoTo("/login")}
+            >
               Iniciar sesión
             </Button>
-            <Button variant="secondary" className="leading-3">
+            <Button
+              variant="secondary"
+              className="leading-3"
+              onClick={() => onNavigateGoTo("/register")}
+            >
               Registrarse
             </Button>
           </div>
