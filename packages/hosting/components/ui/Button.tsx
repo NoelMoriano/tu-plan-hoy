@@ -21,7 +21,7 @@ export const Button = ({
 
   return (
     <button
-      className={`w-auto min-h-[47px] h-auto p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
+      className={`w-auto  p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
       onClick={onClick}
     >
       {children}

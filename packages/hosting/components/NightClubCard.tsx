@@ -21,7 +21,7 @@ export const NightClubCard = () => {
           </h4>
           <Button
             variant="tertiary"
-            className="grid place-items-center h-[37px] py-1 px-3 text-[14px]"
+            className="grid place-items-center h-[30px] py-1 px-3 text-[14px]"
           >
             <span className="m-auto">Ver más</span>
           </Button>

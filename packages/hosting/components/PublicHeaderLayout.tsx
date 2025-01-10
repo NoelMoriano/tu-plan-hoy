@@ -15,7 +15,7 @@ export const PublicHeaderLayout = () => {
   return (
     <div className="w-full h-auto bg-quaternary">
       <WrapperComponent>
-        <div className="py-3 px-5 grid grid-cols-[auto,auto,auto,auto]">
+        <div className="py-3 px-5 grid grid-cols-[auto,1fr,auto,auto]">
           <div className="logotipo flex justify-start items-center pr-2">
             <ImageComponent
               src="/images/logotipo.png"

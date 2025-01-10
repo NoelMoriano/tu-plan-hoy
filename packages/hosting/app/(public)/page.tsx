@@ -6,6 +6,7 @@ import { FeaturedSitesCard } from "@/components/FeaturedSitesCard";
 import { NightClubCard } from "@/components/NightClubCard";
 import { ImageComponent } from "@/components/ui/Image";
 import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
+import { DiscountAndNews } from "@/components/DiscountAndNews";
 
 export default function HomePage() {
   return (
@@ -19,6 +20,7 @@ export default function HomePage() {
           autoPlay
           loop
           className="w-full h-auto absolute z-20"
+          poster="/images/img-video-bg.webp"
         >
           <source src="/videos/video-bg.mp4" type="video/mp4" />
           <source src="/videos/video-bg.mp4" type="video/ogg" />
@@ -28,7 +30,7 @@ export default function HomePage() {
           className="bg-item absolute z-40 w-full h-full"
           style={{
             background:
-              "linear-gradient(to right, rgba(35, 20, 115, 87%), rgba(35, 20, 115, 87%)",
+              "linear-gradient(to right, rgba(35, 20, 115, 47%), rgba(35, 20, 115, 37%)",
           }}
         />
         <FormSearchNightClubs />
@@ -56,14 +58,27 @@ export default function HomePage() {
           src="/images/banner-sitios-recomendados.jpg"
           className="w-full h-auto absolute z-20 object-cover"
         />
-        <div
-          className="bg-item absolute z-40 w-full h-full"
-          style={{
-            background:
-              "linear-gradient(to right, rgba(35, 20, 115, 70%), rgba(35, 20, 115, 70%)",
-          }}
-        />
+        <div className="bg-item absolute z-40 w-full h-full" />
         <FormRecomendedForYou />
+      </div>
+      <div className="recomended-for-you-section">
+        <WrapperComponent>
+          <div className="content-wrapper px-3 py-11 text-secondary">
+            <div className="title flex items-center gap-2 mb-5">
+              <h2 className="text-[32px] font-bold ">
+                Sitios recomendados para tí
+              </h2>
+            </div>
+            <div className="cards-wrapper flex flex-wrap gap-5">
+              <FeaturedSitesCard />
+              <FeaturedSitesCard />
+              <FeaturedSitesCard />
+              <FeaturedSitesCard />
+              <FeaturedSitesCard />
+              <FeaturedSitesCard />
+            </div>
+          </div>
+        </WrapperComponent>
       </div>
       <div className="options-more">
         <WrapperComponent>
@@ -82,6 +97,18 @@ export default function HomePage() {
               <NightClubCard />
             </div>
           </div>
+        </WrapperComponent>
+      </div>
+      <div className="w-full h-[560px] relative bg-blend-multiply bg-primary flex justify-start items-center overflow-hidden">
+        <ImageComponent
+          src="/images/discount-and-news.jpg"
+          className="w-full h-auto absolute z-20 object-cover"
+        />
+        <WrapperComponent className="relative flex items-center">
+          <>
+            <div className="bg-item absolute z-40 w-full h-full" />
+            <DiscountAndNews />
+          </>
         </WrapperComponent>
       </div>
     </div>
