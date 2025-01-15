@@ -10,10 +10,11 @@ export default function LoginPage() {
         <Link href="/">
           <Image
             src="/images/logotipo.png"
-            width={170}
-            height={170}
+            width={167}
+            height={30}
+            sizes="10"
             alt="Tu plan hoy - logo"
-            className="object-contain"
+            className="w-[167px] h-[30px] object-contain"
           />
         </Link>
       </div>
@@ -23,6 +24,7 @@ export default function LoginPage() {
             src="/images/bg-login.jpg"
             width={170}
             height={470}
+            sizes="10"
             alt="Tu plan hoy - logo"
             className="w-full h-auto absolute inset-0 z-20"
           />

@@ -14,7 +14,7 @@ export const InputSearch = ({ placeholder, className }: Props) => {
       <div className="w-full grid place-items-center outline-0">
         <input
           type="text"
-          className="w-full h-full p-1 text-secondary placeholder-secondary text-[14px]"
+          className="w-full h-full p-1 text-secondary placeholder-secondary text-[14px] outline-0"
           placeholder={placeholder}
         />
       </div>

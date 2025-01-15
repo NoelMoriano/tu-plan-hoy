@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Tu Pan Hoy",
+  title: "Tu Plan Hoy",
   description: "Las mejores discotecas a tu disposicion",
 };
 

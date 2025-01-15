@@ -2,7 +2,11 @@ import React from "react";
 import { Button } from "@/components/ui/Button";
 import { ImageComponent } from "@/components/ui/Image";
 
-export const FeaturedSitesCard = () => {
+interface Props {
+  onSeeMore: () => void;
+}
+
+export const FeaturedSitesCard = ({ onSeeMore }: Props) => {
   return (
     <div className="w-full max-w-[24em] p-3 bg-quaternary rounded-[10px]">
       <div className="img">
@@ -22,6 +26,7 @@ export const FeaturedSitesCard = () => {
           <Button
             variant="tertiary"
             className="grid place-items-center h-[37px] py-1 px-3 text-[14px]"
+            onClick={onSeeMore}
           >
             <span className="m-auto">Ver más</span>
           </Button>

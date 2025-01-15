@@ -1,6 +1,6 @@
 import React from "react";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { ArrowBigDown, ChevronDown, MapPin } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 export const PublicFooterLayout = () => {
   return (
@@ -37,7 +37,7 @@ export const PublicFooterLayout = () => {
           </div>
         </div>
         <div className="bottom-footer text-white mt-[2.5em]">
-          <span>© 2024 Tu Plan Hoy</span>
+          <span>© 2025 Tu Plan Hoy</span>
         </div>
       </WrapperComponent>
     </div>

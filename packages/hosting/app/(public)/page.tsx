@@ -1,14 +1,22 @@
+"use client";
 import React from "react";
 import { FormSearchNightClubs } from "@/components/FormSearchNightClubs";
 import { Star } from "lucide-react";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import { FeaturedSitesCard } from "@/components/FeaturedSitesCard";
 import { NightClubCard } from "@/components/NightClubCard";
-import { ImageComponent } from "@/components/ui/Image";
 import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
 import { DiscountAndNews } from "@/components/DiscountAndNews";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const router = useRouter();
+
+  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
+
+  const onSeeMore = () => onNavigateGoTo("/events/aniversario/aniversario-10");
+
   return (
     <div className="general-wrapper">
       <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
@@ -43,19 +51,20 @@ export default function HomePage() {
               <h2 className="text-[32px] font-bold ">Sitios destacados</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap gap-5">
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
+              {[1, 2, 3, 4, 5, 6].map((index) => (
+                <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
+              ))}
             </div>
           </div>
         </WrapperComponent>
       </div>
       <div className="w-full h-[560px] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
-        <ImageComponent
+        <Image
           src="/images/banner-sitios-recomendados.jpg"
+          width={970}
+          height={470}
+          alt="Tu plan hoy - logo"
+          sizes="10"
           className="w-full h-auto absolute z-20 object-cover"
         />
         <div className="bg-item absolute z-40 w-full h-full" />
@@ -70,12 +79,9 @@ export default function HomePage() {
               </h2>
             </div>
             <div className="cards-wrapper flex flex-wrap gap-5">
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
-              <FeaturedSitesCard />
+              {[1, 2, 3, 4, 5, 6].map((index) => (
+                <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
+              ))}
             </div>
           </div>
         </WrapperComponent>
@@ -87,21 +93,20 @@ export default function HomePage() {
               <h2 className="text-[24px] font-bold ">Más opciones</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap gap-5">
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
-              <NightClubCard />
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
+                <NightClubCard key={index} onSeeMore={onSeeMore} />
+              ))}
             </div>
           </div>
         </WrapperComponent>
       </div>
       <div className="w-full h-[560px] relative bg-blend-multiply bg-primary flex justify-start items-center overflow-hidden">
-        <ImageComponent
+        <Image
           src="/images/discount-and-news.jpg"
+          width={970}
+          height={470}
+          alt="Tu plan hoy - logo"
+          sizes="10"
           className="w-full h-auto absolute z-20 object-cover"
         />
         <WrapperComponent className="relative flex items-center">
