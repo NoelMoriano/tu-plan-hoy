@@ -1,8 +1,7 @@
 import React from "react";
-
 import { InputSearch } from "@/components/ui/InputSearch";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { MapPin, Tags } from "lucide-react";
+import { ChevronDown, MapPin, Tags } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -13,7 +12,7 @@ export const PublicHeaderLayout = () => {
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
 
-  const authUser: boolean = false;
+  const authUser: boolean = true;
 
   return (
     <div className="w-full h-auto bg-quaternary">
@@ -48,7 +47,27 @@ export const PublicHeaderLayout = () => {
             </div>
           </div>
           <div className="buttons-and-avatar flex justify-end items-center pl-3 gap-2">
-            {authUser && <Button className="leading-3">Crear anuncio</Button>}
+            {authUser && (
+              <>
+                <Button className="leading-3">Crear anuncio</Button>
+                <Link href="/profile">
+                  <div className="w-auto min-w-[87px] h-[47px] px-2 m-auto grid grid-cols-[1fr,1fr] items-center gap-2 bg-tertiary rounded-[12px] cursor-pointer">
+                    <div className="grid place-items-center">
+                      <Image
+                        src="/images/avatar.webp"
+                        width={29}
+                        height={29}
+                        alt="avatar"
+                        className="rounded-full"
+                      />
+                    </div>
+                    <div className="text-primary font-bold grid place-items-center">
+                      <ChevronDown />
+                    </div>
+                  </div>
+                </Link>
+              </>
+            )}
             {!authUser && (
               <>
                 {" "}

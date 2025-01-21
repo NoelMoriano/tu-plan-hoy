@@ -79,6 +79,7 @@ export const LeftComponent = () => {
                 con&nbsp;
                 <a
                   href="http://www.cmtv.com.ar/biografia/show.php?bnid=2388"
+                  target="_blank"
                   className="text-secondary font-bold"
                 >
                   Rombai
@@ -91,6 +92,7 @@ export const LeftComponent = () => {
                 ellos Fer Vázquez de&nbsp;
                 <a
                   href="http://www.cmtv.com.ar/biografia/show.php?bnid=2388"
+                  target="_blank"
                   className="text-secondary font-bold"
                 >
                   Rombai
@@ -98,6 +100,7 @@ export const LeftComponent = () => {
                 ,&nbsp;
                 <a
                   href="http://www.cmtv.com.ar/biografia/show.php?bnid=313&amp;banda=Alejandro_Lerner"
+                  target="_blank"
                   className="text-secondary font-bold"
                 >
                   Alejandro Lerner
@@ -105,6 +108,7 @@ export const LeftComponent = () => {
                 &nbsp;y&nbsp;
                 <a
                   href="http://www.cmtv.com.ar/biografia/show.php?bnid=2419&amp;banda=El_Polaco"
+                  target="_blank"
                   className="text-secondary font-bold"
                 >
                   El Polaco
