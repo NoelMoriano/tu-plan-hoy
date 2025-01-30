@@ -49,7 +49,12 @@ export const PublicHeaderLayout = () => {
           <div className="buttons-and-avatar flex justify-end items-center pl-3 gap-2">
             {authUser && (
               <>
-                <Button className="leading-3">Crear anuncio</Button>
+                <Button
+                  className="leading-3"
+                  onClick={() => onNavigateGoTo("/activity/create")}
+                >
+                  Crear anuncio
+                </Button>
                 <Link href="/profile">
                   <div className="w-auto min-w-[87px] h-[47px] px-2 m-auto grid grid-cols-[1fr,1fr] items-center gap-2 bg-tertiary rounded-[12px] cursor-pointer">
                     <div className="grid place-items-center">

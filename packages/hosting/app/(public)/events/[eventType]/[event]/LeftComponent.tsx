@@ -135,7 +135,7 @@ export const LeftComponent = () => {
         </h3>
         <CarouselGallery />
         <div className="w-full my-4">
-          <div className="video-card overflow-hidden rounded-[5px]">
+          <div className="video-card overflow-hidden rounded-[10px]">
             <LiteYouTubeEmbed
               id="0eHll6VMN6g"
               adNetwork={true}
