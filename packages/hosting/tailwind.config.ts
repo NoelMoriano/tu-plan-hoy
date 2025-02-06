@@ -32,6 +32,9 @@ export default {
           dark: "#e2e2fc",
         },
       },
+      screens: {
+        xs: "480px",
+      },
     },
   },
   plugins: [],

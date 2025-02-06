@@ -8,21 +8,21 @@ import { Divider } from "@/components/ui/Divider";
 export const PersonalInformation = () => {
   return (
     <div className="information-items">
-      <div className="header flex justify-between flex-wrap gap-2 mb-5">
-        <div>
-          <h1 className="text-primary font-bold text-[40px]">
+      <div className="header flex justify-between flex-wrap gap-3 mb-5">
+        <div className="w-full">
+          <h1 className="text-primary font-bold text-[40px] leading-[1em]">
             Información personal
           </h1>
         </div>
-        <div>
-          <Button variant="secondary" className="px-6">
+        <div className="w-full flex justify-end">
+          <Button variant="secondary" className="px-6 mr-0">
             Editar
           </Button>
         </div>
       </div>
       <div className="content w-full">
         <Form>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <Input label="Nombre(s)" placeholder="Tus nombres" />
             </div>
@@ -33,7 +33,7 @@ export const PersonalInformation = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <Input
                 label="Apellido materno"
@@ -57,7 +57,7 @@ export const PersonalInformation = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
               <Input label="DNI" placeholder="75******" />
             </div>
@@ -83,7 +83,7 @@ export const PersonalInformation = () => {
           </div>
         </Form>
         <Divider className="my-6" />
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <Form>
               <Input

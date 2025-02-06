@@ -61,7 +61,6 @@ export const FormLogin = () => {
           </div>
         </button>
       </div>
-
       <div className="w-full flex flex-col gap-1 text-center">
         <Link
           href="/register"

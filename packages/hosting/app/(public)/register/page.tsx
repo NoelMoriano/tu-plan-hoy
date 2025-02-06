@@ -18,8 +18,8 @@ export default function RegisterPage() {
           />
         </Link>
       </div>
-      <div className="w-full h-[92svh] grid grid-cols-2">
-        <div className="w-full relative grid place-items-center">
+      <div className="w-full h-[92svh] grid grid-cols-1 md:grid-cols-2">
+        <div className="w-full relative hidden md:grid place-items-center">
           <Image
             src="/images/bg-register.jpg"
             width={170}

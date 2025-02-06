@@ -75,8 +75,8 @@ export default function Profile() {
   return (
     <div className="w-full">
       <WrapperComponent>
-        <div className="grid grid-cols-[1fr,70%] px-5 py-7 gap-20">
-          <div className="left-col">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr,65%] px-5 py-7 gap-20">
+          <div className="left-col hidden md:flex">
             <div className="information-card">
               <div className="avatar-item bg-quaternary rounded-[10px] p-4 mb-5">
                 <div className="grid place-items-center">
