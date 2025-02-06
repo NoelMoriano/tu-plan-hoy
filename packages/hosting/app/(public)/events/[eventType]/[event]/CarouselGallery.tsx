@@ -22,7 +22,7 @@ const images = [
 
 export const CarouselGallery = () => {
   return (
-    <div className="w-full max-w-[40em] mx-auto flex justify-center overflow-hidden">
+    <div className="w-full max-w-[25em] md:max-w-[40em] mx-auto flex justify-center overflow-hidden">
       <Swiper
         modules={[Virtual, Navigation, Pagination]}
         slidesPerView={4}

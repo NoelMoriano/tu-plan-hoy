@@ -6,7 +6,7 @@ export const PublicFooterLayout = () => {
   return (
     <div className="w-full h-full flex items-center bg-primary py-[2em]">
       <WrapperComponent>
-        <div className="footer text-white flex justify-between">
+        <div className="footer text-white flex justify-between flex-wrap gap-[3em] px-[1em]">
           <div className="item">
             <h3 className="font-bold mb-3">Usa Tu Plan Hoy</h3>
             <ul className="list-none text-white">
@@ -36,7 +36,7 @@ export const PublicFooterLayout = () => {
             <ChevronDown size={20} />
           </div>
         </div>
-        <div className="bottom-footer text-white mt-[2.5em]">
+        <div className="bottom-footer text-white mt-[2.5em] px-[1em]">
           <span>© 2025 Tu Plan Hoy</span>
         </div>
       </WrapperComponent>

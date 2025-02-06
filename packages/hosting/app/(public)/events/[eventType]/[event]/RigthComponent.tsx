@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const RightComponent = () => {
   return (
-    <div className="w-full min-h-[100vh] px-4 sticky top-[10px]">
+    <div className="w-full min-h-[100vh] px-4 relative md:sticky top-[10px]">
       <div className="cards-wrapper w-full h-auto">
         <div className="card w-full h-auto mb-5 bg-white py-5 px-7 rounded-[10px]">
           <h2 className="text-[24px] text-primary font-extrabold mb-4">
@@ -44,7 +44,7 @@ export const RightComponent = () => {
             Av. Petit Thouars 2161, Lince
           </div>
         </div>
-        <div className="card w-full h-auto relative bg-quaternary py-5 px-7 rounded-[10px]">
+        <div className="card w-full h-auto relative bg-quaternary py-5 px-7 rounded-[10px] mb-10">
           <h2 className="text-[24px] text-primary font-bold mb-4">
             Redes sociales{" "}
           </h2>

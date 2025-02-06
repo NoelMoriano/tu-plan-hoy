@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/Button";
 
 export const FormSearchNightClubs = () => {
   return (
-    <div className="w-full max-w-[33em] m-auto absolute z-50">
+    <div className="w-full max-w-[33em] px-[1em] m-auto absolute z-50">
       <div className="title">
-        <h1 className="text-white text-center text-[48px] leading-[1.2em] font-bold mb-9">
+        <h1 className="text-white text-center text-[36px] md:text-[48px] leading-[1.2em] font-bold mb-9">
           ¡Déjanos ayudarte a descubrir las mejores discotecas!
         </h1>
       </div>

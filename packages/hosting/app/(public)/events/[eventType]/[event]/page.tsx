@@ -31,13 +31,13 @@ export default function EventPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-white from-10% via-white via-40% bg-primary to-100% bg-opacity-60"></div>
       </div>
       <WrapperComponent className="relative z-50">
-        <div className="w-full h-full grid grid-cols-[733px,1fr] gap-2 pt-[2rem]">
+        <div className="w-full h-full grid grid-cols-1 lg:grid-cols-[733px,1fr] gap-2 pt-[2rem]">
           <LeftComponent />
           <RightComponent />
         </div>
         <div className="options-more">
           <WrapperComponent>
-            <div className="content-wrapper text-secondary mb-16">
+            <div className="content-wrapper px-4 text-secondary mb-16">
               <div className="title flex items-center gap-2 mb-5">
                 <h2 className="text-[24px] font-bold ">Sugerencias para tí</h2>
               </div>

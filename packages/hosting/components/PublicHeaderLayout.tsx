@@ -1,7 +1,7 @@
 import React from "react";
 import { InputSearch } from "@/components/ui/InputSearch";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { ChevronDown, MapPin, Tags } from "lucide-react";
+import { ChevronDown, MapPin, MenuIcon, SearchIcon, Tags } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -18,8 +18,23 @@ export const PublicHeaderLayout = () => {
     <div className="w-full h-auto bg-quaternary">
       <WrapperComponent>
         <div className="py-3 px-5 grid grid-cols-[auto,1fr,auto,auto]">
-          <div className="logotipo flex justify-start items-center pr-2">
-            <Link href="/">
+          <div className="mobile-left-icons flex md:hidden gap-2 items-center">
+            <Button
+              variant="secondary"
+              className="leading-3 visible md:hidden rounded-[7px]"
+            >
+              <MenuIcon className="text-primary" />
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => onNavigateGoTo("/search")}
+              className="leading-3 visible md:hidden rounded-[7px]"
+            >
+              <SearchIcon className="text-primary" />
+            </Button>
+          </div>
+          <div className="logotipo flex justify-start items-center p-0 md:pr-2">
+            <Link href="/" className="m-auto md:m-0">
               <Image
                 src="/images/logotipo.png"
                 width={167}
@@ -30,13 +45,13 @@ export const PublicHeaderLayout = () => {
               />
             </Link>
           </div>
-          <div className="search grid place-items-center px-3">
+          <div className="search hidden md:grid place-items-center px-3">
             <InputSearch
               placeholder="Encuentra discos"
               className="w-[26em] font-medium"
             />
           </div>
-          <div className="filters flex items-center justify-center gap-x-5 px-3">
+          <div className="filters hidden md:flex items-center justify-center gap-x-5 px-3">
             <div className="category-icon flex flex-col items-center justify-center text-primary gap-[1px] hover:bg-tertiary p-1 px-1.5 rounded-[5px] cursor-pointer">
               <MapPin size={20} />
               <span className="font-bold text-[12px]">Cuidad</span>
@@ -50,27 +65,47 @@ export const PublicHeaderLayout = () => {
             {authUser && (
               <>
                 <Button
-                  className="leading-3"
+                  variant="secondary"
+                  onClick={() => onNavigateGoTo("/activity/create")}
+                  className="leading-3 visible md:hidden rounded-[7px]"
+                >
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M4 6H2V20C2 21.1 2.9 22 4 22H18V20H4V6ZM20 2H8C6.9 2 6 2.9 6 4V16C6 17.1 6.9 18 8 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H8V4H20V16ZM13 15H15V11H19V9H15V5H13V9H9V11H13V15Z"
+                      fill="#231473"
+                      className="text-primary"
+                    />
+                  </svg>
+                </Button>
+                <Button
+                  className="leading-3 hidden md:flex"
                   onClick={() => onNavigateGoTo("/activity/create")}
                 >
                   Crear anuncio
                 </Button>
-                <Link href="/profile">
-                  <div className="w-auto min-w-[87px] h-[47px] px-2 m-auto grid grid-cols-[1fr,1fr] items-center gap-2 bg-tertiary rounded-[12px] cursor-pointer">
-                    <div className="grid place-items-center">
-                      <Image
-                        src="/images/avatar.webp"
-                        width={29}
-                        height={29}
-                        alt="avatar"
-                        className="rounded-full"
-                      />
-                    </div>
-                    <div className="text-primary font-bold grid place-items-center">
-                      <ChevronDown />
-                    </div>
+                <Button
+                  variant="secondary"
+                  className="w-auto p-[5px] min-w-[53px] md:min-w-[87px] flex justify-center md:grid grid-cols-[1fr,1fr] items-center gap-2"
+                >
+                  <div className="grid place-items-center">
+                    <Image
+                      src="/images/avatar.webp"
+                      width={29}
+                      height={29}
+                      alt="avatar"
+                      className="rounded-full"
+                    />
                   </div>
-                </Link>
+                  <div className="hidden md:grid place-items-center text-primary font-bold">
+                    <ChevronDown />
+                  </div>
+                </Button>
               </>
             )}
             {!authUser && (

@@ -9,6 +9,7 @@ import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
 import { DiscountAndNews } from "@/components/DiscountAndNews";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/Button";
 
 export default function HomePage() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function HomePage() {
           muted
           autoPlay
           loop
-          className="w-full h-auto absolute z-20"
+          className="w-full h-full absolute z-20 object-cover"
           poster="/images/img-video-bg.webp"
         >
           <source src="/videos/video-bg.mp4" type="video/mp4" />
@@ -50,7 +51,7 @@ export default function HomePage() {
               <Star size={30} />{" "}
               <h2 className="text-[32px] font-bold ">Sitios destacados</h2>
             </div>
-            <div className="cards-wrapper flex flex-wrap gap-5">
+            <div className="cards-wrapper flex flex-wrap justify-center gap-5">
               {[1, 2, 3, 4, 5, 6].map((index) => (
                 <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
               ))}
@@ -65,7 +66,7 @@ export default function HomePage() {
           height={470}
           alt="Tu plan hoy - logo"
           sizes="10"
-          className="w-full h-auto absolute z-20 object-cover"
+          className="w-full h-full absolute z-20 object-cover"
         />
         <div className="bg-item absolute z-40 w-full h-full" />
         <FormRecomendedForYou />
@@ -74,11 +75,11 @@ export default function HomePage() {
         <WrapperComponent>
           <div className="content-wrapper px-3 py-11 text-secondary">
             <div className="title flex items-center gap-2 mb-5">
-              <h2 className="text-[32px] font-bold ">
+              <h2 className="text-[32px] font-bold leading-[1em]">
                 Sitios recomendados para tí
               </h2>
             </div>
-            <div className="cards-wrapper flex flex-wrap gap-5">
+            <div className="cards-wrapper flex flex-wrap justify-center gap-5">
               {[1, 2, 3, 4, 5, 6].map((index) => (
                 <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
               ))}
@@ -92,10 +93,13 @@ export default function HomePage() {
             <div className="title flex items-center gap-2 mb-5">
               <h2 className="text-[24px] font-bold ">Más opciones</h2>
             </div>
-            <div className="cards-wrapper flex flex-wrap gap-5">
+            <div className="cards-wrapper flex flex-wrap justify-center gap-5">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
                 <NightClubCard key={index} onSeeMore={onSeeMore} />
               ))}
+            </div>
+            <div className="grid place-items-center my-[2em]">
+              <Button className="px-[2em]">Cargar más</Button>
             </div>
           </div>
         </WrapperComponent>
@@ -107,7 +111,7 @@ export default function HomePage() {
           height={470}
           alt="Tu plan hoy - logo"
           sizes="10"
-          className="w-full h-auto absolute z-20 object-cover"
+          className="w-full h-full absolute z-20 object-cover"
         />
         <WrapperComponent className="relative flex items-center">
           <>

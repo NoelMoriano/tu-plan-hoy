@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/Button";
 
 export const FormRecomendedForYou = () => {
   return (
-    <div className="w-full max-w-[30em] m-auto absolute z-50">
+    <div className="w-full max-w-[30em] m-auto absolute z-50 px-[1em]">
       <div className="title">
-        <h1 className="text-white text-center text-4xl font-bold mb-9">
+        <h1 className="text-white text-center text-[40px] font-bold mb-9 leading-[1em]">
           ¡Planifica tus noches perfectas en Perú con nuestra guía de
           discotecas!
         </h1>
