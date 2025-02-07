@@ -102,25 +102,22 @@ export const PublicHeaderLayout = () => {
                   Crear anuncio
                 </Button>
                 <Menu>
-                  <MenuButton>
-                    <Button
-                      variant="secondary"
-                      className="w-auto py-[10px] xs:p-[5px] min-w-[53px] md:min-w-[87px] flex justify-center md:grid grid-cols-[1fr,1fr] items-center gap-2"
-                      onClick={() => setIsOpenProfile(!isOpenProfile)}
-                    >
-                      <div className="grid place-items-center">
-                        <Image
-                          src="/images/avatar.webp"
-                          width={29}
-                          height={29}
-                          alt="avatar"
-                          className="rounded-full"
-                        />
-                      </div>
-                      <div className="hidden md:grid place-items-center text-primary font-bold">
-                        <ChevronDown />
-                      </div>
-                    </Button>
+                  <MenuButton
+                    className="w-auto py-[10px] xs:p-[5px] min-w-[53px] md:min-w-[87px] flex justify-center md:grid grid-cols-[1fr,1fr] items-center gap-2 bg-tertiary text-primary hover:bg-tertiary-dark focus-none p-3 rounded-[5px] text-[14px] font-bold cursor-pointer"
+                    onClick={() => setIsOpenProfile(!isOpenProfile)}
+                  >
+                    <div className="grid place-items-center">
+                      <Image
+                        src="/images/avatar.webp"
+                        width={29}
+                        height={29}
+                        alt="avatar"
+                        className="rounded-full"
+                      />
+                    </div>
+                    <div className="hidden md:grid place-items-center text-primary font-bold">
+                      <ChevronDown />
+                    </div>
                   </MenuButton>
                   <MenuItems
                     anchor="bottom end"
