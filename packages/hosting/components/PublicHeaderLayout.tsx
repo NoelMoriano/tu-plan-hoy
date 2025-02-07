@@ -1,14 +1,26 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { InputSearch } from "@/components/ui/InputSearch";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { ChevronDown, MapPin, MenuIcon, SearchIcon, Tags } from "lucide-react";
+import {
+  ChevronDown,
+  LogOutIcon,
+  MapPin,
+  MenuIcon,
+  SearchIcon,
+  Tags,
+} from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { MenuList } from "@/app/data-list/menuList";
 
 export const PublicHeaderLayout = () => {
   const router = useRouter();
+  const [isOpenProfile, setIsOpenProfile] = useState(false);
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
 
@@ -89,23 +101,55 @@ export const PublicHeaderLayout = () => {
                 >
                   Crear anuncio
                 </Button>
-                <Button
-                  variant="secondary"
-                  className="w-auto p-[5px] min-w-[53px] md:min-w-[87px] flex justify-center md:grid grid-cols-[1fr,1fr] items-center gap-2"
-                >
-                  <div className="grid place-items-center">
-                    <Image
-                      src="/images/avatar.webp"
-                      width={29}
-                      height={29}
-                      alt="avatar"
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div className="hidden md:grid place-items-center text-primary font-bold">
-                    <ChevronDown />
-                  </div>
-                </Button>
+                <Menu>
+                  <MenuButton>
+                    <Button
+                      variant="secondary"
+                      className="w-auto py-[10px] xs:p-[5px] min-w-[53px] md:min-w-[87px] flex justify-center md:grid grid-cols-[1fr,1fr] items-center gap-2"
+                      onClick={() => setIsOpenProfile(!isOpenProfile)}
+                    >
+                      <div className="grid place-items-center">
+                        <Image
+                          src="/images/avatar.webp"
+                          width={29}
+                          height={29}
+                          alt="avatar"
+                          className="rounded-full"
+                        />
+                      </div>
+                      <div className="hidden md:grid place-items-center text-primary font-bold">
+                        <ChevronDown />
+                      </div>
+                    </Button>
+                  </MenuButton>
+                  <MenuItems
+                    anchor="bottom end"
+                    className="z-50 p-3 bg-white rounded-[.7em] w-[15em] shadow-black-200 shadow-lg"
+                  >
+                    {MenuList.map((menu, index) => (
+                      <MenuItem key={index}>
+                        <Link
+                          href={menu.url}
+                          className="flex gap-2 data-[focus]:bg-blue-100 p-[.5em] text-primary text-[16px] font-semibold rounded-[.5em]"
+                        >
+                          <span>{menu.icon}</span>
+                          <span>{menu.name}</span>
+                        </Link>
+                      </MenuItem>
+                    ))}
+                    <MenuItem>
+                      <Link
+                        className="flex gap-2 data-[focus]:bg-red-500 p-[.5em] text-primary hover:text-white text-[16px] font-semibold rounded-[.5em]"
+                        href="#"
+                      >
+                        <span>
+                          <LogOutIcon />
+                        </span>
+                        <span>Cerrar sesión</span>
+                      </Link>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
               </>
             )}
             {!authUser && (

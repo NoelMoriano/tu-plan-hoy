@@ -3,25 +3,13 @@
 import React from "react";
 import Image from "next/image";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import {
-  Building2Icon,
-  File,
-  FilesIcon,
-  LockKeyhole,
-  LogOutIcon,
-} from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PersonalInformation } from "@/app/(public)/profile/PersonalInformation";
 import { PrivacyAndSecurity } from "@/app/(public)/profile/PrivacyAndSecure";
 import { MyCompanies } from "@/app/(public)/profile/MyCompanies";
 import { MyAds } from "@/app/(public)/profile/MyAds";
-
-interface Menu {
-  id: string;
-  icon: React.ReactNode;
-  name: string;
-  onClick?: () => void;
-}
+import { MenuList } from "@/app/data-list/menuList";
 
 export default function Profile() {
   const router = useRouter();
@@ -29,33 +17,6 @@ export default function Profile() {
   const typeView = searchParams.get("type") || "personal_information";
 
   const onNavigateGoTo = (pathname: string) => router.push(pathname);
-
-  const MenuList: Menu[] = [
-    {
-      id: "personal_information",
-      icon: <File className="text-primary" />,
-      name: "Información personal",
-      onClick: () => onNavigateGoTo("/profile?type=personal_information"),
-    },
-    {
-      id: "privacy_and_security",
-      icon: <LockKeyhole className="text-primary" />,
-      name: "Privacidad y seguridad",
-      onClick: () => onNavigateGoTo("/profile?type=privacy_and_security"),
-    },
-    {
-      id: "my_companies",
-      icon: <Building2Icon className="text-primary" />,
-      name: "Mis empresas",
-      onClick: () => onNavigateGoTo("/profile?type=my_companies"),
-    },
-    {
-      id: "my_ads",
-      icon: <FilesIcon className="text-primary" />,
-      name: "Mis anuncios",
-      onClick: () => onNavigateGoTo("/profile?type=my_ads"),
-    },
-  ];
 
   const showContent = () => {
     switch (typeView) {
@@ -100,7 +61,7 @@ export default function Profile() {
                     <li
                       key={index}
                       className={`grid grid-cols-[1.5em,1fr] gap-[.5em] cursor-pointer py-1 px-2 hover:bg-tertiary rounded-[6px] ${typeView === menu.id && "bg-tertiary"}`}
-                      onClick={menu.onClick}
+                      onClick={() => onNavigateGoTo(menu.url)}
                     >
                       <div className="grid place-items-center">{menu.icon}</div>
                       <div className="flex justify-start items-center">
