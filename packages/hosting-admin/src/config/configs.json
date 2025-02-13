@@ -12,7 +12,8 @@
     },
     "buckets": {
       "tphUsers": "gs://tph-users",
-      "tphCompanies": "gs://tph-companies"
+      "tphCompanies": "gs://tph-companies",
+      "tphAdvertisements": "gs://tph-advertisements"
     },
     "apiUrl": "https://api-tu-plan-hoy.web.app"
   },
@@ -29,7 +30,8 @@
     },
     "buckets": {
       "tphUsers": "gs://tph-users",
-      "tphCompanies": "gs://tph-companies"
+      "tphCompanies": "gs://tph-companies",
+      "tphAdvertisements": "gs://tph-advertisements"
     },
     "apiUrl": "https://api-tu-plan-hoy.web.app"
   }

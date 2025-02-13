@@ -75,7 +75,7 @@ export const AdvertisementIntegration = () => {
 
       notification({
         type: "success",
-        title: "Anuncio creado exitosamente!",
+        name: "Anuncio creado exitosamente!",
       });
 
       return onGoBack();
@@ -95,10 +95,10 @@ export const AdvertisementIntegration = () => {
       {},
       {
         id: advertisement.id,
+        name: formData.name,
         adImage: formData.adImage,
-        title: formData.title,
+        description: formData.description,
         address: formData.address,
-        overview: formData.overview,
         imageGallery: formData.imageGallery,
         videoGallery: formData.videoGallery,
         company: _company,
@@ -132,11 +132,22 @@ const Advertisement = ({
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
+    name: yup.string().required(),
+    // categories: yup.array().required(),
+    description: yup.string().required(),
+    // additionalInformation: yup.string().required(),
+    // startDate: yup.string().required(),
+    // endDate: yup.string().required(),
+    // startTime: yup.string().required(),
+    // endTime: yup.string().required(),
     adImage: yup.mixed().required(),
-    title: yup.string().required(),
+    // linkVideo: yup.string(),
+    // province: yup.string().required(),
     address: yup.string().required(),
-    overview: yup.string().required(),
+    // reference: yup.string(),
     companyId: yup.string().required(),
+    // termsAndConditions: yup.bool().required(),
+    // receiveNewsAndPromotions: yup.bool().required(),
   });
 
   const {
@@ -156,11 +167,23 @@ const Advertisement = ({
 
   const resetForm = () => {
     reset({
-      adImage: advertisement?.adImage || null,
-      title: advertisement?.title || "",
+      name: advertisement?.name || "",
+      // categories: advertisement?.categories || undefined,
+      description: advertisement?.description || "",
+      // additionalInformation: advertisement?.additionalInformation || "",
+      // startDate: advertisement?.startDate || "",
+      // endDate: advertisement?.endDate || "",
+      // startTime: advertisement?.startTime || "",
+      // endTime: advertisement?.endTime || "",
+      adImage: advertisement?.adImage || undefined,
+      // linkVideo: advertisement?.linkVideo || "",
+      // province: advertisement?.province || "",
       address: advertisement?.address || "",
-      overview: advertisement?.overview || "",
-      companyId: advertisement?.company?.id || "",
+      // reference: advertisement?.reference || "",
+      companyId: advertisement?.company.id || "",
+      // termsAndConditions: advertisement?.termsAndConditions || undefined,
+      // receiveNewsAndPromotions:
+      //   advertisement?.receiveNewsAndPromotions || undefined,
     });
   };
 
@@ -180,11 +203,13 @@ const Advertisement = ({
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Upload
-                    label="Imagen anuncio (500x400)"
+                    label="Imagen anuncio (836x522)"
                     accept="image/*"
                     name={name}
                     value={value}
-                    filePath={`/advertisements/${advertisement.id}`}
+                    bucket="tphAdvertisements"
+                    resize="836x522"
+                    filePath={`/${advertisement.id}`}
                     buttonText="Subir imagen de anuncio"
                     error={error(name)}
                     required={required(name)}
@@ -196,11 +221,11 @@ const Advertisement = ({
             </Col>
             <Col span={24}>
               <Controller
-                name="title"
+                name="name"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Input
-                    label="Titulo"
+                    label="Nombre o Titulo"
                     name={name}
                     value={value}
                     onChange={onChange}
@@ -247,7 +272,7 @@ const Advertisement = ({
             </Col>
             <Col span={24}>
               <Controller
-                name="overview"
+                name="description"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <TextArea
