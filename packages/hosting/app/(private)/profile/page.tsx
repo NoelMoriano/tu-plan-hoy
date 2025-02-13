@@ -5,21 +5,24 @@ import Image from "next/image";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import { LogOutIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { PersonalInformation } from "@/app/(public)/profile/PersonalInformation";
-import { PrivacyAndSecurity } from "@/app/(public)/profile/PrivacyAndSecure";
-import { MyCompanies } from "@/app/(public)/profile/MyCompanies";
-import { MyAds } from "@/app/(public)/profile/MyAds";
+import { PersonalInformation } from "@/app/(private)/profile/PersonalInformation";
+import { PrivacyAndSecurity } from "@/app/(private)/profile/PrivacyAndSecure";
+import { MyCompanies } from "@/app/(private)/profile/MyCompanies";
+import { MyAds } from "@/app/(private)/profile/MyAds";
 import { MenuList } from "@/app/data-list/menuList";
+import { UserProfile } from "@/app/(private)/profile/UserProfile";
 
 export default function Profile() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const typeView = searchParams.get("type") || "personal_information";
+  const typeView = searchParams.get("type") || "default";
 
   const onNavigateGoTo = (pathname: string) => router.push(pathname);
 
   const showContent = () => {
     switch (typeView) {
+      case "default":
+        return <UserProfile />;
       case "personal_information":
         return <PersonalInformation />;
       case "privacy_and_security":
@@ -29,7 +32,7 @@ export default function Profile() {
       case "my_ads":
         return <MyAds />;
       default:
-        return <PersonalInformation />;
+        return <UserProfile />;
     }
   };
 

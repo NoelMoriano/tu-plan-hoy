@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { FormSearchNightClubs } from "@/components/FormSearchNightClubs";
 import { Star } from "lucide-react";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
@@ -10,13 +10,37 @@ import { DiscountAndNews } from "@/components/DiscountAndNews";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
+import axios, { AxiosResponse } from "axios";
+import { currentConfig } from "@/config";
+import { AdvertisementSkeleton } from "@/components/AdvertisementSkeleton";
 
 export default function HomePage() {
   const router = useRouter();
 
-  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
+  const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+  const [isPendingAdvertisements, startTransitionAdvertisements] =
+    useTransition();
 
+  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
   const onSeeMore = () => onNavigateGoTo("/events/aniversario/aniversario-10");
+
+  const fetchAdvertisements = () => {
+    startTransitionAdvertisements(async () => {
+      try {
+        const _advertisements: AxiosResponse<Advertisement[]> = await axios.get<
+          Advertisement[]
+        >(`${currentConfig.apiUrl}/advertisements`);
+
+        setAdvertisements(_advertisements.data);
+      } catch (err) {
+        console.log("ErrorFetchAdvertisements: ", err);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchAdvertisements();
+  }, []);
 
   return (
     <div className="general-wrapper">
@@ -52,9 +76,21 @@ export default function HomePage() {
               <h2 className="text-[32px] font-bold ">Sitios destacados</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap justify-center gap-5">
-              {[1, 2, 3, 4, 5, 6].map((index) => (
-                <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
-              ))}
+              {isPendingAdvertisements ? (
+                <div className="w-full flex justify-center flex-wrap gap-[1em]">
+                  <AdvertisementSkeleton />
+                  <AdvertisementSkeleton />
+                  <AdvertisementSkeleton />
+                </div>
+              ) : (
+                advertisements.map((advertisement, index) => (
+                  <FeaturedSitesCard
+                    key={index}
+                    advertisement={advertisement}
+                    onSeeMore={onSeeMore}
+                  />
+                ))
+              )}
             </div>
           </div>
         </WrapperComponent>
@@ -80,9 +116,21 @@ export default function HomePage() {
               </h2>
             </div>
             <div className="cards-wrapper flex flex-wrap justify-center gap-5">
-              {[1, 2, 3, 4, 5, 6].map((index) => (
-                <FeaturedSitesCard key={index} onSeeMore={onSeeMore} />
-              ))}
+              {isPendingAdvertisements ? (
+                <div className="w-full flex justify-center flex-wrap gap-[1em]">
+                  <AdvertisementSkeleton />
+                  <AdvertisementSkeleton />
+                  <AdvertisementSkeleton />
+                </div>
+              ) : (
+                advertisements.map((advertisement, index) => (
+                  <FeaturedSitesCard
+                    key={index}
+                    advertisement={advertisement}
+                    onSeeMore={onSeeMore}
+                  />
+                ))
+              )}
             </div>
           </div>
         </WrapperComponent>
@@ -94,9 +142,22 @@ export default function HomePage() {
               <h2 className="text-[24px] font-bold ">Más opciones</h2>
             </div>
             <div className="cards-wrapper flex flex-wrap justify-center gap-5">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                <NightClubCard key={index} onSeeMore={onSeeMore} />
-              ))}
+              {isPendingAdvertisements ? (
+                <div className="w-full flex justify-center flex-wrap gap-[1em]">
+                  <AdvertisementSkeleton fontSize="12px" />
+                  <AdvertisementSkeleton fontSize="12px" />
+                  <AdvertisementSkeleton fontSize="12px" />
+                  <AdvertisementSkeleton fontSize="12px" />
+                </div>
+              ) : (
+                advertisements.map((advertisement, index) => (
+                  <NightClubCard
+                    key={index}
+                    advertisement={advertisement}
+                    onSeeMore={onSeeMore}
+                  />
+                ))
+              )}
             </div>
             <div className="grid place-items-center my-[2em]">
               <Button className="px-[2em]">Cargar más</Button>

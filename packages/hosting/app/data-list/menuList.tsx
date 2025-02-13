@@ -1,5 +1,11 @@
 import React from "react";
-import { Building2Icon, File, FilesIcon, LockKeyhole } from "lucide-react";
+import {
+  Building2Icon,
+  File,
+  FilesIcon,
+  LockKeyhole,
+  User,
+} from "lucide-react";
 
 interface Menu {
   id: string;
@@ -9,6 +15,12 @@ interface Menu {
 }
 
 export const MenuList: Menu[] = [
+  {
+    id: "default",
+    icon: <User className="text-primary" />,
+    name: "Perfil",
+    url: "/profile?type=default",
+  },
   {
     id: "personal_information",
     icon: <File className="text-primary" />,
