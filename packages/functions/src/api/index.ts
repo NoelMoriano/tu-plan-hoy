@@ -9,6 +9,7 @@ import {
   postAdvertisement,
   putAdvertisement,
 } from "./advertisements";
+import { getAdvertisements } from "./advertisements/getAdvertisement";
 
 const app: express.Application = express();
 
@@ -40,6 +41,7 @@ app.post(
 app.put("/companies/:companyId", putCompany);
 app.patch("/companies/:companyId", [body("updateBy").exists()], patchCompany);
 
+app.get("/advertisements", getAdvertisements);
 app.post("/advertisement", postAdvertisement);
 app.put("/advertisements/:advertisementId", putAdvertisement);
 app.patch(
