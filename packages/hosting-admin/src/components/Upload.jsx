@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { buckets } from "../firebase/storage.js";
 import {
-  UploadAntd,
-  messageAntd,
   ComponentContainer,
+  messageAntd,
   modalConfirm,
   notification,
+  UploadAntd,
 } from "./ui";
 import styled from "styled-components";
 import {
