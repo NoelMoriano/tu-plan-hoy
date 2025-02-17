@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/Button";
 import axios, { AxiosResponse } from "axios";
 import { currentConfig } from "@/config";
 import { AdvertisementSkeleton } from "@/components/AdvertisementSkeleton";
+import { orderBy } from "lodash";
+import dayjs from "dayjs";
 
 export default function HomePage() {
   const router = useRouter();
@@ -41,6 +43,12 @@ export default function HomePage() {
   useEffect(() => {
     fetchAdvertisements();
   }, []);
+
+  const advertisementsView = orderBy(
+    advertisements,
+    (advertisement) => dayjs.unix(advertisement.createAt._seconds).valueOf(),
+    "desc",
+  );
 
   return (
     <div className="general-wrapper">
@@ -83,7 +91,7 @@ export default function HomePage() {
                   <AdvertisementSkeleton />
                 </div>
               ) : (
-                advertisements.map((advertisement, index) => (
+                advertisementsView.map((advertisement, index) => (
                   <FeaturedSitesCard
                     key={index}
                     advertisement={advertisement}
@@ -123,7 +131,7 @@ export default function HomePage() {
                   <AdvertisementSkeleton />
                 </div>
               ) : (
-                advertisements.map((advertisement, index) => (
+                advertisementsView.map((advertisement, index) => (
                   <FeaturedSitesCard
                     key={index}
                     advertisement={advertisement}
@@ -150,7 +158,7 @@ export default function HomePage() {
                   <AdvertisementSkeleton fontSize="12px" />
                 </div>
               ) : (
-                advertisements.map((advertisement, index) => (
+                advertisementsView.map((advertisement, index) => (
                   <NightClubCard
                     key={index}
                     advertisement={advertisement}

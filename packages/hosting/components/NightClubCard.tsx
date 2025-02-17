@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 import Image from "next/image";
 
 interface Props {
-  advertisement: Advertisement;
+  advertisement?: Advertisement;
   onSeeMore: () => void;
 }
 
@@ -19,14 +19,14 @@ export const NightClubCard = ({ advertisement, onSeeMore }: Props) => {
           }
           width={320}
           height={320}
-          alt={advertisement.title}
+          alt={advertisement?.name || ""}
           className="w-full h-full object-contain rounded-[5px]"
         />
       </div>
       <div className="footer pt-3">
         <div className="title">
           <h3 className="text-primary font-bold text-[20px] leading-[1em]">
-            {advertisement.title}
+            {advertisement?.name}
           </h3>
         </div>
         <div className="price-and-btn flex items-center justify-between">

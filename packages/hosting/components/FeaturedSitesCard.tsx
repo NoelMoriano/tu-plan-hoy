@@ -9,7 +9,7 @@ interface Props {
 
 export const FeaturedSitesCard = ({ advertisement, onSeeMore }: Props) => {
   return (
-    <div className="w-full max-w-[24em] p-3 bg-quaternary rounded-[10px]">
+    <div className="w-full max-w-[24em] space-y-1 p-3 bg-quaternary rounded-[10px]">
       <div className="img">
         <Image
           src={
@@ -17,16 +17,16 @@ export const FeaturedSitesCard = ({ advertisement, onSeeMore }: Props) => {
             advertisement?.adImage?.url ||
             "/images/img-no-found.jpg"
           }
-          width={320}
-          height={320}
-          alt={advertisement.title}
-          className="w-full h-full object-contain rounded-[5px]"
+          width={420}
+          height={420}
+          alt={advertisement.name}
+          className="w-full h-[13em] object-cover rounded-[5px]"
         />
       </div>
-      <div className="footer pt-3">
+      <div className="footer pt-3 space-y-2">
         <div className="title">
           <h3 className="text-primary font-bold text-[24px] leading-[1em]">
-            {advertisement.title}
+            {advertisement.name}
           </h3>
         </div>
         <div className="price-and-btn flex items-center justify-between">

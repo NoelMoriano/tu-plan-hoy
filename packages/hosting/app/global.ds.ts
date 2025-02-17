@@ -65,10 +65,10 @@ interface Company extends DefaultFirestoreProps {
 
 interface Advertisement extends DefaultFirestoreProps {
   id: string;
+  name: string;
   adImage: Image;
-  title: string;
   address: string;
-  overview: string;
+  description: string;
   company: Company;
   user: User;
 }
