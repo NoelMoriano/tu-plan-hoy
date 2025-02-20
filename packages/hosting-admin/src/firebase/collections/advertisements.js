@@ -1,6 +1,7 @@
 import { firestore } from "../index";
 import { fetchDocumentOnce } from "../utils";
 import { setDocument, updateDocument, fetchCollectionOnce } from "../firestore";
+import { firebase } from "../index.js";
 
 export const advertisementsRef = firestore.collection("advertisements");
 

@@ -33,7 +33,7 @@ const Container = styled.fieldset`
 
 const Legend = styled.legend`
   ${({ error, theme, required }) => css`
-    background: ${theme.colors.primary};
+    background: ${theme.colors.tertiary};
     color: ${error ? theme.colors.error : theme.colors.heading};
     border-radius: ${theme.border_radius.small};
     font-size: ${theme.font_sizes.x_small};

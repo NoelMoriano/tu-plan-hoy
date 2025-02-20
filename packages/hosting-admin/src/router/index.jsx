@@ -2,7 +2,9 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import {
   AdvertisementIntegration,
-  Advertisements,
+  AdvertisementsIntegration,
+  CategoriesIntegration,
+  CategoryIntegration,
   Companies,
   CompanyIntegration,
   Login,
@@ -69,7 +71,7 @@ export const Router = () => (
         path="/advertisements"
         element={
           <BaseLayout>
-            <Advertisements />
+            <AdvertisementsIntegration />
           </BaseLayout>
         }
       />
@@ -82,8 +84,26 @@ export const Router = () => (
           </BaseLayout>
         }
       />
+      <Route
+        exact
+        path="/categories"
+        element={
+          <BaseLayout>
+            <CategoriesIntegration />
+          </BaseLayout>
+        }
+      />
+      <Route
+        exact
+        path="/categories/:categoryId"
+        element={
+          <BaseLayout>
+            <CategoryIntegration />
+          </BaseLayout>
+        }
+      />
     </Route>
-
+    {/*PUBLIC ROUTES*/}
     <Route
       exact
       path="/403"

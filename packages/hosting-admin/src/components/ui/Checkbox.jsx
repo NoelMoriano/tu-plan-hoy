@@ -18,7 +18,7 @@ export const Checkbox = ({
     className={classNames({ "scroll-error-anchor": error })}
     checked={checked}
     onChange={(e) => onChange && onChange(e.target.checked)}
-    error={error}
+    error={error ? error.toString() : undefined}
     hidden={hidden}
     required={required}
     data-testid={dataTestId}

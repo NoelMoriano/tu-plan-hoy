@@ -1,320 +1,236 @@
 import React, { useEffect, useState } from "react";
+import Row from "antd/lib/row";
+import Col from "antd/lib/col";
 import { useNavigate, useParams } from "react-router";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  notification,
-  Row,
-  Select,
-  TextArea,
-} from "../../../components/ui";
-import { Upload } from "../../../components";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useFormUtils } from "../../../hooks";
+import Title from "antd/lib/typography/Title";
+import Divider from "antd/lib/divider";
+import { Button, Image, Space, Spinner } from "../../../components/ui";
+import { useDevice } from "../../../hooks";
+import { currentConfig } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
-import { assign, capitalize } from "lodash";
-import { useApiAdvertisementPost, useApiAdvertisementPut } from "../../../api";
-import { Typography } from "antd";
-import { getAdvertisementId } from "../../../firebase/collections";
+import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
+import { isUndefined } from "lodash";
+import { ManageCreateAdvertisement } from "./ManageCreateAdvertisement.jsx";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { advertisementsRef } from "../../../firebase/collections/index.js";
 import {
-  apiErrorNotification,
-  getApiErrorResponse,
-} from "../../../api/apiErrors.js";
-
-const { Title } = Typography;
+  ModalProviderAdvertisement,
+  useModalProduct,
+} from "./ModalProviderAdvertisement.jsx";
+import { AdvertisementDetailView } from "./AdvertisementDetailView.jsx";
+import LiteYouTubeEmbed from "react-lite-youtube-embed";
+import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+import { Flex } from "antd";
+import { ModalContentDetail } from "./ModalContentDetail.jsx";
+import { ModalContentImagenAndVideo } from "./ModalContentImagenAndVideo.jsx";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
   const { advertisementId } = useParams();
-  const { advertisements, companies, users } = useGlobalData();
+  const { isMobile, isTablet } = useDevice();
 
-  const {
-    postAdvertisement,
-    postAdvertisementResponse,
-    postAdvertisementLoading,
-  } = useApiAdvertisementPost();
-  const {
-    putAdvertisement,
-    putAdvertisementResponse,
-    putAdvertisementLoading,
-  } = useApiAdvertisementPut();
+  const { categories = [], companies = [] } = useGlobalData();
 
-  const [advertisement, setAdvertisement] = useState({});
+  const [currentAdvertisement, setCurrentAdvertisement] = useState(null);
 
-  const isNew = advertisementId === "new";
+  const [advertisementFirestore, isLoadingAdvertisement] = useDocumentDataOnce(
+    advertisementId !== "new"
+      ? advertisementsRef.doc(advertisementId)
+      : undefined
+  );
 
   useEffect(() => {
-    const _advertisement = isNew
-      ? { id: getAdvertisementId() }
-      : advertisements.find(
-          (advertisement) => advertisement.id === advertisementId
-        );
+    const _advertisement =
+      advertisementId !== "new" ? advertisementFirestore : null;
 
-    if (!_advertisement) return navigate(-1);
-
-    setAdvertisement(_advertisement);
-  }, []);
-
-  const saveAdvertisement = async (formData) => {
-    try {
-      const _advertisement = mapAdvertisement(formData);
-
-      const response = isNew
-        ? await postAdvertisement(_advertisement)
-        : await putAdvertisement(_advertisement);
-
-      if (
-        isNew ? !postAdvertisementResponse.ok : !putAdvertisementResponse.ok
-      ) {
-        throw new Error(response);
-      }
-
-      notification({
-        type: "success",
-        name: "Anuncio creado exitosamente!",
-      });
-
+    if (!isLoadingAdvertisement && isUndefined(_advertisement))
       return onGoBack();
-    } catch (e) {
-      console.log("saveAdvertisement: ", e);
-      const errorResponse = await getApiErrorResponse(e);
-      apiErrorNotification(errorResponse);
-    }
-  };
 
-  const mapAdvertisement = (formData) => {
-    const _company = companies.find(
-      (company) => company.id === formData.companyId
-    );
+    onSetCurrentAdvertisement(_advertisement);
+  }, [isLoadingAdvertisement, advertisementFirestore]);
 
-    return assign(
-      {},
-      {
-        id: advertisement.id,
-        name: formData.name,
-        adImage: formData.adImage,
-        description: formData.description,
-        address: formData.address,
-        imageGallery: formData.imageGallery,
-        videoGallery: formData.videoGallery,
-        company: _company,
-        user: users.find((user) => user.id === _company.userId),
-      }
-    );
+  const onSetCurrentAdvertisement = (advertisement) =>
+    setCurrentAdvertisement(advertisement);
+
+  const onRedirectToProduct = () => {
+    const url = `${currentConfig.publicHostingUrl}/products/${currentAdvertisement.nameId}`;
+
+    window.open(url, "_blank");
   };
 
   const onGoBack = () => navigate(-1);
 
+  if (isLoadingAdvertisement) return <Spinner height="80vh" />;
+
   return (
-    <Advertisement
-      advertisement={advertisement}
-      companies={companies}
-      onSaveAdvertisement={saveAdvertisement}
-      onGoBack={onGoBack}
-      isSavingAdvertisement={
-        postAdvertisementLoading || putAdvertisementLoading
-      }
-    />
+    <ModalProviderAdvertisement>
+      <Product
+        isMobile={isMobile}
+        isTablet={isTablet}
+        currentAdvertisement={currentAdvertisement}
+        companies={companies}
+        categories={categories}
+        onSetCurrentAdvertisement={onSetCurrentAdvertisement}
+        onRedirectToProduct={onRedirectToProduct}
+        onGoBack={onGoBack}
+      />
+    </ModalProviderAdvertisement>
   );
 };
 
-const Advertisement = ({
-  advertisement,
+const Product = ({
+  isMobile,
+  isTablet,
+  currentAdvertisement,
   companies,
-  onSaveAdvertisement,
+  categories,
+  onSetCurrentAdvertisement,
+  onRedirectToProduct,
   onGoBack,
-  isSavingAdvertisement,
 }) => {
-  const [uploadingImage, setUploadingImage] = useState(false);
+  const { onShowModal, onCloseModal } = useModalProduct();
 
-  const schema = yup.object({
-    name: yup.string().required(),
-    // categories: yup.array().required(),
-    description: yup.string().required(),
-    // additionalInformation: yup.string().required(),
-    // startDate: yup.string().required(),
-    // endDate: yup.string().required(),
-    // startTime: yup.string().required(),
-    // endTime: yup.string().required(),
-    adImage: yup.mixed().required(),
-    // linkVideo: yup.string(),
-    // province: yup.string().required(),
-    address: yup.string().required(),
-    // reference: yup.string(),
-    companyId: yup.string().required(),
-    // termsAndConditions: yup.bool().required(),
-    // receiveNewsAndPromotions: yup.bool().required(),
-  });
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    control,
-    reset,
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const { required, error } = useFormUtils({ errors, schema });
-
-  useEffect(() => {
-    resetForm();
-  }, [advertisement]);
-
-  const resetForm = () => {
-    reset({
-      name: advertisement?.name || "",
-      // categories: advertisement?.categories || undefined,
-      description: advertisement?.description || "",
-      // additionalInformation: advertisement?.additionalInformation || "",
-      // startDate: advertisement?.startDate || "",
-      // endDate: advertisement?.endDate || "",
-      // startTime: advertisement?.startTime || "",
-      // endTime: advertisement?.endTime || "",
-      adImage: advertisement?.adImage || undefined,
-      // linkVideo: advertisement?.linkVideo || "",
-      // province: advertisement?.province || "",
-      address: advertisement?.address || "",
-      // reference: advertisement?.reference || "",
-      companyId: advertisement?.company.id || "",
-      // termsAndConditions: advertisement?.termsAndConditions || undefined,
-      // receiveNewsAndPromotions:
-      //   advertisement?.receiveNewsAndPromotions || undefined,
+  const onShowModalDetail = () => {
+    onShowModal({
+      title: "Datos del anuncio",
+      width: `${isTablet ? "100%" : "50%"}`,
+      centered: false,
+      top: 0,
+      padding: 0,
+      footer: false,
+      onRenderBody: () => (
+        <ModalContentDetail
+          isMobile={isMobile}
+          currentAdvertisement={currentAdvertisement}
+          onSetCurrentAdvertisement={onSetCurrentAdvertisement}
+          categories={categories}
+          companies={companies}
+          onCancel={onCloseModal}
+        />
+      ),
     });
   };
 
-  const submitSaveAdvertisement = (formData) => onSaveAdvertisement(formData);
+  const onShowModalImageAndVideo = () => {
+    onShowModal({
+      title: "Imagen y video",
+      width: `${isTablet ? "100%" : "50%"}`,
+      centered: false,
+      top: 0,
+      padding: 0,
+      footer: false,
+      onRenderBody: () => (
+        <ModalContentImagenAndVideo
+          currentAdvertisement={currentAdvertisement}
+          onSetCurrentAdvertisement={onSetCurrentAdvertisement}
+          onCancel={onCloseModal}
+        />
+      ),
+    });
+  };
+
+  const youTubeGetId = (url) => {
+    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+    return url[2] !== undefined ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+  };
 
   return (
     <Row>
-      <Col span={24}>
-        <Title level={3}>Anuncio</Title>
-      </Col>
-      <Col span={24}>
-        <Form onSubmit={handleSubmit(submitSaveAdvertisement)}>
-          <Row gutter={[16, 16]}>
-            <Col span={24}>
-              <Controller
-                name="adImage"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <Upload
-                    label="Imagen anuncio (836x522)"
-                    accept="image/*"
-                    name={name}
-                    value={value}
-                    bucket="tphAdvertisements"
-                    resize="836x522"
-                    filePath={`/${advertisement.id}`}
-                    buttonText="Subir imagen de anuncio"
-                    error={error(name)}
-                    required={required(name)}
-                    onChange={(file) => onChange(file)}
-                    onUploading={setUploadingImage}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <Input
-                    label="Nombre o Titulo"
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    error={error(name)}
-                    required={required(name)}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="address"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <Input
-                    label="Dirección"
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    error={error(name)}
-                    required={required(name)}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="companyId"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <Select
-                    label="¿A que empresa pertenece el anuncio?"
-                    value={value}
-                    onChange={onChange}
-                    error={error(name)}
-                    required={required(name)}
-                    options={companies.map((company) => ({
-                      label: capitalize(company.commercialName),
-                      value: company.id,
-                    }))}
-                  />
-                )}
-              />
-            </Col>
-            <Col span={24}>
-              <Controller
-                name="description"
-                control={control}
-                render={({ field: { onChange, value, name } }) => (
-                  <TextArea
-                    label="Descripción general"
-                    rows={10}
-                    name={name}
-                    value={value}
-                    onChange={onChange}
-                    error={error(name)}
-                    required={required(name)}
-                  />
-                )}
-              />
-            </Col>
-          </Row>
-          <Row justify="end" gutter={[16, 16]}>
-            <Col xs={24} sm={6} md={4}>
-              <Button
-                type="default"
-                size="large"
-                block
-                onClick={() => onGoBack()}
-                disabled={uploadingImage || isSavingAdvertisement}
-              >
-                Cancelar
+      {currentAdvertisement ? (
+        <>
+          <Col span={24}>
+            <Space align="horizontal">
+              <Title level={3}>
+                {currentAdvertisement?.advertisementSetup?.detail?.name ||
+                  "Producto sin nombre"}
+              </Title>
+              <Button type="primary" onClick={() => onRedirectToProduct()}>
+                <FontAwesomeIcon icon={faEye} />
+                &nbsp; Ver
               </Button>
-            </Col>
-            <Col xs={24} sm={6} md={4}>
-              <Button
-                type="primary"
-                size="large"
-                block
-                htmlType="submit"
-                disabled={uploadingImage}
-                loading={isSavingAdvertisement}
-              >
-                Guardar
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Col>
+            </Space>
+          </Col>
+          <Divider />
+          <Col span={24}>
+            <Row gutter={[16, 16]}>
+              <Col span={20} md={22}>
+                <Title level={4}>Detalle del anuncio</Title>
+              </Col>
+              <Col span={4} md={2}>
+                <Button type="primary" onClick={onShowModalDetail}>
+                  Editar
+                </Button>
+              </Col>
+              <Col span={24}>
+                <AdvertisementDetailView
+                  advertisement={currentAdvertisement}
+                  categories={categories}
+                  companies={companies}
+                />
+              </Col>
+            </Row>
+          </Col>
+          <Divider />
+          <Col span={24}>
+            <Row gutter={[16, 16]}>
+              <Col span={20} md={22}>
+                <Title level={4}>Imagen y video</Title>
+              </Col>
+              <Col span={4} md={2}>
+                <Button type="primary" onClick={onShowModalImageAndVideo}>
+                  Editar
+                </Button>
+              </Col>
+              <Col span={24} sm={12}>
+                <Flex
+                  justify="center"
+                  align="center"
+                  style={{ width: "100%", height: "100%" }}
+                >
+                  <Image
+                    src={
+                      currentAdvertisement?.advertisementSetup?.adImage
+                        ?.thumbUrl ||
+                      currentAdvertisement?.advertisementSetup?.adImage?.url ||
+                      "/avatar.webp"
+                    }
+                    className="ad-img w-full h-full"
+                    alt="Imagen del anuncio"
+                    style={{
+                      objectFit: "contain",
+                      margin: "auto",
+                    }}
+                  />
+                </Flex>
+              </Col>
+              <Col span={24} sm={12}>
+                <div
+                  className="video-card overflow-hidden rounded-[10px]"
+                  style={{ margin: "auto" }}
+                >
+                  <LiteYouTubeEmbed
+                    id={youTubeGetId(
+                      currentAdvertisement?.advertisementSetup?.adVideoUrl
+                    )}
+                    adNetwork={true}
+                    title="La mejor musica en bizarro"
+                    iframeClass="w-full h-full"
+                    poster="maxresdefault"
+                  />
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        </>
+      ) : (
+        <ManageCreateAdvertisement
+          companies={companies}
+          categories={categories}
+          isMobile={isMobile}
+          onGoBack={onGoBack}
+        />
+      )}
     </Row>
   );
 };

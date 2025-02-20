@@ -5,12 +5,14 @@ import { notification, Spinner } from "../components/ui";
 import { orderBy } from "lodash";
 import {
   advertisementsRef,
+  categoriesRef,
   companiesRef,
   usersRef,
 } from "../firebase/collections";
 
 const GlobalDataContext = createContext({
   users: [],
+  categories: [],
   companies: [],
   advertisements: [],
 });
@@ -22,6 +24,11 @@ export const GlobalDataProvider = ({ children }) => {
     authUser ? usersRef.where("isDeleted", "==", false) : null
   );
 
+  const [categories = [], categoriesLoading, categoriesError] =
+    useCollectionData(
+      authUser ? categoriesRef.where("isDeleted", "==", false) : null
+    );
+
   const [companies = [], companiesLoading, companiesError] = useCollectionData(
     authUser ? companiesRef.where("isDeleted", "==", false) : null
   );
@@ -31,8 +38,13 @@ export const GlobalDataProvider = ({ children }) => {
       authUser ? advertisementsRef.where("isDeleted", "==", false) : null
     );
 
-  const error = usersError || companiesError || advertisementsError;
-  const loading = usersLoading || companiesLoading || advertisementsLoading;
+  const error =
+    usersError || categoriesError || companiesError || advertisementsError;
+  const loading =
+    usersLoading ||
+    categoriesLoading ||
+    companiesLoading ||
+    advertisementsLoading;
 
   useEffect(() => {
     error && notification({ type: "error" });
@@ -44,6 +56,9 @@ export const GlobalDataProvider = ({ children }) => {
     <GlobalDataContext.Provider
       value={{
         users: orderBy(users, (user) => [user.createAt], ["desc"]),
+        categories: orderBy(categories, (categories) => [categories.createAt], [
+          "desc",
+        ]),
         companies: orderBy(companies, (company) => [company.createAt], [
           "desc",
         ]),

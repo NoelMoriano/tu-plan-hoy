@@ -58,6 +58,9 @@ export * from "./Select";
 export * from "./Spinner";
 export * from "./TextArea";
 export * from "./TimePicker";
+export * from "./DataEntryModal";
+export * from "./FilterPanel";
+export * from "./Virtual";
 
 export const { Link, Paragraph, Text } = Typography;
 

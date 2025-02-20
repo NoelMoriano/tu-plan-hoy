@@ -10,13 +10,16 @@ export const BreadcrumbLayout = ({ user }) => {
     roles.find((role) => role.roleCode === roleCode);
 
   return (
-    <Breadcrumb style={{ margin: "16px" }}>
-      <Breadcrumb.Item>
-        {capitalize(findRole(user?.roleCode)?.roleName || "User")}
-      </Breadcrumb.Item>
-      {(legend || []).map((legend, index) => (
-        <Breadcrumb.Item key={index}>{capitalize(legend)}</Breadcrumb.Item>
-      ))}
+    <Breadcrumb
+      style={{ margin: "16px" }}
+      items={[
+        {
+          title: capitalize(findRole(user?.roleCode)?.roleName || "User"),
+        },
+        ...(legend || []).map((legend) => ({ title: capitalize(legend) })),
+      ]}
+    >
+      <Breadcrumb.Item></Breadcrumb.Item>
     </Breadcrumb>
   );
 };

@@ -41,6 +41,7 @@ export const theme = {
     primary: "#231473",
     secondary: "#6E3FCB",
     tertiary: "#D7D8FD",
+    quaternary: "#F3F3FF",
 
     success: "#56d66b",
     info: "#0795FF",

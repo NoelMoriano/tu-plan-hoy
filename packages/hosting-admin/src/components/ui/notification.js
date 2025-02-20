@@ -1,4 +1,4 @@
-import { notificationAntd } from "./index.js";
+import { notificationAntd } from "./index";
 
 export const notification = ({
   type,

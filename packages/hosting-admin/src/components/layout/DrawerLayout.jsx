@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { version } from "../../firebase";
 import { useAuthentication } from "../../providers";
 import {
+  faBoxes,
   faBuilding,
   faHome,
   faSignOutAlt,
@@ -39,6 +40,16 @@ export const DrawerLayout = ({
       isVisible: true,
       onClick: () => {
         onNavigateTo("/users");
+        setIsVisibleDrawer(false);
+      },
+    },
+    {
+      label: "Categorias",
+      key: "categories",
+      icon: <FontAwesomeIcon icon={faBoxes} size="lg" />,
+      isVisible: true,
+      onClick: () => {
+        onNavigateTo("/categories");
         setIsVisibleDrawer(false);
       },
     },
@@ -89,7 +100,6 @@ export const DrawerLayout = ({
       onClose={() => setIsVisibleDrawer(!isVisibleDrawer)}
       open={isVisibleDrawer}
       className="drawer-content"
-      bodyStyle={{ padding: "0" }}
     >
       <Menu
         mode="inline"

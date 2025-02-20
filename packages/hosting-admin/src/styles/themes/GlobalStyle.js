@@ -59,7 +59,7 @@ const global = css`
   }
 
   .link-color {
-    color: rgba(49, 138, 255, 0.93);
+    color: ${({ theme }) => theme.colors.secondary};
     cursor: pointer;
   }
 
@@ -77,6 +77,10 @@ const global = css`
 
   .center {
     text-align: center;
+  }
+
+  .white-space {
+    white-space: pre-line;
   }
 `;
 
