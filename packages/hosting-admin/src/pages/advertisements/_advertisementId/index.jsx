@@ -13,18 +13,16 @@ import { isUndefined } from "lodash";
 import { ManageCreateAdvertisement } from "./ManageCreateAdvertisement.jsx";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { advertisementsRef } from "../../../firebase/collections/index.js";
+import { advertisementsRef } from "../../../firebase/collections";
 import {
   ModalProviderAdvertisement,
   useModalProduct,
 } from "./ModalProviderAdvertisement.jsx";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { AdvertisementDetailView } from "./AdvertisementDetail.View.jsx";
-import { AdvertisementDetailModal } from "./AdvertisementDetail.Modal.jsx";
-import { ImageAndVideoModal } from "./ImageAndVideo.Modal.jsx";
-import { UserPermissionsModal } from "./UserPermissions.Modal.jsx";
 import { UserPermissionsView } from "./UserPermissions.View.jsx";
-import { ImageAndVideoView } from "./ImageAndVideo.View.jsx";
+import { AdvertisementDetailModal } from "./AdvertisementDetail.Modal.jsx";
+import { UserPermissionsModal } from "./UserPermissions.Modal.jsx";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
@@ -113,24 +111,6 @@ const Product = ({
     });
   };
 
-  const onShowModalImageAndVideo = () => {
-    onShowModal({
-      title: "Imagen y video",
-      width: `${isTablet ? "100%" : "50%"}`,
-      centered: false,
-      top: 0,
-      padding: 0,
-      footer: false,
-      onRenderBody: () => (
-        <ImageAndVideoModal
-          currentAdvertisement={currentAdvertisement}
-          onSetCurrentAdvertisement={onSetCurrentAdvertisement}
-          onCancel={onCloseModal}
-        />
-      ),
-    });
-  };
-
   const onShowModalPermissions = () => {
     onShowModal({
       title: "Permisos",
@@ -172,13 +152,6 @@ const Product = ({
               categories={categories}
               companies={companies}
               onShowModalDetail={onShowModalDetail}
-            />
-          </Col>
-          <Divider />
-          <Col span={24}>
-            <ImageAndVideoView
-              currentAdvertisement={currentAdvertisement}
-              onShowModalImageAndVideo={onShowModalImageAndVideo}
             />
           </Col>
           <Divider />

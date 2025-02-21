@@ -1,0 +1,17 @@
+[
+  {
+    "id": "suitableForTheGeneralPublic",
+    "value": "Apto para público en general.",
+    "color": "green"
+  },
+  {
+    "id": "suitableForMinorsUnder18YearsOfAgeInTheCompanyOfAnAdult",
+    "value": "Apto para menores de 18 años en compañía de un adulto.",
+    "color": "orange"
+  },
+  {
+    "id": "suitableOnlyForThoseOver18YearsOfAge",
+    "value": "Apto solo para mayores de 18 años.",
+    "color": "red"
+  }
+]

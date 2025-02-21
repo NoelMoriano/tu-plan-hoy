@@ -1,9 +1,8 @@
 import React from "react";
-import Row from "antd/lib/row/index.js";
-import Col from "antd/lib/col/index.js";
-import Title from "antd/lib/typography/Title.js";
-import { Button, ItemPermission } from "../../../components/ui/index.js";
-import { userPermissions } from "../../../data-list/index.js";
+import { Row, Col } from "antd";
+import { Button, ItemPermission } from "../../../components/ui";
+import { userPermissions } from "../../../data-list";
+import Title from "antd/lib/typography/Title";
 
 export const UserPermissionsView = ({
   currentAdvertisement,

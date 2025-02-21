@@ -5,7 +5,7 @@ export const theme = {
     large: "700",
   },
   border_radius: {
-    xx_small: ".3em",
+    xx_small: ".4em",
     x_small: ".5em",
     small: ".6em",
     medium: ".9em",

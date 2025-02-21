@@ -26,7 +26,7 @@ export const Router = () => (
         path="/"
         element={
           <BaseLayout>
-            <Users />
+            <AdvertisementsIntegration />
           </BaseLayout>
         }
       />
