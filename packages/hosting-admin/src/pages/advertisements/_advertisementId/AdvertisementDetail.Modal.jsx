@@ -23,7 +23,7 @@ import { capitalize, isEmpty } from "lodash";
 import { onUpdateAdvertisement } from "./_utils/index.js";
 import dayjs from "dayjs";
 
-export const ModalContentDetail = ({
+export const AdvertisementDetailModal = ({
   isMobile,
   currentAdvertisement,
   categories,

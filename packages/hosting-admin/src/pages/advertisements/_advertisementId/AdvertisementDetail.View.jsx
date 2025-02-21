@@ -3,11 +3,14 @@ import Col from "antd/lib/col";
 import { Space } from "../../../components/ui";
 import { Row, Tag } from "antd";
 import dayjs from "dayjs";
+import Title from "antd/lib/typography/Title.js";
+import { Button } from "../../../components/ui/index.js";
 
 export const AdvertisementDetailView = ({
   advertisement,
   categories,
   companies,
+  onShowModalDetail,
 }) => {
   const { advertisementSetup } = advertisement;
   const { detail } = advertisementSetup;
@@ -22,6 +25,14 @@ export const AdvertisementDetailView = ({
 
   return (
     <Row gutter={[16, 16]}>
+      <Col span={20} md={22}>
+        <Title level={4}>Detalle del anuncio</Title>
+      </Col>
+      <Col span={4} md={2}>
+        <Button type="primary" onClick={onShowModalDetail}>
+          Editar
+        </Button>
+      </Col>
       {detail && (
         <>
           <Col span={24}>

@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { onUpdateAdvertisement } from "./_utils";
 import { userPermissions } from "../../../data-list/index.js";
 
-export const ModalContentPermissions = ({
+export const UserPermissionsModal = ({
   currentAdvertisement,
   onSetCurrentAdvertisement,
   onCancel,

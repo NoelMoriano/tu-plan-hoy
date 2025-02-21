@@ -34,7 +34,7 @@ import { AdvertisementsObservations } from "./AdvertisementsObservations.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useApiUserPatch } from "../../api/index.js";
-import { ModalContentDetail } from "./_advertisementId/ModalContentDetail.jsx";
+import { AdvertisementDetailModal } from "./_advertisementId/AdvertisementDetail.Modal.jsx";
 
 const { Title } = Typography;
 
@@ -386,7 +386,7 @@ const Products = ({
           visible={isVisibleProductEdit}
           onCancel={() => onSetIsVisibleProductEdit(false)}
         >
-          <ModalContentDetail
+          <AdvertisementDetailModal
             key={isVisibleProductEdit}
             isMobile={isMobile}
             currentAdvertisement={currentAdvertisement}

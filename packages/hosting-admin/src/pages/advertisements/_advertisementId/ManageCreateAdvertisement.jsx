@@ -84,6 +84,7 @@ export const ManageCreateAdvertisement = ({
       searchData: [...formData?.categoryIds, formData?.companyId],
       advertisementSetup: {
         adImage: formData?.adImage || null,
+        adVideoUrl: formData?.adVideoUrl || null,
         detail: {
           name: formData.name,
           companyId: formData.companyId,

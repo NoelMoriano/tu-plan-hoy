@@ -4,7 +4,7 @@ import Col from "antd/lib/col";
 import { useNavigate, useParams } from "react-router";
 import Title from "antd/lib/typography/Title";
 import Divider from "antd/lib/divider";
-import { Button, Image, Space, Spinner } from "../../../components/ui";
+import { Button, Space, Spinner } from "../../../components/ui";
 import { useDevice } from "../../../hooks";
 import { currentConfig } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
@@ -18,15 +18,13 @@ import {
   ModalProviderAdvertisement,
   useModalProduct,
 } from "./ModalProviderAdvertisement.jsx";
-import { AdvertisementDetailView } from "./AdvertisementDetailView.jsx";
-import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { Flex } from "antd";
-import { ModalContentDetail } from "./ModalContentDetail.jsx";
-import { ModalContentImagenAndVideo } from "./ModalContentImagenAndVideo.jsx";
-import { ModalContentPermissions } from "./ModalContentPermissions.jsx";
-import { UserPermissionsComponent } from "./UserPermissionsView.jsx";
-import { youTubeGetId } from "../../../utils/index.js";
+import { AdvertisementDetailView } from "./AdvertisementDetail.View.jsx";
+import { AdvertisementDetailModal } from "./AdvertisementDetail.Modal.jsx";
+import { ImageAndVideoModal } from "./ImageAndVideo.Modal.jsx";
+import { UserPermissionsModal } from "./UserPermissions.Modal.jsx";
+import { UserPermissionsView } from "./UserPermissions.View.jsx";
+import { ImageAndVideoView } from "./ImageAndVideo.View.jsx";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
@@ -103,7 +101,7 @@ const Product = ({
       padding: 0,
       footer: false,
       onRenderBody: () => (
-        <ModalContentDetail
+        <AdvertisementDetailModal
           isMobile={isMobile}
           currentAdvertisement={currentAdvertisement}
           onSetCurrentAdvertisement={onSetCurrentAdvertisement}
@@ -124,7 +122,7 @@ const Product = ({
       padding: 0,
       footer: false,
       onRenderBody: () => (
-        <ModalContentImagenAndVideo
+        <ImageAndVideoModal
           currentAdvertisement={currentAdvertisement}
           onSetCurrentAdvertisement={onSetCurrentAdvertisement}
           onCancel={onCloseModal}
@@ -142,7 +140,7 @@ const Product = ({
       padding: 0,
       footer: false,
       onRenderBody: () => (
-        <ModalContentPermissions
+        <UserPermissionsModal
           currentAdvertisement={currentAdvertisement}
           onSetCurrentAdvertisement={onSetCurrentAdvertisement}
           onCancel={onCloseModal}
@@ -169,80 +167,26 @@ const Product = ({
           </Col>
           <Divider />
           <Col span={24}>
-            <Row gutter={[16, 16]}>
-              <Col span={20} md={22}>
-                <Title level={4}>Detalle del anuncio</Title>
-              </Col>
-              <Col span={4} md={2}>
-                <Button type="primary" onClick={onShowModalDetail}>
-                  Editar
-                </Button>
-              </Col>
-              <Col span={24}>
-                <AdvertisementDetailView
-                  advertisement={currentAdvertisement}
-                  categories={categories}
-                  companies={companies}
-                />
-              </Col>
-            </Row>
+            <AdvertisementDetailView
+              advertisement={currentAdvertisement}
+              categories={categories}
+              companies={companies}
+              onShowModalDetail={onShowModalDetail}
+            />
           </Col>
           <Divider />
           <Col span={24}>
-            <Row gutter={[16, 16]}>
-              <Col span={20} md={22}>
-                <Title level={4}>Imagen y video</Title>
-              </Col>
-              <Col span={4} md={2}>
-                <Button type="primary" onClick={onShowModalImageAndVideo}>
-                  Editar
-                </Button>
-              </Col>
-              <Col span={24} sm={12}>
-                <Flex
-                  justify="center"
-                  align="center"
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  <Image
-                    src={
-                      currentAdvertisement?.advertisementSetup?.adImage
-                        ?.thumbUrl ||
-                      currentAdvertisement?.advertisementSetup?.adImage?.url ||
-                      "/avatar.webp"
-                    }
-                    className="ad-img w-full h-full"
-                    alt="Imagen del anuncio"
-                    style={{
-                      objectFit: "contain",
-                      margin: "auto",
-                    }}
-                  />
-                </Flex>
-              </Col>
-              <Col span={24} sm={12}>
-                <div
-                  className="video-card overflow-hidden rounded-[10px]"
-                  style={{ margin: "auto" }}
-                >
-                  <LiteYouTubeEmbed
-                    id={youTubeGetId(
-                      currentAdvertisement?.advertisementSetup?.adVideoUrl
-                    )}
-                    adNetwork={true}
-                    title="La mejor musica en bizarro"
-                    iframeClass="w-full h-full"
-                    poster="maxresdefault"
-                  />
-                </div>
-              </Col>
-              <Divider />
-              <UserPermissionsComponent
-                isTablet={isTablet}
-                currentAdvertisement={currentAdvertisement}
-                onShowModalPermissions={onShowModalPermissions}
-              />
-            </Row>
+            <ImageAndVideoView
+              currentAdvertisement={currentAdvertisement}
+              onShowModalImageAndVideo={onShowModalImageAndVideo}
+            />
+          </Col>
+          <Divider />
+          <Col span={24}>
+            <UserPermissionsView
+              currentAdvertisement={currentAdvertisement}
+              onShowModalPermissions={onShowModalPermissions}
+            />
           </Col>
         </>
       ) : (

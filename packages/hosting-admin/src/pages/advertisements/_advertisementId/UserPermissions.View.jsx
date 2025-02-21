@@ -5,7 +5,7 @@ import Title from "antd/lib/typography/Title.js";
 import { Button, ItemPermission } from "../../../components/ui/index.js";
 import { userPermissions } from "../../../data-list/index.js";
 
-export const UserPermissionsComponent = ({
+export const UserPermissionsView = ({
   currentAdvertisement,
   onShowModalPermissions,
 }) => {

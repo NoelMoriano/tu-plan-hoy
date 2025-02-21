@@ -15,7 +15,7 @@ import styled from "styled-components";
 import { onUpdateAdvertisement } from "./_utils";
 import { Upload } from "../../../components";
 
-export const ModalContentImagenAndVideo = ({
+export const ImageAndVideoModal = ({
   currentAdvertisement,
   onSetCurrentAdvertisement,
   onCancel,
