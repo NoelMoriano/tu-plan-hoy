@@ -1,5 +1,6 @@
-import roles from "./roles.json";
-import genders from "./genders.json";
-import { countriesISO } from "./countriesISO.js";
+import roles from "./roles";
+import genders from "./genders";
+import { countriesISO } from "./countriesISO";
+import { userPermissions } from "./userPermissions";
 
-export { roles, genders, countriesISO };
+export { roles, genders, countriesISO, userPermissions };

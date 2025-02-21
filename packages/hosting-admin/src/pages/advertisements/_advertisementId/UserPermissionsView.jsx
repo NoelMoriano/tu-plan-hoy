@@ -1,0 +1,42 @@
+import React from "react";
+import Row from "antd/lib/row/index.js";
+import Col from "antd/lib/col/index.js";
+import Title from "antd/lib/typography/Title.js";
+import { Button, ItemPermission } from "../../../components/ui/index.js";
+import { userPermissions } from "../../../data-list/index.js";
+
+export const UserPermissionsComponent = ({
+  currentAdvertisement,
+  onShowModalPermissions,
+}) => {
+  const userPermissionsView = userPermissions.map((userPermission) => ({
+    id: userPermission.id,
+    value:
+      !!currentAdvertisement?.advertisementSetup?.permissions?.[
+        userPermission?.id
+      ],
+    label: userPermission.label,
+  }));
+
+  return (
+    <Col span={24}>
+      <Row gutter={[16, 16]}>
+        <Col span={20} md={22}>
+          <Title level={4}>Permisos</Title>
+        </Col>
+        <Col span={4} md={2}>
+          <Button type="primary" onClick={onShowModalPermissions}>
+            Editar
+          </Button>
+        </Col>
+        <Col span={24}>
+          {userPermissionsView.map((userPermission) => (
+            <ItemPermission condition={userPermission.value}>
+              {userPermission.label}
+            </ItemPermission>
+          ))}
+        </Col>
+      </Row>
+    </Col>
+  );
+};

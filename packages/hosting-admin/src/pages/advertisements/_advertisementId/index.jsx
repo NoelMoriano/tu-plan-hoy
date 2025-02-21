@@ -24,6 +24,9 @@ import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { Flex } from "antd";
 import { ModalContentDetail } from "./ModalContentDetail.jsx";
 import { ModalContentImagenAndVideo } from "./ModalContentImagenAndVideo.jsx";
+import { ModalContentPermissions } from "./ModalContentPermissions.jsx";
+import { UserPermissionsComponent } from "./UserPermissionsView.jsx";
+import { youTubeGetId } from "../../../utils/index.js";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
@@ -130,9 +133,22 @@ const Product = ({
     });
   };
 
-  const youTubeGetId = (url) => {
-    url = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
-    return url[2] !== undefined ? url[2].split(/[^0-9a-z_\-]/i)[0] : url[0];
+  const onShowModalPermissions = () => {
+    onShowModal({
+      title: "Permisos",
+      width: `${isTablet ? "100%" : "50%"}`,
+      centered: false,
+      top: 0,
+      padding: 0,
+      footer: false,
+      onRenderBody: () => (
+        <ModalContentPermissions
+          currentAdvertisement={currentAdvertisement}
+          onSetCurrentAdvertisement={onSetCurrentAdvertisement}
+          onCancel={onCloseModal}
+        />
+      ),
+    });
   };
 
   return (
@@ -220,6 +236,12 @@ const Product = ({
                   />
                 </div>
               </Col>
+              <Divider />
+              <UserPermissionsComponent
+                isTablet={isTablet}
+                currentAdvertisement={currentAdvertisement}
+                onShowModalPermissions={onShowModalPermissions}
+              />
             </Row>
           </Col>
         </>

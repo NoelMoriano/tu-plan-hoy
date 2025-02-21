@@ -61,6 +61,7 @@ export * from "./TimePicker";
 export * from "./DataEntryModal";
 export * from "./FilterPanel";
 export * from "./Virtual";
+export * from "./ItemPermision";
 
 export const { Link, Paragraph, Text } = Typography;
 

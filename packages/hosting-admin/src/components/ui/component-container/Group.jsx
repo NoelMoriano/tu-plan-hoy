@@ -26,8 +26,8 @@ export const Group = ({ label, required, error, helperText, children }) => (
 const Container = styled.fieldset`
   border-radius: ${({ theme }) => theme.border_radius.x_small};
   border: solid 1px
-    ${({ error, theme }) => (error ? theme.colors.error : theme.colors.gray2)};
-  padding: 0.3em 1em;
+    ${({ error, theme }) => (error ? theme.colors.error : theme.colors.gray)};
+  padding: 0.3em 0.7em 1em 0.7em;
   margin-top: -7px;
 `;
 
