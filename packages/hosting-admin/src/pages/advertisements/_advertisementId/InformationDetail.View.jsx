@@ -1,14 +1,13 @@
 import React from "react";
-import { Space } from "../../../components/ui";
-import { Flex, Row, Col, Tag } from "antd";
+import { Button, Image, Space } from "../../../components/ui";
+import { Col, Row, Tag } from "antd";
 import dayjs from "dayjs";
 import Title from "antd/lib/typography/Title";
-import { Button, Image } from "../../../components/ui";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import { youTubeGetId } from "../../../utils";
-import { restrictions, userPermissions } from "../../../data-list/index.js";
+import { restrictions } from "../../../data-list/index.js";
 
-export const AdvertisementDetailView = ({
+export const InformationDetailView = ({
   advertisement,
   categories,
   companies,

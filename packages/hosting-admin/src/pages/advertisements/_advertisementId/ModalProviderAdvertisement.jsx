@@ -47,7 +47,7 @@ export const ModalProviderAdvertisement = ({ children, dataSource }) => {
   );
 };
 
-export const useModalProduct = () => useContext(ModalContext);
+export const useModalAdvertisement = () => useContext(ModalContext);
 
 const ModalContainer = styled(Modal)`
   top: 0 !important;

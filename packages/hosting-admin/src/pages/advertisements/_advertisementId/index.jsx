@@ -16,13 +16,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { advertisementsRef } from "../../../firebase/collections";
 import {
   ModalProviderAdvertisement,
-  useModalProduct,
+  useModalAdvertisement,
 } from "./ModalProviderAdvertisement.jsx";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { AdvertisementDetailView } from "./AdvertisementDetail.View.jsx";
-import { UserPermissionsView } from "./UserPermissions.View.jsx";
-import { AdvertisementDetailModal } from "./AdvertisementDetail.Modal.jsx";
-import { UserPermissionsModal } from "./UserPermissions.Modal.jsx";
+import { InformationDetailView } from "./InformationDetail.View.jsx";
+import { PermissionsView } from "./Permissions.View.jsx";
+import { InformationDetailModal } from "./informationDetail.Modal.jsx";
+import { PermissionsModal } from "./Permissions.Modal.jsx";
+import { LocationView } from "./Location.View.jsx";
+import { LocationModal } from "./Location.Modal.jsx";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
@@ -52,8 +54,8 @@ export const AdvertisementIntegration = () => {
   const onSetCurrentAdvertisement = (advertisement) =>
     setCurrentAdvertisement(advertisement);
 
-  const onRedirectToProduct = () => {
-    const url = `${currentConfig.publicHostingUrl}/products/${currentAdvertisement.nameId}`;
+  const onRedirectToAdvertisement = () => {
+    const url = `${currentConfig.publicHostingUrl}/ads/${currentAdvertisement.nameId}`;
 
     window.open(url, "_blank");
   };
@@ -64,42 +66,38 @@ export const AdvertisementIntegration = () => {
 
   return (
     <ModalProviderAdvertisement>
-      <Product
+      <Advertisement
         isMobile={isMobile}
         isTablet={isTablet}
         currentAdvertisement={currentAdvertisement}
         companies={companies}
         categories={categories}
         onSetCurrentAdvertisement={onSetCurrentAdvertisement}
-        onRedirectToProduct={onRedirectToProduct}
+        onRedirectToAdvertisement={onRedirectToAdvertisement}
         onGoBack={onGoBack}
       />
     </ModalProviderAdvertisement>
   );
 };
 
-const Product = ({
+const Advertisement = ({
   isMobile,
   isTablet,
   currentAdvertisement,
   companies,
   categories,
   onSetCurrentAdvertisement,
-  onRedirectToProduct,
+  onRedirectToAdvertisement,
   onGoBack,
 }) => {
-  const { onShowModal, onCloseModal } = useModalProduct();
+  const { onShowModal, onCloseModal } = useModalAdvertisement();
 
   const onShowModalDetail = () => {
     onShowModal({
       title: "Datos del anuncio",
       width: `${isTablet ? "100%" : "50%"}`,
-      centered: false,
-      top: 0,
-      padding: 0,
-      footer: false,
       onRenderBody: () => (
-        <AdvertisementDetailModal
+        <InformationDetailModal
           isMobile={isMobile}
           currentAdvertisement={currentAdvertisement}
           onSetCurrentAdvertisement={onSetCurrentAdvertisement}
@@ -115,12 +113,22 @@ const Product = ({
     onShowModal({
       title: "Permisos",
       width: `${isTablet ? "100%" : "50%"}`,
-      centered: false,
-      top: 0,
-      padding: 0,
-      footer: false,
       onRenderBody: () => (
-        <UserPermissionsModal
+        <PermissionsModal
+          currentAdvertisement={currentAdvertisement}
+          onSetCurrentAdvertisement={onSetCurrentAdvertisement}
+          onCancel={onCloseModal}
+        />
+      ),
+    });
+  };
+
+  const onShowModalLocation = () => {
+    onShowModal({
+      title: "Ubicación",
+      width: `${isTablet ? "100%" : "50%"}`,
+      onRenderBody: () => (
+        <LocationModal
           currentAdvertisement={currentAdvertisement}
           onSetCurrentAdvertisement={onSetCurrentAdvertisement}
           onCancel={onCloseModal}
@@ -137,9 +145,12 @@ const Product = ({
             <Space align="horizontal">
               <Title level={3}>
                 {currentAdvertisement?.advertisementSetup?.detail?.name ||
-                  "Producto sin nombre"}
+                  "Anuncio sin nombre"}
               </Title>
-              <Button type="primary" onClick={() => onRedirectToProduct()}>
+              <Button
+                type="primary"
+                onClick={() => onRedirectToAdvertisement()}
+              >
                 <FontAwesomeIcon icon={faEye} />
                 &nbsp; Ver
               </Button>
@@ -147,7 +158,7 @@ const Product = ({
           </Col>
           <Divider />
           <Col span={24}>
-            <AdvertisementDetailView
+            <InformationDetailView
               advertisement={currentAdvertisement}
               categories={categories}
               companies={companies}
@@ -156,9 +167,16 @@ const Product = ({
           </Col>
           <Divider />
           <Col span={24}>
-            <UserPermissionsView
+            <PermissionsView
               currentAdvertisement={currentAdvertisement}
               onShowModalPermissions={onShowModalPermissions}
+            />
+          </Col>
+          <Divider />
+          <Col span={24}>
+            <LocationView
+              currentAdvertisement={currentAdvertisement}
+              onShowModalLocation={onShowModalLocation}
             />
           </Col>
         </>

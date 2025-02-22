@@ -26,7 +26,7 @@ import dayjs from "dayjs";
 import { Upload } from "../../../components/index.js";
 import { restrictions } from "../../../data-list/index.js";
 
-export const AdvertisementDetailModal = ({
+export const InformationDetailModal = ({
   isMobile,
   currentAdvertisement,
   categories,

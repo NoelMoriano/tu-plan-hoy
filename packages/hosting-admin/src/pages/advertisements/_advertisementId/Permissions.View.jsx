@@ -4,7 +4,7 @@ import { Button, ItemPermission } from "../../../components/ui";
 import { userPermissions } from "../../../data-list";
 import Title from "antd/lib/typography/Title";
 
-export const UserPermissionsView = ({
+export const PermissionsView = ({
   currentAdvertisement,
   onShowModalPermissions,
 }) => {
