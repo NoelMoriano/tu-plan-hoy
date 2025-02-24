@@ -120,7 +120,7 @@ export const AdvertisementsIntegration = () => {
 
         notification({
           type: "success",
-          title: "¡Productos activados con éxito!",
+          title: "¡Anuncios activados con éxito!",
         });
       }
 
