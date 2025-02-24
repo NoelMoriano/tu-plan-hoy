@@ -25,7 +25,7 @@ export const patchAdvertisement = async (
   });
 
   try {
-    await updateAdvertisement(advertisementId, { updateBy });
+    await updateAdvertisement(advertisementId, { isDeleted: true, updateBy });
 
     res.sendStatus(200).end();
   } catch (error) {

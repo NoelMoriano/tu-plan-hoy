@@ -10,21 +10,19 @@ import {
   Select,
   TextArea,
   TimePicker,
-} from "../../../components/ui/index.js";
+} from "../../../components/ui";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  useDefaultFirestoreProps,
-  useFormUtils,
-} from "../../../hooks/index.js";
+import { useDefaultFirestoreProps, useFormUtils } from "../../../hooks";
 import styled from "styled-components";
-import { capitalize, isEmpty } from "lodash";
-import { onUpdateAdvertisement } from "./_utils/index.js";
+import { capitalize, isEmpty, toLower } from "lodash";
+import { onUpdateAdvertisement } from "./_utils";
 import dayjs from "dayjs";
-import { Upload } from "../../../components/index.js";
-import { restrictions } from "../../../data-list/index.js";
+import { Upload } from "../../../components";
+import { restrictions } from "../../../data-list";
+import { getNameId } from "../../../utils/index.js";
 
 export const InformationDetailModal = ({
   isMobile,
@@ -112,6 +110,12 @@ export const InformationDetailModal = ({
 
         const currentAdvertisement_ = {
           ...currentAdvertisement,
+          nameId: getNameId(formData.name),
+          searchData: [
+            ...formData?.categoryIds,
+            formData?.companyId,
+            toLower(formData.name),
+          ],
           advertisementSetup: {
             ...currentAdvertisement.advertisementSetup,
             adImage: formData.adImage,

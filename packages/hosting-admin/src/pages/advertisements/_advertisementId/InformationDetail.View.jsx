@@ -87,10 +87,12 @@ export const InformationDetailView = ({
               <span>Descripción: </span> <br />
               <p className="white-space">{detail.description}</p>
             </div>
-            <div className="white-space">
-              <span>Restricción: </span>
-              <Tag color={restriction.color}>{restriction?.value}</Tag>
-            </div>
+            {restriction && (
+              <div className="white-space">
+                <span>Restricción: </span>
+                <Tag color={restriction?.color}>{restriction?.value}</Tag>
+              </div>
+            )}
           </Space>
         </Col>
       )}
@@ -125,7 +127,11 @@ export const InformationDetailView = ({
             }}
           >
             <LiteYouTubeEmbed
-              id={youTubeGetId(advertisementSetup?.adVideoUrl)}
+              id={
+                advertisementSetup?.adVideoUrl
+                  ? youTubeGetId(advertisementSetup.adVideoUrl)
+                  : ""
+              }
               adNetwork={true}
               title="La mejor musica en bizarro"
               iframeClass="w-full h-full"

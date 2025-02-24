@@ -15,7 +15,7 @@ import { useDefaultFirestoreProps, useFormUtils } from "../../../hooks";
 import styled from "styled-components";
 import { onSaveAdvertisement } from "./_utils";
 import { getAdvertisementId } from "../../../firebase/collections";
-import { capitalize } from "lodash";
+import { capitalize, toLower, uniq } from "lodash";
 import { useNavigate } from "react-router";
 import { getNameId } from "../../../utils";
 import Title from "antd/lib/typography/Title";
@@ -52,6 +52,8 @@ export const ManageCreateAdvertisement = ({
     resolver: yupResolver(schema),
   });
 
+  console.log("errors: ", errors);
+
   const { required, error, errorMessage } = useFormUtils({
     errors,
     schema,
@@ -81,7 +83,11 @@ export const ManageCreateAdvertisement = ({
       active: false,
       id: getAdvertisementId(),
       nameId: getNameId(formData.name),
-      searchData: [...formData?.categoryIds, formData?.companyId],
+      searchData: uniq([
+        ...formData?.categoryIds,
+        formData?.companyId,
+        toLower(formData.name),
+      ]),
       advertisementSetup: {
         adImage: formData?.adImage || null,
         adVideoUrl: formData?.adVideoUrl || null,

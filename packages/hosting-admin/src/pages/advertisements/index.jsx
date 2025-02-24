@@ -33,7 +33,7 @@ import styled from "styled-components";
 import { AdvertisementsObservations } from "./AdvertisementsObservations.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useApiUserPatch } from "../../api/index.js";
+import { useApiAdvertisementPatch } from "../../api";
 import { InformationDetailModal } from "./_advertisementId/informationDetail.Modal.jsx";
 
 const { Title } = Typography;
@@ -47,7 +47,8 @@ export const AdvertisementsIntegration = () => {
   const { authUser } = useAuthentication();
   const { categories, advertisements, companies, users } = useGlobalData();
 
-  const { patchUser, patchUserResponse } = useApiUserPatch();
+  const { patchAdvertisement, patchAdvertisementResponse } =
+    useApiAdvertisementPatch();
 
   const [state, setState] = useQueryString("state", "all");
   const [name, setName] = useQueryString("name", "");
@@ -73,9 +74,9 @@ export const AdvertisementsIntegration = () => {
       updateBy: authUser?.email,
     });
 
-    await patchUser(_advertisement);
+    await patchAdvertisement(_advertisement);
 
-    if (!patchUserResponse.ok)
+    if (!patchAdvertisementResponse.ok)
       return notification({
         type: "error",
       });
@@ -98,9 +99,7 @@ export const AdvertisementsIntegration = () => {
   const onDeleteAdvertisement = (advertisement) =>
     modalConfirm({
       content: "El anuncio se eliminara",
-      onOk: async () => {
-        await deleteAdvertisement(advertisement);
-      },
+      onOk: async () => await deleteAdvertisement(advertisement),
     });
 
   const onSetSelectedProducts = (products) => setSelectedProducts(products);
