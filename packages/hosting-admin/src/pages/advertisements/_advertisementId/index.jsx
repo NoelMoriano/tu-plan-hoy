@@ -10,7 +10,7 @@ import { currentConfig } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
 import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import { isUndefined } from "lodash";
-import { ManageCreateAdvertisement } from "./ManageCreateAdvertisement.jsx";
+import { CreateNewAdvertisement } from "./CreateNewAdvertisement.jsx";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { advertisementsRef } from "../../../firebase/collections";
@@ -25,6 +25,7 @@ import { InformationDetailModal } from "./informationDetail.Modal.jsx";
 import { PermissionsModal } from "./Permissions.Modal.jsx";
 import { LocationView } from "./Location.View.jsx";
 import { LocationModal } from "./Location.Modal.jsx";
+import { Tag } from "antd";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
@@ -142,8 +143,19 @@ const Advertisement = ({
       {currentAdvertisement ? (
         <>
           <Col span={24}>
-            <Space align="horizontal">
-              <Title level={3}>
+            <Space
+              align="horizontal"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <div>
+                <Tag
+                  color={currentAdvertisement?.active ? "green" : "red"}
+                  style={{ margin: "auto" }}
+                >
+                  {currentAdvertisement?.active ? "Activado" : "Desactivado"}
+                </Tag>
+              </div>
+              <Title level={3} style={{ margin: "auto" }}>
                 {currentAdvertisement?.advertisementSetup?.detail?.name ||
                   "Anuncio sin nombre"}
               </Title>
@@ -181,7 +193,7 @@ const Advertisement = ({
           </Col>
         </>
       ) : (
-        <ManageCreateAdvertisement
+        <CreateNewAdvertisement
           companies={companies}
           categories={categories}
           isMobile={isMobile}

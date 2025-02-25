@@ -20,7 +20,7 @@ import { useNavigate } from "react-router";
 import { getNameId } from "../../../utils";
 import Title from "antd/lib/typography/Title";
 
-export const ManageCreateAdvertisement = ({
+export const CreateNewAdvertisement = ({
   categories = [],
   companies = [],
   isMobile,
