@@ -4,7 +4,7 @@ import Col from "antd/lib/col";
 import { useNavigate, useParams } from "react-router";
 import Title from "antd/lib/typography/Title";
 import Divider from "antd/lib/divider";
-import { Button, Space, Spinner } from "../../../components/ui";
+import { Button, Space, Spinner, Tag } from "../../../components/ui";
 import { useDevice } from "../../../hooks";
 import { currentConfig } from "../../../firebase";
 import { useGlobalData } from "../../../providers";
@@ -25,7 +25,6 @@ import { InformationDetailModal } from "./informationDetail.Modal.jsx";
 import { PermissionsModal } from "./Permissions.Modal.jsx";
 import { LocationView } from "./Location.View.jsx";
 import { LocationModal } from "./Location.Modal.jsx";
-import { Tag } from "antd";
 
 export const AdvertisementIntegration = () => {
   const navigate = useNavigate();
