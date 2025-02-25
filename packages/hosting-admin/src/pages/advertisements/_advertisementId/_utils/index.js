@@ -6,9 +6,9 @@ import {
   advertisementsRef,
 } from "../../../../firebase/collections/index.js";
 
-export const onSaveAdvertisement = async (productId, product) => {
+export const onSaveAdvertisement = async (advertisementId, advertisement) => {
   try {
-    await addAdvertisement(product);
+    await addAdvertisement(advertisement);
 
     notification({
       type: "success",
@@ -19,11 +19,11 @@ export const onSaveAdvertisement = async (productId, product) => {
   }
 };
 
-export const onUpdateAdvertisement = (productId, product) => {
+export const onUpdateAdvertisement = (advertisementId, advertisement) => {
   try {
     const batch = firestore.batch();
 
-    batch.update(advertisementsRef.doc(productId), product);
+    batch.update(advertisementsRef.doc(advertisementId), advertisement);
 
     batch.commit();
 
@@ -48,61 +48,64 @@ export const onDeleteFieldAdvertisement = async (
 };
 
 export const deactivateAdvertisementAndDeleteSearchBatch = (
-  products,
+  advertisements,
   batch
 ) => {
-  products.map((product) =>
-    batch.update(advertisementsRef.doc(product.id), {
-      active: true,
+  advertisements.map((advertisement) =>
+    batch.update(advertisementsRef.doc(advertisement.id), {
+      active: false,
     })
   );
 
-  products.map((product) =>
-    batch.delete(firestore.collection("_search").doc(product.id))
+  advertisements.map((advertisement) =>
+    batch.delete(firestore.collection("_search").doc(advertisement.id))
   );
 };
 
-export const onDeactivateAdvertisementsBatch = (products) => {
+export const onDeactivateAdvertisementsBatch = (advertisements) => {
   const batch = firestore.batch();
 
-  deactivateAdvertisementAndDeleteSearchBatch(products, batch);
+  deactivateAdvertisementAndDeleteSearchBatch(advertisements, batch);
 
   batch.commit();
 };
 
-export const onActivateAdvertisementsBatch = (products) => {
+export const onActivateAdvertisementsBatch = (advertisements) => {
   const batch = firestore.batch();
 
-  activeAdvertisementAndSaveSearchBatch(products, batch);
+  activeAdvertisementAndSaveSearchBatch(advertisements, batch);
 
   batch.commit();
 };
 
-export const activeAdvertisementAndSaveSearchBatch = (products, batch) => {
-  products.map((product) =>
-    batch.update(advertisementsRef.doc(product.id), {
+export const activeAdvertisementAndSaveSearchBatch = (
+  advertisements,
+  batch
+) => {
+  advertisements.map((advertisement) =>
+    batch.update(advertisementsRef.doc(advertisement.id), {
       active: true,
     })
   );
 
-  products.map((product) =>
+  advertisements.map((advertisement) =>
     batch.set(
-      firestore.collection("_search").doc(product.id),
-      mapSearch(product.id, product)
+      firestore.collection("_search").doc(advertisement.id),
+      mapSearch(advertisement.id, advertisement)
     )
   );
 };
 
-export const validateToActiveAdvertisement = (product) => {
+export const validateToActiveAdvertisement = (advertisement) => {
   const observations = {
     "advertisement-setup": [],
   };
 
-  const { productContent } = product;
+  const { advertisementSetup } = advertisement;
 
   //validate photos
-  if (isEmpty(productContent.photos)) {
-    observations["product-photos"].push("Agregar fotos");
+  if (isEmpty(advertisementSetup?.adImage)) {
+    observations["advertisement-image"].push("Agregar imagen");
   }
 
   //validate tags
@@ -113,28 +116,27 @@ export const validateToActiveAdvertisement = (product) => {
   return observations;
 };
 
-export const mapSearch = (productId, product) => {
-  const productName = product.productContent?.productSetup["name"];
-  const productTags = product.productContent?.productSetup.tags;
-  const productFirstPhoto = product.productContent?.photos?.[0];
+export const mapSearch = (advertisementId, advertisement) => {
+  const advertisementName = advertisement.advertisementSetup?.detail?.name;
+  const advertisementImage = advertisement.advertisementSetup?.adImage;
 
   return {
-    id: productId,
-    photoName: productFirstPhoto?.name || null,
-    title: productName || null,
-    tags: [productTags, ...productName.split(" ")].join(" "),
+    id: advertisementId,
+    imageName: advertisementImage?.name || null,
+    title: advertisementName || null,
   };
 };
 
 export const isExistObservations = (observations) =>
   Object.entries(observations).some(([, items]) => !isEmpty(items));
 
-export const advertisementsWithoutObservations = (products) =>
-  products.filter(
-    (product) => !isExistObservations(validateToActiveAdvertisement(product))
+export const advertisementsWithoutObservations = (advertisements) =>
+  advertisements.filter(
+    (advertisement) =>
+      !isExistObservations(validateToActiveAdvertisement(advertisement))
   );
 
-export const productsWithObservations = (tours) =>
-  tours.filter((tour) =>
-    isExistObservations(validateToActiveAdvertisement(tour))
+export const advertisementsWithObservations = (advertisements) =>
+  advertisements.filter((advertisement) =>
+    isExistObservations(validateToActiveAdvertisement(advertisement))
   );

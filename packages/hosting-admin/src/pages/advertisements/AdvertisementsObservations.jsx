@@ -7,28 +7,28 @@ import Title from "antd/lib/typography/Title";
 const { Panel } = Collapse;
 
 const observations = {
-  "product-photos": "Fotos del producto",
-  "product-content": "Contenido del producto",
+  "advertisement-image": "Foto del anuncio",
+  "advertisement-setup": "Contenido del anuncio",
 };
 
-export const AdvertisementsObservations = ({ productObservations }) => {
+export const AdvertisementsObservations = ({ advertisementsObservations }) => {
   return (
     <Container>
       <Title level={4}>Observaciones</Title>
       <p>
-        Los siguientes productos no se activaron porque tienen observaciones.
+        Los siguientes anuncios no se activaron porque tienen observaciones.
       </p>
-      {productObservations.map((productObservation, index) => (
+      {advertisementsObservations.map((advertisementObservation, index) => (
         <Collapse ghost key={index}>
           <Panel
             key={index}
             header={
               <Title level={5}>
-                {productObservation.productContent.productSetup.name}
+                {advertisementObservation.advertisementSetup.detail.name}
               </Title>
             }
           >
-            {Object.entries(productObservation.observations).map(
+            {Object.entries(advertisementObservation.observations).map(
               ([key, items]) => (
                 <div key={key}>
                   {!isEmpty(items) && (

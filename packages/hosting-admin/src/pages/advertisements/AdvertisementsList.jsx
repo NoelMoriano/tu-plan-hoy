@@ -4,9 +4,9 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import List from "antd/lib/list";
 import Checkbox from "antd/lib/checkbox";
 import styled from "styled-components";
-import { capitalize, concat, isEmpty } from "lodash";
+import { capitalize, concat } from "lodash";
 import Tag from "antd/lib/tag";
-import { faEdit, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { Flex } from "antd";
@@ -14,25 +14,22 @@ import { Flex } from "antd";
 export const AdvertisementsList = ({
   advertisements,
   companies,
-  selectedProducts,
-  onSetSelectedProducts,
-  onSetCurrentProduct,
-  onSetIsVisibleProductEdit,
-  onSetIsVisibleObservations,
-  onEditProduct,
-  onDeleteProduct,
+  selectedAdvertisements,
+  onSetSelectedAdvertisements,
+  onEditAdvertisement,
+  onDeleteAdvertisement,
   currentScreenWidth,
 }) => {
   const isProductSelected = (product) =>
-    !!selectedProducts.find(
+    !!selectedAdvertisements.find(
       (selectedProduct) => selectedProduct.id === product.id
     );
 
   const onChangeProduct = (event, product) =>
-    onSetSelectedProducts(
+    onSetSelectedAdvertisements(
       event.target.checked
-        ? concat(selectedProducts, product)
-        : selectedProducts.filter(
+        ? concat(selectedAdvertisements, product)
+        : selectedAdvertisements.filter(
             (selectedProduct) => selectedProduct.id !== product.id
           )
     );
@@ -53,25 +50,23 @@ export const AdvertisementsList = ({
             actions={[
               <IconAction
                 key="edit_advertisement"
-                onClick={() => onEditProduct(advertisement)}
+                onClick={() => onEditAdvertisement(advertisement)}
                 icon={faEdit}
               />,
-              <IconAction
-                key="observation_advertisement"
-                onClick={() => {
-                  onSetCurrentProduct(advertisement);
-                  return onSetIsVisibleObservations(true);
-                }}
-                styled={
-                  !isEmpty(advertisement?.observations)
-                    ? { color: () => "rgb(241, 13, 13)" }
-                    : {}
-                }
-                icon={faEye}
-              />,
+              // <IconAction
+              //   key="observation_advertisement"
+              //   onClick={() => {
+              //   }}
+              //   styled={
+              //     !isEmpty(advertisement?.observations)
+              //       ? { color: () => "rgb(241, 13, 13)" }
+              //       : {}
+              //   }
+              //   icon={faEye}
+              // />,
               <IconAction
                 key="delete_advertisement"
-                onClick={() => onDeleteProduct(advertisement)}
+                onClick={() => onDeleteAdvertisement(advertisement)}
                 icon={faTrashAlt}
                 styled={{
                   color: () => "rgb(241, 13, 13)",
@@ -95,10 +90,7 @@ export const AdvertisementsList = ({
                     <div className="item-title">
                       <h5
                         className="link-color"
-                        onClick={() => {
-                          onSetCurrentProduct(advertisement);
-                          return onSetIsVisibleProductEdit(true);
-                        }}
+                        onClick={() => onEditAdvertisement(advertisement)}
                       >
                         {capitalize(
                           advertisement?.advertisementSetup?.detail?.name
