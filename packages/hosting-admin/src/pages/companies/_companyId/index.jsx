@@ -87,6 +87,7 @@ export const CompanyIntegration = () => {
     return assign(
       {},
       {
+        ...(company?.id && { id: company.id }),
         active: !isNew,
         commercialName: formData.commercialName,
         categoryIds: formData.categoryIds,
@@ -162,8 +163,8 @@ const Company = ({
           name: yup.string(),
           url: yup.string(),
         })
-        .nullable()
-        .required();
+        .notRequired()
+        .nullable();
       return acc;
     }, {}),
     logo: yup.mixed().required(),
@@ -210,7 +211,10 @@ const Company = ({
       sitePhoto: company?.sitePhoto || null,
       gallery: company?.gallery || null,
       ...socials.reduce((acc, social) => {
-        acc[social] = company?.socialMedia?.[social] || {};
+        acc[social] = {
+          name: company?.socialMedia?.[social]?.name || "",
+          url: company?.socialMedia?.[social]?.url || "",
+        };
         return acc;
       }, {}),
     });
@@ -493,7 +497,7 @@ const Company = ({
               <Title level={4}>Redes sociales</Title>
             </Col>
             {socials.map((social, index) => (
-              <Col key={social} span={24} sm={12} md={8}>
+              <Col key={social || index} span={24} sm={12} md={8}>
                 <Controller
                   name={social}
                   control={control}
