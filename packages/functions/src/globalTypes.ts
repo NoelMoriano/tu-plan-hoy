@@ -61,15 +61,51 @@ export interface User extends DefaultFirestoreProps {
 
 export interface Company extends DefaultFirestoreProps {
   id: string;
+  nameId: string;
+  searchData: string[];
+  active: boolean;
+  commercialName: string;
+  categoryIds: string[];
+  phone: {
+    prefix: string;
+    number: string;
+  };
+  wspNumber: string;
+  city: string;
+  address: string;
+  reference: string;
+  userId: string;
   document: {
     type: string;
     number: string;
   };
-  commercialName: string;
-  socialReason: string;
-  overview: string;
-  logo: Image;
-  userId: string;
+  ytVideoUrl: string;
+  description: string;
+  logo: string;
+  sitePhoto: string;
+  gallery: string;
+  socialMedia: {
+    facebook: {
+      name: string;
+      url: string;
+    };
+    tiktok: {
+      name: string;
+      url: string;
+    };
+    instagram: {
+      name: string;
+      url: string;
+    };
+    x: {
+      name: string;
+      url: string;
+    };
+    linkedin: {
+      name: string;
+      url: string;
+    };
+  };
 }
 
 export interface Advertisement extends DefaultFirestoreProps {
