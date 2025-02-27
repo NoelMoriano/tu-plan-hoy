@@ -14,7 +14,7 @@ import {
 import { useAuthentication, useGlobalData } from "../../providers";
 import { useNavigate } from "react-router";
 import { useDevice } from "../../hooks";
-import { useApiUserPatch } from "../../api";
+import { useApiCompanyPatch } from "../../api";
 import { assign, capitalize } from "lodash";
 import { faEdit, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +27,7 @@ export const Companies = () => {
   const navigate = useNavigate();
   const { authUser } = useAuthentication();
   const { companies } = useGlobalData();
-  const { patchUser, patchUserResponse } = useApiUserPatch();
+  const { patchCompany, patchCompanyResponse } = useApiCompanyPatch();
 
   const navigateTo = (companyId) => {
     const url = `/companies/${companyId}`;
@@ -41,9 +41,9 @@ export const Companies = () => {
   const onDeleteCompany = async (company) => {
     const _company = assign({}, company, { updateBy: authUser?.email });
 
-    await patchUser(_company);
+    await patchCompany(_company);
 
-    if (!patchUserResponse.ok)
+    if (!patchCompanyResponse.ok)
       return notification({
         type: "error",
       });
