@@ -19,7 +19,6 @@ import { PrivateRoute } from "./PrivateRoute";
 export const Router = () => (
   <Routes>
     <Route exact path="/login" element={<Login />} />
-
     <Route path="/" element={<PrivateRoute />}>
       <Route
         exact
