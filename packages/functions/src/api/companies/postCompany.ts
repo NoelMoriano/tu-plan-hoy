@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { isEmpty } from "lodash";
+import { isEmpty, toLower, uniq } from "lodash";
 import {
   addCompany,
   fetchCompanies,
   getCompanyId,
 } from "../../_firebase/collections";
 import { Company } from "../../globalTypes";
-import { defaultFirestoreProps } from "../../utils";
+import { defaultFirestoreProps, getNameId } from "../../utils";
 
 export const postCompany = async (
   req: Request<unknown, unknown, Company, unknown>,
@@ -36,10 +36,20 @@ export const postCompany = async (
   }
 };
 
-const mapCompany = (company: Company): Company => ({
-  ...company,
-  id: getCompanyId(),
-});
+const mapCompany = (company: Company): Company => {
+  const companyId = getCompanyId();
+
+  return {
+    ...company,
+    id: companyId,
+    nameId: getNameId(company.commercialName),
+    searchData: uniq(
+      [...company?.categoryIds, toLower(company.commercialName)].filter(
+        (company) => company
+      )
+    ),
+  };
+};
 
 const isCompanyExists = async (
   document: Company["document"]
