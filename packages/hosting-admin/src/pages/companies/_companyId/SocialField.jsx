@@ -24,15 +24,15 @@ export const SocialField = ({
       let newValue = {};
 
       const _newValue = (newValue[name] = {
-        name: value?.name || socialName,
-        url: value?.url || socialUrl,
+        name: socialName,
+        url: socialUrl,
       });
 
       onChange({
         ..._newValue,
       });
     }
-  }, [value, socialName, socialUrl]);
+  }, [socialName, socialUrl]);
 
   return (
     <ComponentContainer.filled
@@ -48,7 +48,7 @@ export const SocialField = ({
           <Input
             label="Nombre"
             animation={false}
-            value={socialName}
+            value={value?.name || socialName}
             onChange={(e) => setSocialName(e.target.value)}
           />
         </Col>
@@ -56,7 +56,7 @@ export const SocialField = ({
           <Input
             label="Url"
             animation={false}
-            value={socialUrl}
+            value={value?.url || socialUrl}
             onChange={(e) => setSocialUrl(e.target.value)}
           />
         </Col>

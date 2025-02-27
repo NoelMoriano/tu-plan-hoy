@@ -32,6 +32,8 @@ import { SocialField } from "./SocialField.jsx";
 
 const { Title } = Typography;
 
+const socials = ["facebook", "tiktok", "instagram", "x", "linkedin"];
+
 export const CompanyIntegration = () => {
   const navigate = useNavigate();
   const { companyId } = useParams();
@@ -85,44 +87,36 @@ export const CompanyIntegration = () => {
     return assign(
       {},
       {
-        id: company.id,
-        document: {
-          type: formData.documentType,
-          number: formData.documentNumber,
-        },
-        commercialName: formData.commercialName.toUpperCase(),
-        socialReason: (formData?.socialReason || "").toUpperCase(),
-        logo: formData.logo,
-        description: formData.description,
-        socialMedia: {
-          fb: {
-            name: formData.socialMedia.fb.name,
-            url: formData.socialMedia.fb.url,
-          },
-          tiktok: {
-            name: formData.socialMedia.tiktok.name,
-            url: formData.socialMedia.tiktok.url,
-          },
-          instagram: {
-            name: formData.socialMedia.instagram.name,
-            url: formData.socialMedia.instagram.url,
-          },
-          x: {
-            name: formData.socialMedia.x.name,
-            url: formData.socialMedia.x.url,
-          },
-          linkedin: {
-            name: formData.socialMedia.linkedin.name,
-            url: formData.socialMedia.linkedin.url,
-          },
-        },
+        active: !isNew,
+        commercialName: formData.commercialName,
+        categoryIds: formData.categoryIds,
         phone: {
           prefix: "+51",
-          number: formData.phoneNumber,
+          number: formData.wspNumber,
         },
+        wspNumber: formData.wspNumber,
         city: formData.city,
         address: formData.address,
+        reference: formData.reference,
         userId: formData.userId,
+        document: {
+          type: formData?.documentType || "RUC",
+          number: formData.documentNumber,
+        },
+        ytVideoUrl: formData.ytVideoUrl,
+        description: formData.description,
+        logo: formData.logo,
+        sitePhoto: formData.sitePhoto,
+        gallery: formData.gallery,
+        socialMedia: {
+          ...socials.reduce((acc, social) => {
+            acc[social] = {
+              name: formData?.[social]?.name || null,
+              url: formData?.[social]?.url || null,
+            };
+            return acc;
+          }, {}),
+        },
       }
     );
   };
@@ -152,8 +146,6 @@ const Company = ({
   const { isMobile } = useDevice();
   const [uploadingImage, setUploadingImage] = useState(false);
 
-  const socials = ["facebook", "tiktok", "instagram", "x", "linkedin"];
-
   const schema = yup.object({
     commercialName: yup.string().required(),
     categoryIds: yup.array().required(),
@@ -176,11 +168,9 @@ const Company = ({
     }, {}),
     logo: yup.mixed().required(),
     sitePhoto: yup.mixed().required(),
-    gallery: yup.array(),
+    gallery: yup.mixed().notRequired(),
     ytVideoUrl: yup.string().required(),
   });
-
-  console.log("schema: ", schema);
 
   const {
     formState: { errors },
@@ -190,6 +180,7 @@ const Company = ({
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
+      gallery: undefined,
       ...socials.reduce((acc, social) => {
         acc[social] = undefined;
         return acc;
@@ -205,19 +196,27 @@ const Company = ({
 
   const resetForm = () => {
     reset({
+      commercialName: company?.commercialName || "",
+      categoryIds: company?.categoryIds || null,
+      wspNumber: company?.wspNumber || "",
+      city: company?.city || null,
+      address: company?.address || "",
+      reference: company?.reference || "",
+      userId: company?.userId || null,
       documentNumber: company?.document?.number || "",
-      commercialName: company?.commercialName || null,
+      ytVideoUrl: company?.ytVideoUrl || "",
+      description: company?.description || "",
       logo: company?.logo || null,
       sitePhoto: company?.sitePhoto || null,
-      description: company?.description || "",
-      userId: company?.userId || "",
+      gallery: company?.gallery || null,
+      ...socials.reduce((acc, social) => {
+        acc[social] = company?.socialMedia?.[social] || {};
+        return acc;
+      }, {}),
     });
   };
 
-  const submitSaveCompany = (formData) => {
-    console.log("formData: ", formData);
-    // return onSaveCompany(formData);
-  };
+  const submitSaveCompany = (formData) => onSaveCompany(formData);
 
   return (
     <Row gutter={[16, 16]}>
@@ -494,7 +493,7 @@ const Company = ({
               <Title level={4}>Redes sociales</Title>
             </Col>
             {socials.map((social, index) => (
-              <Col key={index} span={24} sm={12} md={8}>
+              <Col key={social} span={24} sm={12} md={8}>
                 <Controller
                   name={social}
                   control={control}
