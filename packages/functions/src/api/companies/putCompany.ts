@@ -7,6 +7,7 @@ import {
   fetchCompany,
   updateCompany,
 } from "../../_firebase/collections";
+import { defaultFirestoreProps } from "../../utils";
 
 interface Params {
   companyId: string;
@@ -17,6 +18,8 @@ export const putCompany = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const { assignUpdateProps } = defaultFirestoreProps();
+
   const {
     params: { companyId },
     body: company,
@@ -39,7 +42,7 @@ export const putCompany = async (
         res.status(412).send("company/company_already_exists").end();
     }
 
-    await updateCompany(companyId, company);
+    await updateCompany(companyId, assignUpdateProps(company));
 
     res.sendStatus(200).end();
   } catch (error) {

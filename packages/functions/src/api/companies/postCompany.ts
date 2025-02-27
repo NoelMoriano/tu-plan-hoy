@@ -13,8 +13,9 @@ export const postCompany = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { body: company } = req;
   const { assignCreateProps } = defaultFirestoreProps();
+
+  const { body: company } = req;
 
   console.log("「Add company」Initialize", {
     body: req.body,

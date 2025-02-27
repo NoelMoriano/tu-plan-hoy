@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { updateCompany } from "../../_firebase/collections";
+import { defaultFirestoreProps } from "../../utils";
 
 interface Params {
   companyId: string;
@@ -14,6 +15,8 @@ export const patchCompany = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const { assignDeleteProps } = defaultFirestoreProps();
+
   const {
     params: { companyId },
     body: { updateBy },
@@ -25,7 +28,7 @@ export const patchCompany = async (
   });
 
   try {
-    await updateCompany(companyId, { updateBy });
+    await updateCompany(companyId, assignDeleteProps({ updateBy }));
 
     res.sendStatus(200).end();
   } catch (error) {
