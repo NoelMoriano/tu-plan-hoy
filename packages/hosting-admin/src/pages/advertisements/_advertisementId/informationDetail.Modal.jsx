@@ -51,7 +51,7 @@ export const InformationDetailModal = ({
     startTime: yup.mixed().required(),
     endTime: yup.mixed().required(),
     adImage: yup.mixed().required(),
-    adVideoUrl: yup.string().required(),
+    youTubeVideoUrl: yup.string().required(),
     restriction: yup.string().required(),
   });
 
@@ -96,7 +96,7 @@ export const InformationDetailModal = ({
         : undefined,
       endTime: detail?.endTime ? dayjs(detail.endTime, "HH:mm") : undefined,
       adImage: advertisementSetup.adImage || undefined,
-      adVideoUrl: advertisementSetup.adVideoUrl || "",
+      youTubeVideoUrl: advertisementSetup.youTubeVideoUrl || "",
       restriction: detail.restriction || undefined,
     });
   };
@@ -111,15 +111,11 @@ export const InformationDetailModal = ({
         const currentAdvertisement_ = {
           ...currentAdvertisement,
           nameId: getNameId(formData.name),
-          searchData: [
-            ...formData?.categoryIds,
-            formData?.companyId,
-            toLower(formData.name),
-          ],
+          searchData: [...formData?.categoryIds, toLower(formData.name)],
           advertisementSetup: {
             ...currentAdvertisement.advertisementSetup,
             adImage: formData.adImage,
-            adVideoUrl: formData.adVideoUrl,
+            youTubeVideoUrl: formData.youTubeVideoUrl,
             detail: {
               ...currentAdvertisement.advertisementSetup.detail,
               name: formData.name,
@@ -327,7 +323,7 @@ export const InformationDetailModal = ({
           <Col span={24}>
             <ComponentContainer.group label="Video del anuncio">
               <Controller
-                name="adVideoUrl"
+                name="youTubeVideoUrl"
                 control={control}
                 render={({ field: { onChange, value, name } }) => (
                   <Input
