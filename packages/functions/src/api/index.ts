@@ -3,7 +3,12 @@ import cors from "cors";
 import { errorHandler, hostingToApi } from "./_middlewares";
 import { body } from "express-validator";
 import { patchUser, postUser, putUser } from "./users";
-import { patchCompany, postCompany, putCompany } from "./companies";
+import {
+  getCompanies,
+  patchCompany,
+  postCompany,
+  putCompany,
+} from "./companies";
 import {
   patchAdvertisement,
   postAdvertisement,
@@ -29,6 +34,7 @@ app.post(
 app.put("/users/:userId", putUser);
 app.patch("/users/:userId", [body("updateBy").exists()], patchUser);
 
+app.get("/companies", getCompanies);
 app.post(
   "/company",
   [
