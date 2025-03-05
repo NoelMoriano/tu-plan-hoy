@@ -7,6 +7,8 @@ export const uploadFile = async ({
   storage,
   resize,
   thumbExtension,
+  isImage,
+  withThumbImage,
   options: { file, onError, onProgress, onSuccess },
 }) =>
   await new Promise((resolve, reject) => {

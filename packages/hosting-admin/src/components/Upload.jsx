@@ -29,6 +29,7 @@ export const Upload = ({
   filePath,
   fileName,
   isImage = true,
+  withThumbImage = true,
   label,
   required = false,
   resize = null,
@@ -84,6 +85,7 @@ export const Upload = ({
         thumbExtension,
         storage,
         isImage,
+        withThumbImage,
         options: {
           file: requestOption.file,
           onError: (error) =>

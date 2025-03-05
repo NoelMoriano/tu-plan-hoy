@@ -28,6 +28,7 @@ export const UploadMultiple = ({
   filePath,
   fileName,
   isImage = true,
+  withThumbImage = true,
   label,
   required = false,
   resize = "1600x500",
@@ -98,6 +99,7 @@ export const UploadMultiple = ({
         resize,
         storage,
         isImage,
+        withThumbImage,
         options: {
           file: requestOption.file,
           onError: (error) =>
@@ -174,49 +176,52 @@ export const UploadMultiple = ({
 
   return (
     <>
-      <ComponentContainer.outlined
+      <ComponentContainer.filled
         required={required}
         error={error}
         label={label}
+        animation={false}
       >
-        {dragger ? (
-          <UploadAntd.Dragger
-            fileList={files}
-            multiple={true}
-            listType="picture"
-            accept={accept}
-            customRequest={customRequest}
-            onRemove={onRemove}
-            onPreview={onPreview}
-            onChange={onChangeUpload}
-          >
-            <UploadDraggerBody
-              hint="Soportado para subir varias imágenes"
-              text="Click aquí o arrastrar para subir las imágenes"
-            />
-          </UploadAntd.Dragger>
-        ) : (
-          <UploadStyled
-            fileList={files}
-            multiple={true}
-            listType="picture"
-            accept={accept}
-            customRequest={customRequest}
-            onRemove={onRemove}
-            onPreview={onPreview}
-            onChange={onChangeUpload}
-          >
-            <UploadBody
-              visible={limit ? files.length < limit : true}
-              buttonText={buttonText}
-            />
-          </UploadStyled>
-        )}
-      </ComponentContainer.outlined>
+        <WrapperComponents>
+          {dragger ? (
+            <UploadAntd.Dragger
+              fileList={files}
+              multiple={true}
+              listType="picture"
+              accept={accept}
+              customRequest={customRequest}
+              onRemove={onRemove}
+              onPreview={onPreview}
+              onChange={onChangeUpload}
+            >
+              <UploadDraggerBody
+                hint="Soportado para subir varias imágenes"
+                text="Click aquí o arrastrar para subir las imágenes"
+              />
+            </UploadAntd.Dragger>
+          ) : (
+            <UploadStyled
+              fileList={files}
+              multiple={true}
+              listType="picture"
+              accept={accept}
+              customRequest={customRequest}
+              onRemove={onRemove}
+              onPreview={onPreview}
+              onChange={onChangeUpload}
+            >
+              <UploadBody
+                visible={limit ? files.length < limit : true}
+                buttonText={buttonText}
+              />
+            </UploadStyled>
+          )}
+        </WrapperComponents>
+      </ComponentContainer.filled>
       {currentFile?.url && (
         <PreviewFile
           url={currentFile.url}
-          thumbUrl={currentFile?.thumbUrl}
+          thumbUrl={currentFile?.thumbUrl || currentFile?.url}
           isImage={isImage}
           onCancel={() => setCurrentFile(null)}
           visible={!!currentFile}
@@ -225,6 +230,10 @@ export const UploadMultiple = ({
     </>
   );
 };
+
+const WrapperComponents = styled.div`
+  margin: 11px;
+`;
 
 const UploadStyled = styled(UploadAntd)`
   cursor: pointer;
