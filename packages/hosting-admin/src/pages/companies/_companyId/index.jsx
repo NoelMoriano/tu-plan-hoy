@@ -204,7 +204,7 @@ const Company = ({
       name: company?.name || "",
       categoryIds: company?.categoryIds || null,
       phoneNumber: company?.phone?.number || "",
-      wspNumber: company?.wsp.number || "",
+      wspNumber: company?.wsp?.number || "",
       city: company?.city || null,
       address: company?.address || "",
       reference: company?.reference || "",
