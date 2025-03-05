@@ -12,7 +12,7 @@ import {
   Select,
   TextArea,
 } from "../../../components/ui";
-import { Upload } from "../../../components";
+import { Upload, UploadMultiple } from "../../../components";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -471,12 +471,13 @@ const Company = ({
                     name="gallery"
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
-                      <Upload
+                      <UploadMultiple
                         label="Fotos de galeria"
-                        multiple
                         accept="image/*"
                         name={name}
                         value={value}
+                        isImage={false}
+                        withThumbImage={false}
                         bucket="tphCompanies"
                         filePath={`${company.id}/gallery`}
                         buttonText="Subir fotos"
