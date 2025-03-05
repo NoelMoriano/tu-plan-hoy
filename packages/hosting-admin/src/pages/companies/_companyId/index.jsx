@@ -182,6 +182,7 @@ const Company = ({
     handleSubmit,
     control,
     reset,
+    setValue,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -283,7 +284,10 @@ const Company = ({
                         label="Numero de teléfono"
                         name={name}
                         value={value}
-                        onChange={onChange}
+                        onChange={(value) => {
+                          setValue("wspNumber", value);
+                          onChange(value);
+                        }}
                         error={error(name)}
                         required={required(name)}
                       />
