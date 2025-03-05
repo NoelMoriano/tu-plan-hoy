@@ -21,7 +21,7 @@ import { useGlobalData } from "../../../providers";
 import { assign, capitalize } from "lodash";
 import { useApiCompanyPost, useApiCompanyPut } from "../../../api";
 import { Typography } from "antd";
-import { userFullName } from "../../../utils/index.js";
+import { getNameId, userFullName } from "../../../utils/index.js";
 import { getCompanyId } from "../../../firebase/collections";
 import {
   apiErrorNotification,
@@ -88,7 +88,8 @@ export const CompanyIntegration = () => {
       {},
       {
         ...(company?.id && { id: company.id }),
-        active: !isNew,
+        nameId: getNameId(formData.name),
+        active: isNew ? false : company.active,
         name: formData.name,
         categoryIds: formData.categoryIds,
         phone: {
@@ -107,7 +108,7 @@ export const CompanyIntegration = () => {
           type: formData?.documentType || "RUC",
           number: formData.documentNumber,
         },
-        ytVideoUrl: formData.ytVideoUrl,
+        youTubeVideoUrl: formData.youTubeVideoUrl,
         description: formData.description,
         logo: formData.logo,
         coverImage: formData.coverImage,
@@ -174,7 +175,7 @@ const Company = ({
     logo: yup.mixed().required(),
     coverImage: yup.mixed().required(),
     gallery: yup.mixed().notRequired(),
-    ytVideoUrl: yup.string().required(),
+    youTubeVideoUrl: yup.string().required(),
   });
 
   const {
@@ -211,7 +212,7 @@ const Company = ({
       reference: company?.reference || "",
       userId: company?.userId || null,
       documentNumber: company?.document?.number || "",
-      ytVideoUrl: company?.ytVideoUrl || "",
+      youTubeVideoUrl: company?.youTubeVideoUrl || "",
       description: company?.description || "",
       logo: company?.logo || null,
       coverImage: company?.coverImage || null,
@@ -402,7 +403,7 @@ const Company = ({
               <Row gutter={[16, 16]}>
                 <Col span={24}>
                   <Controller
-                    name="ytVideoUrl"
+                    name="youTubeVideoUrl"
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
                       <Input

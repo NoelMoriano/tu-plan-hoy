@@ -55,9 +55,13 @@ interface Company extends DefaultFirestoreProps {
   nameId: string;
   searchData: string[];
   active: boolean;
-  commercialName: string;
+  name: string;
   categoryIds: string[];
   phone: {
+    prefix: string;
+    number: string;
+  };
+  wsp: {
     prefix: string;
     number: string;
   };
@@ -70,7 +74,7 @@ interface Company extends DefaultFirestoreProps {
     type: string;
     number: string;
   };
-  ytVideoUrl: string;
+  youTubeVideoUrl: string;
   description: string;
   logo: Image;
   sitePhoto: Image;
