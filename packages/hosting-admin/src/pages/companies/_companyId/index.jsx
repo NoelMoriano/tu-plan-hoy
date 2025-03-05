@@ -89,13 +89,16 @@ export const CompanyIntegration = () => {
       {
         ...(company?.id && { id: company.id }),
         active: !isNew,
-        commercialName: formData.commercialName,
+        name: formData.name,
         categoryIds: formData.categoryIds,
         phone: {
           prefix: "+51",
+          number: formData.phoneNumber,
+        },
+        wsp: {
+          prefix: "+51",
           number: formData.wspNumber,
         },
-        wspNumber: formData.wspNumber,
         city: formData.city,
         address: formData.address,
         reference: formData.reference,
@@ -107,7 +110,7 @@ export const CompanyIntegration = () => {
         ytVideoUrl: formData.ytVideoUrl,
         description: formData.description,
         logo: formData.logo,
-        sitePhoto: formData.sitePhoto,
+        coverImage: formData.coverImage,
         gallery: formData.gallery,
         socialMedia: {
           ...socials.reduce((acc, social) => {
@@ -148,8 +151,9 @@ const Company = ({
   const [uploadingImage, setUploadingImage] = useState(false);
 
   const schema = yup.object({
-    commercialName: yup.string().required(),
+    name: yup.string().required(),
     categoryIds: yup.array().required(),
+    phoneNumber: yup.string().required(),
     wspNumber: yup.string().required(),
     city: yup.string().required(),
     address: yup.string().required(),
@@ -168,7 +172,7 @@ const Company = ({
       return acc;
     }, {}),
     logo: yup.mixed().required(),
-    sitePhoto: yup.mixed().required(),
+    coverImage: yup.mixed().required(),
     gallery: yup.mixed().notRequired(),
     ytVideoUrl: yup.string().required(),
   });
@@ -197,9 +201,10 @@ const Company = ({
 
   const resetForm = () => {
     reset({
-      commercialName: company?.commercialName || "",
+      name: company?.name || "",
       categoryIds: company?.categoryIds || null,
-      wspNumber: company?.wspNumber || "",
+      phoneNumber: company?.phone?.number || "",
+      wspNumber: company?.wsp.number || "",
       city: company?.city || null,
       address: company?.address || "",
       reference: company?.reference || "",
@@ -208,7 +213,7 @@ const Company = ({
       ytVideoUrl: company?.ytVideoUrl || "",
       description: company?.description || "",
       logo: company?.logo || null,
-      sitePhoto: company?.sitePhoto || null,
+      coverImage: company?.coverImage || null,
       gallery: company?.gallery || null,
       ...socials.reduce((acc, social) => {
         acc[social] = {
@@ -234,7 +239,7 @@ const Company = ({
               <Row gutter={[16, 16]}>
                 <Col span={24}>
                   <Controller
-                    name="commercialName"
+                    name="name"
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
                       <Input
@@ -265,6 +270,22 @@ const Company = ({
                           value: category.id,
                           label: capitalize(category.name),
                         }))}
+                      />
+                    )}
+                  />
+                </Col>
+                <Col span={24}>
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field: { onChange, value, name } }) => (
+                      <InputNumber
+                        label="Numero de teléfono"
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        error={error(name)}
+                        required={required(name)}
                       />
                     )}
                   />
@@ -442,11 +463,11 @@ const Company = ({
                 </Col>
                 <Col span={24}>
                   <Controller
-                    name="sitePhoto"
+                    name="coverImage"
                     control={control}
                     render={({ field: { onChange, value, name } }) => (
                       <Upload
-                        label="Foto del local (836x522)"
+                        label="Imagen de portada (836x522)"
                         accept="image/*"
                         name={name}
                         value={value}
