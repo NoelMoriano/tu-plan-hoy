@@ -45,9 +45,12 @@ const mapCompany = (company: Company): Company => {
     id: companyId,
     nameId: getNameId(company.name),
     searchData: uniq(
-      [...company?.categoryIds, toLower(company.name)].filter(
-        (company) => company
-      )
+      [
+        ...company?.categoryIds,
+        toLower(company.name),
+        company.city,
+        company.address,
+      ].filter((company) => company)
     ),
   };
 };

@@ -5,6 +5,7 @@ import {
 } from "../../_firebase/collections";
 import { Advertisement } from "../../globalTypes";
 import { defaultFirestoreProps } from "../../utils";
+import { toLower, uniq } from "lodash";
 
 export const postAdvertisement = async (
   req: Request<unknown, unknown, Advertisement, unknown>,
@@ -31,4 +32,12 @@ export const postAdvertisement = async (
 const mapAdvertisement = (advertisement: Advertisement): Advertisement => ({
   ...advertisement,
   id: getAdvertisementId(),
+  searchData: uniq(
+    [
+      ...advertisement?.advertisementSetup.detail.categoryIds,
+      toLower(advertisement.advertisementSetup.detail.name),
+      advertisement.advertisementSetup.location.city,
+      advertisement.advertisementSetup.location.address,
+    ].filter((advertisement) => advertisement)
+  ),
 });
