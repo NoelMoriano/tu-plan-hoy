@@ -66,8 +66,9 @@ interface User extends DefaultFirestoreProps {
 interface Company extends DefaultFirestoreProps {
   id: string;
   nameId: string;
-  searchData: string[];
   active: boolean;
+  isHighlighted?: boolean;
+  searchData: string[];
   name: string;
   categoryIds: string[];
   phone: Phone;
@@ -94,8 +95,9 @@ interface Company extends DefaultFirestoreProps {
 
 interface Advertisement extends DefaultFirestoreProps {
   id: string;
-  active: boolean;
   nameId: string;
+  active: boolean;
+  isHighlighted?: boolean;
   searchData: string[];
   advertisementSetup: {
     adImage: Image;
