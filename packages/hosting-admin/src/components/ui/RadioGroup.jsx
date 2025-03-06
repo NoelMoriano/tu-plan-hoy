@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { RadioAntd, Row } from "./index.js";
+import RadioAntd from "antd/lib/radio";
 import { ComponentContainer } from "./component-container";
 
 export const RadioGroup = ({
@@ -8,10 +8,10 @@ export const RadioGroup = ({
   error,
   label,
   options = [],
-  variant = "outlined",
-  children,
+  onChange,
+  animation = false,
+  variant = "filled",
   helperText,
-  style,
   ...props
 }) => {
   const Container = ComponentContainer[variant];
@@ -21,20 +21,10 @@ export const RadioGroup = ({
       required={required}
       error={error}
       label={label}
-      animation={true}
+      animation={animation}
       helperText={helperText}
     >
-      <Row {...props}>
-        <RadioGroupStyled {...props} style={style}>
-          {!children
-            ? options.map((data, index) => (
-                <RadioAntd key={index} value={data.value} id={data.label}>
-                  {data.label}
-                </RadioAntd>
-              ))
-            : children}
-        </RadioGroupStyled>
-      </Row>
+      <RadioGroupStyled onChange={onChange} options={options} {...props} />
     </Container>
   );
 };
