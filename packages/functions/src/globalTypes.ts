@@ -82,8 +82,9 @@ interface Social {
 export interface Company extends DefaultFirestoreProps {
   id: string;
   nameId: string;
-  searchData: string[];
   active: boolean;
+  isHighlighted?: boolean;
+  searchData: string[];
   name: string;
   categoryIds: string[];
   phone: Phone;
@@ -109,8 +110,9 @@ export interface Company extends DefaultFirestoreProps {
 
 export interface Advertisement extends DefaultFirestoreProps {
   id: string;
-  active: boolean;
   nameId: string;
+  active: boolean;
+  isHighlighted?: boolean;
   searchData: string[];
   advertisementSetup: {
     adImage: Image;

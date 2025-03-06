@@ -40,17 +40,18 @@ export const postCompany = async (
 const mapCompany = (company: Company): Company => {
   const companyId = getCompanyId();
 
+  const { categoryIds, name, city, address } = company;
+
   return {
     ...company,
     id: companyId,
-    nameId: getNameId(company.name),
+    nameId: getNameId(name),
+    active: false,
+    isHighlighted: false,
     searchData: uniq(
-      [
-        ...company?.categoryIds,
-        toLower(company.name),
-        company.city,
-        company.address,
-      ].filter((company) => company)
+      [companyId, ...categoryIds, toLower(name), city, address].filter(
+        (company) => company
+      )
     ),
   };
 };

@@ -4,8 +4,8 @@ import {
   getAdvertisementId,
 } from "../../_firebase/collections";
 import { Advertisement } from "../../globalTypes";
-import { defaultFirestoreProps } from "../../utils";
-import { toLower, uniq } from "lodash";
+import { defaultFirestoreProps, getNameId } from "../../utils";
+import { uniq } from "lodash";
 
 export const postAdvertisement = async (
   req: Request<unknown, unknown, Advertisement, unknown>,
@@ -29,15 +29,22 @@ export const postAdvertisement = async (
   }
 };
 
-const mapAdvertisement = (advertisement: Advertisement): Advertisement => ({
-  ...advertisement,
-  id: getAdvertisementId(),
-  searchData: uniq(
-    [
-      ...advertisement?.advertisementSetup.detail.categoryIds,
-      toLower(advertisement.advertisementSetup.detail.name),
-      advertisement.advertisementSetup.location.city,
-      advertisement.advertisementSetup.location.address,
-    ].filter((advertisement) => advertisement)
-  ),
-});
+const mapAdvertisement = (advertisement: Advertisement): Advertisement => {
+  const advertisementId = getAdvertisementId();
+
+  const { categoryIds, name } = advertisement?.advertisementSetup.detail;
+  const { city, address } = advertisement?.advertisementSetup.location;
+
+  return {
+    ...advertisement,
+    id: advertisementId,
+    nameId: getNameId(name),
+    active: false,
+    isHighlighted: false,
+    searchData: uniq(
+      [advertisementId, ...categoryIds, name, city, address].filter(
+        (advertisement) => advertisement
+      )
+    ),
+  };
+};
