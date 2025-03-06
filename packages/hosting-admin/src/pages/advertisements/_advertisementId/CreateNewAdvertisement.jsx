@@ -52,8 +52,6 @@ export const CreateNewAdvertisement = ({
     resolver: yupResolver(schema),
   });
 
-  console.log("errors: ", errors);
-
   const { required, error, errorMessage } = useFormUtils({
     errors,
     schema,

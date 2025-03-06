@@ -88,8 +88,8 @@ export const CompanyIntegration = () => {
       {},
       {
         ...(company?.id && { id: company.id }),
+        ...(company?.active && { active: company.active }),
         nameId: getNameId(formData.name),
-        active: isNew ? false : company.active,
         name: formData.name,
         categoryIds: formData.categoryIds,
         phone: {
