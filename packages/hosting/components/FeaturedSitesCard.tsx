@@ -13,20 +13,20 @@ export const FeaturedSitesCard = ({ company, onSeeMore }: Props) => {
       <div className="img">
         <Image
           src={
-            company?.sitePhoto?.thumbUrl ||
-            company?.sitePhoto?.url ||
+            company?.coverImage?.thumbUrl ||
+            company?.coverImage?.url ||
             "/images/img-no-found.jpg"
           }
           width={420}
           height={420}
-          alt={company.commercialName}
+          alt={company.name}
           className="w-full h-[13em] object-cover rounded-[5px]"
         />
       </div>
       <div className="footer pt-3 space-y-2">
         <div className="title">
           <h3 className="text-primary font-bold text-[24px] leading-[1em]">
-            {company?.commercialName}
+            {company?.name}
           </h3>
         </div>
         <div className="price-and-btn flex items-center justify-between">

@@ -115,7 +115,7 @@ export const Companies = () => {
                   }
                   title={
                     <Link to={`/companies/${company.id}`}>
-                      {capitalize(company?.commercialName)}
+                      {capitalize(company?.name)}
                     </Link>
                   }
                 />

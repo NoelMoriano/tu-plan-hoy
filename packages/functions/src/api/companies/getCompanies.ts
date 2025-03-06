@@ -7,7 +7,10 @@ export const getCompanies = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const companies = await fetchCompanies();
+    const companies = await fetchCompanies([
+      ["isDeleted", "==", false],
+      ["active", "==", true],
+    ]);
 
     res.status(200).json(companies).end();
   } catch (error) {

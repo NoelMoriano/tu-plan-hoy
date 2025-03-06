@@ -19,11 +19,27 @@ interface Archive {
   url: string;
 }
 
+interface Phone {
+  prefix: string;
+  number: string;
+}
+
+interface Document {
+  type: string;
+  number: string;
+}
+
+interface Social {
+  name: string;
+  url: string;
+}
+
 interface DefaultFirestoreProps {
   createAt: any;
   updateAt: any;
   updateBy: string;
   isDeleted: boolean;
+  createBy?: string;
 }
 
 interface User extends DefaultFirestoreProps {
@@ -35,17 +51,14 @@ interface User extends DefaultFirestoreProps {
   maternalSurname: string;
   email: string;
   password: string;
-  document: {
-    type: string;
-    number: string;
-  };
-  phone: {
-    prefix: string;
-    number: string;
-  };
+  document: Document;
+  phone: Phone;
   iAcceptPrivacyPolicies: boolean;
   profilePhoto?: Image;
-  dniPhoto?: Image;
+  dniPhoto?: {
+    front: Image;
+    back: Image;
+  };
   address?: boolean;
   updateBy: string;
 }
@@ -57,58 +70,58 @@ interface Company extends DefaultFirestoreProps {
   active: boolean;
   name: string;
   categoryIds: string[];
-  phone: {
-    prefix: string;
-    number: string;
-  };
-  wsp: {
-    prefix: string;
-    number: string;
-  };
+  phone: Phone;
+  wsp: Phone;
   wspNumber: string;
   city: string;
   address: string;
   reference: string;
   userId: string;
-  document: {
-    type: string;
-    number: string;
-  };
+  document: Document;
   youTubeVideoUrl: string;
   description: string;
   logo: Image;
-  sitePhoto: Image;
+  coverImage: Image;
   gallery: string;
   socialMedia: {
-    facebook: {
-      name: string;
-      url: string;
-    };
-    tiktok: {
-      name: string;
-      url: string;
-    };
-    instagram: {
-      name: string;
-      url: string;
-    };
-    x: {
-      name: string;
-      url: string;
-    };
-    linkedin: {
-      name: string;
-      url: string;
-    };
+    facebook: Social;
+    tiktok: Social;
+    instagram: Social;
+    x: Social;
+    linkedin: Social;
   };
 }
 
 interface Advertisement extends DefaultFirestoreProps {
   id: string;
-  name: string;
-  adImage: Image;
-  address: string;
-  description: string;
-  company: Company;
-  user: User;
+  active: boolean;
+  nameId: string;
+  searchData: string[];
+  advertisementSetup: {
+    adImage: Image;
+    youTubeVideoUrl: string;
+    detail: {
+      name: string;
+      companyId: string;
+      categoryIds: string[];
+      description: string;
+      additionalInformation: string;
+      startDate: string;
+      startTime: string;
+      endDate: string;
+      endTime: string;
+      restriction: string;
+    };
+    location: {
+      address: string;
+      city: string;
+      reference: string;
+    };
+    permissions: {
+      iConfirmMyUsageRights: boolean;
+      iDeclareThatTheInformationIsTrueAndComplete: boolean;
+      termsAndConditions: boolean;
+      webPrivacyPolicy: boolean;
+    };
+  };
 }

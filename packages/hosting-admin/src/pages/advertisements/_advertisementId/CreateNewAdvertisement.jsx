@@ -90,7 +90,7 @@ export const CreateNewAdvertisement = ({
       ]),
       advertisementSetup: {
         adImage: formData?.adImage || null,
-        adVideoUrl: formData?.adVideoUrl || null,
+        youTubeVideoUrl: formData?.youTubeVideoUrl || null,
         detail: {
           name: formData.name,
           companyId: formData.companyId,
@@ -138,7 +138,7 @@ export const CreateNewAdvertisement = ({
                       isMobile={isMobile}
                       options={companies.map((company) => ({
                         value: company.id,
-                        label: capitalize(company.commercialName),
+                        label: capitalize(company.name),
                       }))}
                     />
                   )}

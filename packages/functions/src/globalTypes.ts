@@ -1,4 +1,6 @@
 export type Timestamp = FirebaseFirestore.Timestamp;
+export type RoleCode = "super_admin" | "user";
+export type CurrencyCode = "PEN" | "USD";
 
 type OmitDefaultFirestoreProps<T> = Omit<T, keyof PickDefaultFirestoreProps>;
 
@@ -12,10 +14,8 @@ interface DefaultFirestoreProps {
   updateAt: Timestamp;
   updateBy: string;
   isDeleted: boolean;
+  createBy?: string;
 }
-
-export type RoleCode = "super_admin" | "user";
-export type CurrencyCode = "PEN" | "USD";
 
 export interface _Image {
   createAt: Timestamp;
@@ -32,6 +32,21 @@ export interface Archive {
   name: string;
   status?: string;
   uid: string;
+  url: string;
+}
+
+interface Phone {
+  prefix: string;
+  number: string;
+}
+
+interface Document {
+  type: string;
+  number: string;
+}
+
+interface Social {
+  name: string;
   url: string;
 }
 
@@ -71,22 +86,13 @@ export interface Company extends DefaultFirestoreProps {
   active: boolean;
   name: string;
   categoryIds: string[];
-  phone: {
-    prefix: string;
-    number: string;
-  };
-  wsp: {
-    prefix: string;
-    number: string;
-  };
+  phone: Phone;
+  wsp: Phone;
   city: string;
   address: string;
   reference: string;
   userId: string;
-  document: {
-    type: string;
-    number: string;
-  };
+  document: Document;
   youTubeVideoUrl: string;
   description: string;
   logo: string;
@@ -103,10 +109,34 @@ export interface Company extends DefaultFirestoreProps {
 
 export interface Advertisement extends DefaultFirestoreProps {
   id: string;
-  adImage: Image;
-  title: string;
-  address: string;
-  overview: string;
-  company: Company;
-  user: User;
+  active: boolean;
+  nameId: string;
+  searchData: string[];
+  advertisementSetup: {
+    adImage: Image;
+    youTubeVideoUrl: string;
+    detail: {
+      name: string;
+      companyId: string;
+      categoryIds: string[];
+      description: string;
+      additionalInformation: string;
+      startDate: string;
+      startTime: string;
+      endDate: string;
+      endTime: string;
+      restriction: string;
+    };
+    location: {
+      address: string;
+      city: string;
+      reference: string;
+    };
+    permissions: {
+      iConfirmMyUsageRights: boolean;
+      iDeclareThatTheInformationIsTrueAndComplete: boolean;
+      termsAndConditions: boolean;
+      webPrivacyPolicy: boolean;
+    };
+  };
 }

@@ -7,7 +7,10 @@ export const getAdvertisements = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const advertisements = await fetchAdvertisements();
+    const advertisements = await fetchAdvertisements([
+      ["isDeleted", "==", false],
+      ["active", "==", true],
+    ]);
 
     res.status(200).json(advertisements).end();
   } catch (error) {

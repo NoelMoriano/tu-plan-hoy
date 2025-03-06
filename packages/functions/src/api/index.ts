@@ -39,7 +39,7 @@ app.post(
   "/company",
   [
     body("identification").exists(),
-    body("commercialName").exists(),
+    body("name").exists(),
     body("userId").exists(),
   ],
   postCompany

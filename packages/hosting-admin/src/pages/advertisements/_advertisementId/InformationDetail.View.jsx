@@ -47,9 +47,7 @@ export const InformationDetailView = ({
             </div>
             <div className="white-space">
               <span>Empresa: </span>
-              <strong>
-                {findCompanyById(detail.companyId)?.commercialName}
-              </strong>
+              <strong>{findCompanyById(detail.companyId)?.name}</strong>
             </div>
             <div className="white-space">
               <Space size="small" wrap>
@@ -128,8 +126,8 @@ export const InformationDetailView = ({
           >
             <LiteYouTubeEmbed
               id={
-                advertisementSetup?.adVideoUrl
-                  ? youTubeGetId(advertisementSetup.adVideoUrl)
+                advertisementSetup?.youTubeVideoUrl
+                  ? youTubeGetId(advertisementSetup.youTubeVideoUrl)
                   : ""
               }
               adNetwork={true}

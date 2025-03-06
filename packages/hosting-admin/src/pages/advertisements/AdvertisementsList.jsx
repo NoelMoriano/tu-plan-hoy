@@ -111,7 +111,7 @@ export const AdvertisementsList = ({
                             findCompanyById(
                               advertisement?.advertisementSetup?.detail
                                 ?.companyId
-                            )?.commercialName
+                            )?.name
                           )}
                         </Tag>
                       </Link>

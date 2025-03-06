@@ -43,9 +43,9 @@ const mapCompany = (company: Company): Company => {
   return {
     ...company,
     id: companyId,
-    nameId: getNameId(company.commercialName),
+    nameId: getNameId(company.name),
     searchData: uniq(
-      [...company?.categoryIds, toLower(company.commercialName)].filter(
+      [...company?.categoryIds, toLower(company.name)].filter(
         (company) => company
       )
     ),

@@ -22,7 +22,7 @@ import { onUpdateAdvertisement } from "./_utils";
 import dayjs from "dayjs";
 import { Upload } from "../../../components";
 import { restrictions } from "../../../data-list";
-import { getNameId } from "../../../utils/index.js";
+import { getNameId } from "../../../utils";
 
 export const InformationDetailModal = ({
   isMobile,
@@ -188,7 +188,7 @@ export const InformationDetailModal = ({
                   isMobile={isMobile}
                   options={companies.map((company) => ({
                     value: company.id,
-                    label: capitalize(company.commercialName),
+                    label: capitalize(company.name),
                   }))}
                 />
               )}
