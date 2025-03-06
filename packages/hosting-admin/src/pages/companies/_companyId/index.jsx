@@ -8,6 +8,7 @@ import {
   Input,
   InputNumber,
   notification,
+  RadioGroup,
   Row,
   Select,
   TextArea,
@@ -89,6 +90,7 @@ export const CompanyIntegration = () => {
       {
         ...(company?.id && { id: company.id }),
         ...(company?.active && { active: company.active }),
+        ...(company?.isHighlighted && { isHighlighted: company.isHighlighted }),
         nameId: getNameId(formData.name),
         name: formData.name,
         categoryIds: formData.categoryIds,
@@ -122,6 +124,8 @@ export const CompanyIntegration = () => {
             return acc;
           }, {}),
         },
+        isHighlighted: formData.isHighlighted,
+        active: formData.active,
       }
     );
   };
@@ -162,6 +166,10 @@ const Company = ({
     userId: yup.string().required(),
     documentNumber: yup.string(),
     description: yup.string().required(),
+    logo: yup.mixed().required(),
+    coverImage: yup.mixed().required(),
+    gallery: yup.mixed().notRequired(),
+    youTubeVideoUrl: yup.string().required(),
     ...socials.reduce((acc, social) => {
       acc[social] = yup
         .object({
@@ -172,10 +180,8 @@ const Company = ({
         .nullable();
       return acc;
     }, {}),
-    logo: yup.mixed().required(),
-    coverImage: yup.mixed().required(),
-    gallery: yup.mixed().notRequired(),
-    youTubeVideoUrl: yup.string().required(),
+    isHighlighted: yup.boolean().required(),
+    active: yup.boolean().required(),
   });
 
   const {
@@ -192,6 +198,8 @@ const Company = ({
         acc[social] = undefined;
         return acc;
       }, {}),
+      isHighlighted: null,
+      active: null,
     },
   });
 
@@ -224,6 +232,8 @@ const Company = ({
         };
         return acc;
       }, {}),
+      isHighlighted: company?.isHighlighted,
+      active: company?.active,
     });
   };
 
@@ -541,6 +551,64 @@ const Company = ({
                 />
               </Col>
             ))}
+          </Row>
+          <Divider />
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <Title level={4}>Estado</Title>
+            </Col>
+            <Col span={24} sm={12}>
+              <Controller
+                name="isHighlighted"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <RadioGroup
+                    label="Destacar la empresa"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                    options={[
+                      {
+                        label: "Si",
+                        value: true,
+                      },
+                      {
+                        label: "No",
+                        value: false,
+                      },
+                    ]}
+                  />
+                )}
+              />
+            </Col>
+            <Col span={24} sm={12}>
+              <Controller
+                name="active"
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <RadioGroup
+                    label="Publicar empresa"
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    error={error(name)}
+                    required={required(name)}
+                    options={[
+                      {
+                        label: "Si",
+                        value: true,
+                      },
+                      {
+                        label: "No",
+                        value: false,
+                      },
+                    ]}
+                  />
+                )}
+              />
+            </Col>
           </Row>
           <Row justify="end" gutter={[16, 16]}>
             <Col xs={24} sm={6} md={4}>
