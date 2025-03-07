@@ -35,8 +35,6 @@ export const getCompanies = async (
       whereClauses.push(["isHighlighted", "==", true]);
     }
 
-    logger.log("whereClauses: ", whereClauses);
-
     const companies = await fetchCompanies(
       whereClauses,
       limit ? +limit : undefined
