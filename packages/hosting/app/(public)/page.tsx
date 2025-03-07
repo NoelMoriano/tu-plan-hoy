@@ -10,13 +10,14 @@ import { useRouter } from "next/navigation";
 import axios, { AxiosResponse } from "axios";
 import { currentConfig } from "@/config";
 import { AdvertisementSkeleton } from "@/components/AdvertisementSkeleton";
-import { isEmpty, orderBy } from "lodash";
-import dayjs from "dayjs";
+import { isEmpty } from "lodash";
 
 export default function HomePage() {
   const router = useRouter();
 
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [companiesHighlighted, setCompaniesHighlighted] = useState<Company[]>(
+    [],
+  );
   const [isPendingCompanies, startTransitionCompanies] = useTransition();
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
@@ -25,11 +26,17 @@ export default function HomePage() {
   const fetchCompanies = () => {
     startTransitionCompanies(async () => {
       try {
-        const _companies: AxiosResponse<Company[]> = await axios.get<Company[]>(
-          `${currentConfig.apiUrl}/companies`,
-        );
+        const _companiesHighlighted: AxiosResponse<Company[]> = await axios.get<
+          Company[]
+        >(`${currentConfig.apiUrl}/companies`, {
+          params: {
+            active: true,
+            isHighlighted: true,
+            limit: 16,
+          },
+        });
 
-        setCompanies(_companies.data);
+        setCompaniesHighlighted(_companiesHighlighted.data);
       } catch (err) {
         console.log("ErrorFetchAdvertisements: ", err);
       }
@@ -39,12 +46,6 @@ export default function HomePage() {
   useEffect(() => {
     fetchCompanies();
   }, []);
-
-  const advertisementsView = orderBy(
-    companies,
-    (advertisement) => dayjs.unix(advertisement.createAt._seconds).valueOf(),
-    "desc",
-  );
 
   return (
     <div className="general-wrapper">
@@ -86,13 +87,13 @@ export default function HomePage() {
                   <AdvertisementSkeleton />
                   <AdvertisementSkeleton />
                 </div>
-              ) : isEmpty(companies) ? (
+              ) : isEmpty(companiesHighlighted) ? (
                 <p className="text-[1.2em]">No se encontraron resultados...</p>
               ) : (
-                advertisementsView.map((advertisement, index) => (
+                companiesHighlighted.map((company, index) => (
                   <FeaturedSitesCard
                     key={index}
-                    company={advertisement}
+                    company={company}
                     onSeeMore={onSeeMore}
                   />
                 ))
