@@ -39,7 +39,10 @@ export const putCompany = async (
     if (changeCompany) {
       const companyExists = await isCompanyExists(company.document);
       if (companyExists)
-        res.status(412).send("company/company_already_exists").end();
+        res
+          .status(412)
+          .send("company/company_already_exists_with_that_document")
+          .end();
     }
 
     await updateCompany(companyId, assignUpdateProps(company));

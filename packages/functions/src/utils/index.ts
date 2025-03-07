@@ -6,3 +6,4 @@ export * from "./abstract";
 export * from "./defaultFirestoreProps";
 export * from "./logger";
 export * from "./getNameId";
+export * from "./parseBoolean";

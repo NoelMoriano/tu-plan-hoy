@@ -24,7 +24,10 @@ export const postCompany = async (
   try {
     const _isCompanyExists = await isCompanyExists(company.document);
     if (_isCompanyExists) {
-      res.status(412).send("company/company_already_exists").end();
+      res
+        .status(412)
+        .send("company/company_already_exists_with_that_document")
+        .end();
       return;
     }
 

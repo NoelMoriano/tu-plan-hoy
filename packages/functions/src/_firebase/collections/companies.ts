@@ -13,8 +13,13 @@ export const companiesRef = firestore.collection("companies");
 export const getCompanyId = (): string => companiesRef.doc().id;
 
 export const fetchCompanies = async (
-  whereClauses?: WhereClauses<Company>[]
-): Promise<Company[]> => fetchCollection<Company>(companiesRef, whereClauses);
+  whereClauses?: WhereClauses<Company>[],
+  limit?: number
+): Promise<Company[]> =>
+  fetchCollection<Company>(
+    limit ? companiesRef.limit(limit) : companiesRef,
+    whereClauses
+  );
 
 export const companyRef = (id: string) => companiesRef.doc(id);
 
