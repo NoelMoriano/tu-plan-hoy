@@ -55,6 +55,10 @@
     "title": "La empresa ya está registrado",
     "description": "La empresa especificada ya existe."
   },
+  "company/company_already_exists_with_that_document": {
+    "title": "La empresa ya está registrado con ese documento",
+    "description": "La empresa especificada ya existe con el numero de documento que ingresaste."
+  },
   "company/document_already_exists": {
     "title": "El documento ya está registrado",
     "description": "La documento especificado ya existe."

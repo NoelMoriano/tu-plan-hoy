@@ -108,7 +108,7 @@ export const CompanyIntegration = () => {
         userId: formData.userId,
         document: {
           type: formData?.documentType || "RUC",
-          number: formData.documentNumber,
+          number: formData?.documentNumber || null,
         },
         youTubeVideoUrl: formData.youTubeVideoUrl,
         description: formData.description,
