@@ -13,8 +13,9 @@ import {
   patchAdvertisement,
   postAdvertisement,
   putAdvertisement,
+  getAdvertisements,
 } from "./advertisements";
-import { getAdvertisements } from "./advertisements/getAdvertisement";
+import { getSearchData } from "./search";
 
 const app: express.Application = express();
 
@@ -55,6 +56,8 @@ app.patch(
   [body("updateBy").exists()],
   patchAdvertisement
 );
+
+app.get("/search", getSearchData);
 
 app.use(errorHandler);
 

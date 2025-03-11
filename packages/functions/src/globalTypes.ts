@@ -79,6 +79,12 @@ interface Social {
   url: string;
 }
 
+export interface Category extends DefaultFirestoreProps {
+  id: string;
+  name: string;
+  nameId: string;
+}
+
 export interface Company extends DefaultFirestoreProps {
   id: string;
   nameId: string;
