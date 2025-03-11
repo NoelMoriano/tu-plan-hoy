@@ -7,7 +7,7 @@ interface Props {
   onSeeMore: () => void;
 }
 
-export const FeaturedSitesCard = ({ company, onSeeMore }: Props) => {
+export const HighlightedCompanyCard = ({ company, onSeeMore }: Props) => {
   return (
     <div className="w-full max-w-[24em] space-y-1 p-3 bg-quaternary rounded-[10px]">
       <div className="img">

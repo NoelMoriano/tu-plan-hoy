@@ -1,52 +1,14 @@
 "use client";
-import React, { useEffect, useState, useTransition } from "react";
+import React from "react";
 import { FormSearchNightClubs } from "@/components/FormSearchNightClubs";
-import { Star } from "lucide-react";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { FeaturedSitesCard } from "@/components/FeaturedSitesCard";
 import { DiscountAndNews } from "@/components/DiscountAndNews";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import axios, { AxiosResponse } from "axios";
-import { currentConfig } from "@/config";
-import { AdvertisementSkeleton } from "@/components/AdvertisementSkeleton";
-import { isEmpty } from "lodash";
+import { HighlightedCompanies } from "@/app/(public)/HighlightedCompanies";
+import { MoreCompanies } from "@/app/(public)/Companies";
+import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
 
 export default function HomePage() {
-  const router = useRouter();
-
-  const [companiesHighlighted, setCompaniesHighlighted] = useState<Company[]>(
-    [],
-  );
-  const [isPendingCompanies, startTransitionCompanies] = useTransition();
-
-  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
-  const onSeeMore = () => onNavigateGoTo("/events/aniversario/aniversario-10");
-
-  const fetchCompanies = () => {
-    startTransitionCompanies(async () => {
-      try {
-        const _companiesHighlighted: AxiosResponse<Company[]> = await axios.get<
-          Company[]
-        >(`${currentConfig.apiUrl}/companies`, {
-          params: {
-            active: true,
-            isHighlighted: true,
-            limit: 16,
-          },
-        });
-
-        setCompaniesHighlighted(_companiesHighlighted.data);
-      } catch (err) {
-        console.log("ErrorFetchAdvertisements: ", err);
-      }
-    });
-  };
-
-  useEffect(() => {
-    fetchCompanies();
-  }, []);
-
   return (
     <div className="general-wrapper">
       <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
@@ -73,105 +35,20 @@ export default function HomePage() {
         />
         <FormSearchNightClubs />
       </div>
-      <div className="featured-sites">
-        <WrapperComponent>
-          <div className="content-wrapper px-3 py-11 text-secondary">
-            <div className="title flex items-center gap-2 mb-5">
-              <Star size={30} />{" "}
-              <h2 className="text-[32px] font-bold ">Discos destacados</h2>
-            </div>
-            <div className="cards-wrapper flex flex-wrap justify-center gap-5">
-              {isPendingCompanies ? (
-                <div className="w-full flex justify-center flex-wrap gap-[1em]">
-                  <AdvertisementSkeleton />
-                  <AdvertisementSkeleton />
-                  <AdvertisementSkeleton />
-                </div>
-              ) : isEmpty(companiesHighlighted) ? (
-                <p className="text-[1.2em]">No se encontraron resultados...</p>
-              ) : (
-                companiesHighlighted.map((company, index) => (
-                  <FeaturedSitesCard
-                    key={index}
-                    company={company}
-                    onSeeMore={onSeeMore}
-                  />
-                ))
-              )}
-            </div>
-          </div>
-        </WrapperComponent>
+      <HighlightedCompanies />
+      <div className="w-full h-[560px] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
+        <Image
+          src="/images/banner-sitios-recomendados.jpg"
+          width={970}
+          height={470}
+          alt="Tu plan hoy - logo"
+          sizes="10"
+          className="w-full h-full absolute z-20 object-cover"
+        />
+        <div className="bg-item absolute z-40 w-full h-full" />
+        <FormRecomendedForYou />
       </div>
-      {/*<div className="w-full h-[560px] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">*/}
-      {/*  <Image*/}
-      {/*    src="/images/banner-sitios-recomendados.jpg"*/}
-      {/*    width={970}*/}
-      {/*    height={470}*/}
-      {/*    alt="Tu plan hoy - logo"*/}
-      {/*    sizes="10"*/}
-      {/*    className="w-full h-full absolute z-20 object-cover"*/}
-      {/*  />*/}
-      {/*  <div className="bg-item absolute z-40 w-full h-full" />*/}
-      {/*  <FormRecomendedForYou />*/}
-      {/*</div>*/}
-      {/*<div className="recomended-for-you-section">*/}
-      {/*  <WrapperComponent>*/}
-      {/*    <div className="content-wrapper px-3 py-11 text-secondary">*/}
-      {/*      <div className="title flex items-center gap-2 mb-5">*/}
-      {/*        <h2 className="text-[32px] font-bold leading-[1em]">*/}
-      {/*          Sitios recomendados para tí*/}
-      {/*        </h2>*/}
-      {/*      </div>*/}
-      {/*      <div className="cards-wrapper flex flex-wrap justify-center gap-5">*/}
-      {/*        {isPendingCompanies ? (*/}
-      {/*          <div className="w-full flex justify-center flex-wrap gap-[1em]">*/}
-      {/*            <AdvertisementSkeleton />*/}
-      {/*            <AdvertisementSkeleton />*/}
-      {/*            <AdvertisementSkeleton />*/}
-      {/*          </div>*/}
-      {/*        ) : (*/}
-      {/*          advertisementsView.map((advertisement, index) => (*/}
-      {/*            <FeaturedSitesCard*/}
-      {/*              key={index}*/}
-      {/*              company={advertisement}*/}
-      {/*              onSeeMore={onSeeMore}*/}
-      {/*            />*/}
-      {/*          ))*/}
-      {/*        )}*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*  </WrapperComponent>*/}
-      {/*</div>*/}
-      {/*<div className="options-more">*/}
-      {/*  <WrapperComponent>*/}
-      {/*    <div className="content-wrapper px-3 py-11 text-secondary">*/}
-      {/*      <div className="title flex items-center gap-2 mb-5">*/}
-      {/*        <h2 className="text-[24px] font-bold ">Más opciones</h2>*/}
-      {/*      </div>*/}
-      {/*      <div className="cards-wrapper flex flex-wrap justify-center gap-5">*/}
-      {/*        {isPendingCompanies ? (*/}
-      {/*          <div className="w-full flex justify-center flex-wrap gap-[1em]">*/}
-      {/*            <AdvertisementSkeleton fontSize="12px" />*/}
-      {/*            <AdvertisementSkeleton fontSize="12px" />*/}
-      {/*            <AdvertisementSkeleton fontSize="12px" />*/}
-      {/*            <AdvertisementSkeleton fontSize="12px" />*/}
-      {/*          </div>*/}
-      {/*        ) : (*/}
-      {/*          advertisementsView.map((advertisement, index) => (*/}
-      {/*            <NightClubCard*/}
-      {/*              key={index}*/}
-      {/*              advertisement={advertisement}*/}
-      {/*              onSeeMore={onSeeMore}*/}
-      {/*            />*/}
-      {/*          ))*/}
-      {/*        )}*/}
-      {/*      </div>*/}
-      {/*      <div className="grid place-items-center my-[2em]">*/}
-      {/*        <Button className="px-[2em]">Cargar más</Button>*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*  </WrapperComponent>*/}
-      {/*</div>*/}
+      <MoreCompanies />
       <div className="w-full h-[560px] relative bg-blend-multiply bg-primary flex justify-start items-center overflow-hidden">
         <Image
           src="/images/discount-and-news.jpg"

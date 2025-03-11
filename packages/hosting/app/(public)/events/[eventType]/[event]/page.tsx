@@ -4,7 +4,7 @@ import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import Image from "next/image";
 import { RightComponent } from "@/app/(public)/events/[eventType]/[event]/RigthComponent";
 import { LeftComponent } from "@/app/(public)/events/[eventType]/[event]/LeftComponent";
-import { NightClubCard } from "@/components/NightClubCard";
+import { CompanyCard } from "@/components/CompanyCard";
 import { useRouter } from "next/navigation";
 
 export default function EventPage() {
@@ -43,7 +43,7 @@ export default function EventPage() {
               </div>
               <div className="cards-wrapper flex flex-wrap gap-5">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((index) => (
-                  <NightClubCard key={index} onSeeMore={onSeeMore} />
+                  <CompanyCard key={index} onSeeMore={onSeeMore} />
                 ))}
               </div>
             </div>
