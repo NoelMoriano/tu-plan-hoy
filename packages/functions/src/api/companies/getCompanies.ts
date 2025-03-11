@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { fetchCompanies } from "../../_firebase/collections";
+import { fetchCategories, fetchCompanies } from "../../_firebase/collections";
 import { WhereClauses } from "../../_firebase";
 import type { Company } from "../../globalTypes";
 import { orderBy } from "lodash";
-import { logger } from "../../utils";
+import { getCategoriesByIds, logger } from "../../utils";
 
 interface Query {
   active?: boolean;
@@ -35,12 +35,17 @@ export const getCompanies = async (
       whereClauses.push(["isHighlighted", "==", true]);
     }
 
-    const companies = await fetchCompanies(
-      whereClauses,
-      limit ? +limit : undefined
-    );
+    const p0 = fetchCategories();
+    const p1 = await fetchCompanies(whereClauses, limit ? +limit : undefined);
 
-    res.status(200).json(orderBy(companies, "createAt", "desc")).end();
+    const [categories, companies] = await Promise.all([p0, p1]);
+
+    const companiesData = companies.map((company) => ({
+      ...company,
+      categories: getCategoriesByIds(categories, company?.categoryIds),
+    }));
+
+    res.status(200).json(orderBy(companiesData, "createAt", "desc")).end();
   } catch (error) {
     console.error(error);
     next(error);

@@ -5,15 +5,16 @@ import { body } from "express-validator";
 import { patchUser, postUser, putUser } from "./users";
 import {
   getCompanies,
+  getCompany,
   patchCompany,
   postCompany,
   putCompany,
 } from "./companies";
 import {
+  getAdvertisements,
   patchAdvertisement,
   postAdvertisement,
   putAdvertisement,
-  getAdvertisements,
 } from "./advertisements";
 import { getSearchData } from "./search";
 
@@ -36,6 +37,7 @@ app.put("/users/:userId", putUser);
 app.patch("/users/:userId", [body("updateBy").exists()], patchUser);
 
 app.get("/companies", getCompanies);
+app.get("/companies/:nameId", getCompany);
 app.post(
   "/company",
   [
