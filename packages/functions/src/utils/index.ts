@@ -7,3 +7,4 @@ export * from "./defaultFirestoreProps";
 export * from "./logger";
 export * from "./getNameId";
 export * from "./parseBoolean";
+export * from "./getCategoriesByIds";
