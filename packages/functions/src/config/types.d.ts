@@ -16,6 +16,12 @@ interface ConfigEnvironment {
     domain: string;
     apiUrl: string;
   };
+  clients: {
+    algolia: {
+      appId: string;
+      apiKey: string;
+    };
+  };
 }
 
 interface NodeMailerConfig {

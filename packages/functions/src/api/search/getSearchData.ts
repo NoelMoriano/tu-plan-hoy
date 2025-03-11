@@ -3,10 +3,7 @@ import { logger } from "../../utils";
 import { algoliaClient } from "../../algolia";
 
 interface Filters {
-  name: string;
-  categories: string[];
-  cities: string[];
-  address: string;
+  inputData: string;
 }
 
 export const getSearchData = async (
@@ -15,7 +12,7 @@ export const getSearchData = async (
   next: NextFunction
 ): Promise<void> => {
   const {
-    query: { name, categories, cities, address },
+    query: { inputData },
   } = req;
 
   logger.log("「Search data」Initialize", {
@@ -26,16 +23,11 @@ export const getSearchData = async (
     const { results } = await algoliaClient.search({
       requests: [
         {
-          indexName: "TuPlanHoy-companies",
-          query: name,
+          indexName: "tu-plan-hoy_search-data",
+          query: inputData,
         },
       ],
     });
-
-    console.log(JSON.stringify(results));
-
-    // Fusionar resultados
-    // const mergedResults = [...results[0].hits, ...results[1].hits];
 
     res.status(200).json(results).end();
   } catch (error) {
