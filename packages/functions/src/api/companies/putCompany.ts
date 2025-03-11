@@ -1,13 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { isEmpty } from "lodash";
+import { isEmpty, uniq } from "lodash";
 import assert from "assert";
-import { Company } from "../../globalTypes";
+import { Category, Company } from "../../globalTypes";
 import {
+  fetchCategories,
   fetchCompanies,
   fetchCompany,
   updateCompany,
 } from "../../_firebase/collections";
-import { defaultFirestoreProps } from "../../utils";
+import {
+  defaultFirestoreProps,
+  getCategoriesByIds,
+  getNameId,
+} from "../../utils";
 
 interface Params {
   companyId: string;
@@ -31,6 +36,8 @@ export const putCompany = async (
   });
 
   try {
+    const categories = await fetchCategories([["isDeleted", "==", false]]);
+
     const companyFirestore = await fetchFirestoreCompany(companyId);
     const changeCompany =
       companyFirestore?.document.type !== company.document.type ||
@@ -45,13 +52,30 @@ export const putCompany = async (
           .end();
     }
 
-    await updateCompany(companyId, assignUpdateProps(company));
+    await updateCompany(
+      companyId,
+      assignUpdateProps(mapCompany(company, categories))
+    );
 
     res.sendStatus(200).end();
   } catch (error) {
     console.error(error);
     next(error);
   }
+};
+
+const mapCompany = (company: Company, categories: Category[]): Company => {
+  const { categoryIds, name, city, address } = company;
+
+  const categoriesNames = getCategoriesByIds(categories, categoryIds).map(
+    (category) => category.name
+  );
+
+  return {
+    ...company,
+    nameId: getNameId(name),
+    searchData: uniq([name, ...categoriesNames, city, address]),
+  };
 };
 
 const isCompanyExists = async (

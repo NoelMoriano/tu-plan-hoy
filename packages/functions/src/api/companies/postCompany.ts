@@ -1,12 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { isEmpty, toLower, uniq } from "lodash";
+import { isEmpty, uniq } from "lodash";
 import {
   addCompany,
+  fetchCategories,
   fetchCompanies,
   getCompanyId,
 } from "../../_firebase/collections";
-import { Company } from "../../globalTypes";
-import { defaultFirestoreProps, getNameId } from "../../utils";
+import { Category, Company } from "../../globalTypes";
+import {
+  defaultFirestoreProps,
+  getCategoriesByIds,
+  getNameId,
+} from "../../utils";
 
 export const postCompany = async (
   req: Request<unknown, unknown, Company, unknown>,
@@ -22,6 +27,8 @@ export const postCompany = async (
   });
 
   try {
+    const categories = await fetchCategories([["isDeleted", "==", false]]);
+
     const _isCompanyExists = await isCompanyExists(company.document);
     if (_isCompanyExists) {
       res
@@ -31,7 +38,7 @@ export const postCompany = async (
       return;
     }
 
-    await addCompany(assignCreateProps(mapCompany(company)));
+    await addCompany(assignCreateProps(mapCompany(company, categories)));
 
     res.sendStatus(200).end();
   } catch (error) {
@@ -40,10 +47,14 @@ export const postCompany = async (
   }
 };
 
-const mapCompany = (company: Company): Company => {
+const mapCompany = (company: Company, categories: Category[]): Company => {
   const companyId = getCompanyId();
 
   const { categoryIds, name, city, address } = company;
+
+  const categoriesNames = getCategoriesByIds(categories, categoryIds).map(
+    (category) => category.name
+  );
 
   return {
     ...company,
@@ -51,11 +62,7 @@ const mapCompany = (company: Company): Company => {
     nameId: getNameId(name),
     active: false,
     isHighlighted: false,
-    searchData: uniq(
-      [companyId, ...categoryIds, toLower(name), city, address].filter(
-        (company) => company
-      )
-    ),
+    searchData: uniq([name, ...categoriesNames, city, address]),
   };
 };
 
