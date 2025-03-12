@@ -17,6 +17,7 @@ import {
   putAdvertisement,
 } from "./advertisements";
 import { getSearchData } from "./search";
+import { getCategories } from "./categories";
 
 const app: express.Application = express();
 
@@ -28,6 +29,7 @@ app.use(hostingToApi);
 
 app.get("/", (req, res) => res.status(200).send("Welcome!").end());
 
+// USERS
 app.post(
   "/user",
   [body("email").exists(), body("dni").exists(), body("phone").exists()],
@@ -36,6 +38,10 @@ app.post(
 app.put("/users/:userId", putUser);
 app.patch("/users/:userId", [body("updateBy").exists()], patchUser);
 
+// CATEGORIES
+app.get("/categories", getCategories);
+
+// COMPANIES
 app.get("/companies", getCompanies);
 app.get("/companies/:nameId", getCompany);
 app.post(
@@ -50,6 +56,7 @@ app.post(
 app.put("/companies/:companyId", putCompany);
 app.patch("/companies/:companyId", [body("updateBy").exists()], patchCompany);
 
+// ADVERTISEMENTS
 app.get("/advertisements", getAdvertisements);
 app.post("/advertisement", postAdvertisement);
 app.put("/advertisements/:advertisementId", putAdvertisement);
@@ -59,6 +66,7 @@ app.patch(
   patchAdvertisement
 );
 
+// SEARCH
 app.get("/search", getSearchData);
 
 app.use(errorHandler);
