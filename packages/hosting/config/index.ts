@@ -12,4 +12,4 @@ export const currentEnvironment = includes(hostsProduction, hostName)
 export const isProduction = currentEnvironment === "production";
 export const currentConfig = config[currentEnvironment];
 
-console.log("currentConfig: ", currentConfig);
+console.log("currentEnvironment: ", currentEnvironment);
