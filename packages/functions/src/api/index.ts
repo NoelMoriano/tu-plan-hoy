@@ -1,23 +1,11 @@
 import express from "express";
 import cors from "cors";
 import { errorHandler, hostingToApi } from "./_middlewares";
-import { body } from "express-validator";
-import { patchUser, postUser, putUser } from "./users";
-import {
-  getCompanies,
-  getCompany,
-  patchCompany,
-  postCompany,
-  putCompany,
-} from "./companies";
-import {
-  getAdvertisements,
-  patchAdvertisement,
-  postAdvertisement,
-  putAdvertisement,
-} from "./advertisements";
+import UsersRouter from "./users";
+import CompaniesRouter from "./companies";
+import AdvertisementsRouter from "./advertisements";
+import CategoriesRouter from "./categories";
 import { getSearchData } from "./search";
-import { getCategories } from "./categories";
 
 const app: express.Application = express();
 
@@ -30,41 +18,16 @@ app.use(hostingToApi);
 app.get("/", (req, res) => res.status(200).send("Welcome!").end());
 
 // USERS
-app.post(
-  "/user",
-  [body("email").exists(), body("dni").exists(), body("phone").exists()],
-  postUser
-);
-app.put("/users/:userId", putUser);
-app.patch("/users/:userId", [body("updateBy").exists()], patchUser);
+app.use("/users", UsersRouter);
 
 // CATEGORIES
-app.get("/categories", getCategories);
+app.use("/categories", CategoriesRouter);
 
 // COMPANIES
-app.get("/companies", getCompanies);
-app.get("/companies/:nameId", getCompany);
-app.post(
-  "/company",
-  [
-    body("identification").exists(),
-    body("name").exists(),
-    body("userId").exists(),
-  ],
-  postCompany
-);
-app.put("/companies/:companyId", putCompany);
-app.patch("/companies/:companyId", [body("updateBy").exists()], patchCompany);
+app.use("/companies", CompaniesRouter);
 
 // ADVERTISEMENTS
-app.get("/advertisements", getAdvertisements);
-app.post("/advertisement", postAdvertisement);
-app.put("/advertisements/:advertisementId", putAdvertisement);
-app.patch(
-  "/advertisements/:advertisementId",
-  [body("updateBy").exists()],
-  patchAdvertisement
-);
+app.use("/advertisements", AdvertisementsRouter);
 
 // SEARCH
 app.get("/search", getSearchData);
