@@ -127,3 +127,24 @@ interface Advertisement extends DefaultFirestoreProps {
     };
   };
 }
+
+interface Category extends DefaultFirestoreProps {
+  id: string;
+  name: string;
+  nameId: string;
+}
+
+interface Hit {
+  active: boolean;
+  categoryIds: string[];
+  categories: Category[];
+  coverImage: Image;
+  id: string;
+  isDeleted: boolean;
+  isHighlighted: boolean;
+  name: string;
+  nameId: string;
+  objectID: string;
+  path: string;
+  searchData: string[];
+}
