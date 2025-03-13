@@ -5,10 +5,12 @@ import { getCompany } from "./getCompany";
 import { postCompany } from "./postCompany";
 import { putCompany } from "./putCompany";
 import { patchCompany } from "./patchCompany";
+import { getCompaniesWithFilters } from "./getCompaniesWithFilters";
 
 const router = express.Router();
 
 router.get("/", getCompanies);
+router.get("/filters", getCompaniesWithFilters);
 
 router.get("/:nameId", getCompany);
 
