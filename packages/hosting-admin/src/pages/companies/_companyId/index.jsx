@@ -117,10 +117,12 @@ export const CompanyIntegration = () => {
         gallery: formData.gallery,
         socialMedia: {
           ...socials.reduce((acc, social) => {
-            acc[social] = {
-              name: formData?.[social]?.name || null,
-              url: formData?.[social]?.url || null,
-            };
+            acc[social] = formData?.[social]
+              ? {
+                  name: formData?.[social]?.name || null,
+                  url: formData?.[social]?.url || null,
+                }
+              : null;
             return acc;
           }, {}),
         },
@@ -226,10 +228,12 @@ const Company = ({
       coverImage: company?.coverImage || null,
       gallery: company?.gallery || null,
       ...socials.reduce((acc, social) => {
-        acc[social] = {
-          name: company?.socialMedia?.[social]?.name || "",
-          url: company?.socialMedia?.[social]?.url || "",
-        };
+        acc[social] = company?.socialMedia?.[social]
+          ? {
+              name: company?.socialMedia?.[social]?.name || "",
+              url: company?.socialMedia?.[social]?.url || "",
+            }
+          : null;
         return acc;
       }, {}),
       isHighlighted: company?.isHighlighted,
