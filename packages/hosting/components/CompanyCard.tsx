@@ -18,9 +18,9 @@ export const CompanyCard = ({ company, onSeeMore }: Props) => {
             "/images/img-no-found.jpg"
           }
           width={320}
-          height={320}
+          height={160}
           alt={company?.name || ""}
-          className="w-full h-full object-contain rounded-[5px]"
+          className="w-full h-[9em] object-cover rounded-[5px]"
         />
       </div>
       <div className="footer pt-3">

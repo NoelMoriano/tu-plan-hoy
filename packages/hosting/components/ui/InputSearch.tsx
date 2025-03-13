@@ -58,6 +58,11 @@ export const InputSearch = ({ placeholder, className }: Props) => {
     });
   };
 
+  const onResetSearch = () => {
+    setShowResults(false);
+    setInputData("");
+  };
+
   const resultsView = results.map((result: any) => ({
     ...result,
     hits: (result?.hits || []).map((hit: Hit) => ({
@@ -103,12 +108,18 @@ export const InputSearch = ({ placeholder, className }: Props) => {
                 ? "No se encontraron resultados"
                 : (resultsView?.[0]?.hits || []).map(
                     (hit: Hit, index: number) => (
-                      <Link key={index} href={`/company/${hit.nameId}`}>
+                      <Link
+                        key={index}
+                        href={`/companies/${hit.nameId}`}
+                        onClick={() => onResetSearch()}
+                      >
                         <li className="grid grid-cols-[5em,1fr] gap-2 hover:bg-tertiary p-2 rounded-[.5em]">
                           <div className="img grid place-items-center">
                             <Image
                               src={
-                                hit?.coverImage?.thumbUrl || hit.coverImage.url
+                                hit?.coverImage?.thumbUrl ||
+                                hit?.coverImage?.url ||
+                                "/images/image-no-found.png"
                               }
                               width={167}
                               height={30}

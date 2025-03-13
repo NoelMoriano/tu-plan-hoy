@@ -71,6 +71,7 @@ interface Company extends DefaultFirestoreProps {
   searchData: string[];
   name: string;
   categoryIds: string[];
+  categories: Category[];
   phone: Phone;
   wsp: Phone;
   wspNumber: string;

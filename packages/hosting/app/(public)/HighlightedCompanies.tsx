@@ -25,7 +25,7 @@ export const HighlightedCompanies = () => {
       try {
         const _companiesHighlighted: AxiosResponse<Company[]> = await axios.get<
           Company[]
-        >(`${currentConfig.apiUrl}/companies`, {
+        >(`${currentConfig.apiUrl}/companies/filters`, {
           params: {
             active: true,
             isHighlighted: true,

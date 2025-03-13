@@ -21,11 +21,11 @@ export const MoreCompanies = () => {
     startTransition(async () => {
       try {
         const _companies: AxiosResponse<Company[]> = await axios.get<Company[]>(
-          `${currentConfig.apiUrl}/companies`,
+          `${currentConfig.apiUrl}/companies/filters`,
           {
             params: {
-              active: true,
               isHighlighted: false,
+              active: true,
               limit: 24,
             },
           },
