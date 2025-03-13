@@ -36,13 +36,14 @@ export default function CompanyPage() {
         );
 
         if (_company.status !== 200) {
-          router.back();
+          onNavigateGoTo("/");
           return;
         }
 
         setCompany(_company.data as Company);
       } catch (err) {
-        console.log("ErrorFetchGetCompany: ", err);
+        console.error("ErrorFetchGetCompany: ", err);
+        router.back();
       }
     });
   };

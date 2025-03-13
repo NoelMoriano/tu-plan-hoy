@@ -139,6 +139,7 @@ interface Hit {
   active: boolean;
   categoryIds: string[];
   categories: Category[];
+  logo: Image;
   coverImage: Image;
   id: string;
   isDeleted: boolean;

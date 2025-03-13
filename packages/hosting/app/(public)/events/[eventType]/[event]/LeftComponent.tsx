@@ -25,8 +25,19 @@ export const LeftComponent = ({ company }: Props) => {
         alt="Tu plan hoy - logo"
         className="object-contain rounded-[1em] mb-8"
       />
-      <div className="w-full titles text-primary mb-8">
-        <h1 className="text-[48px] md:text-[90px] font-semibold leading-[1.3em]">
+      <div className="w-full titles text-primary mb-8 flex justify-start items-center gap-[1em]">
+        <Image
+          src={
+            company?.logo?.thumbUrl ||
+            company?.logo?.url ||
+            "/images/image-no-found.png"
+          }
+          width={50}
+          height={50}
+          alt="Tu plan hoy - logo"
+          className="w-[4.8em] h-[4.8em] object-contain rounded-full border-secondary border-[.2em]"
+        />{" "}
+        <h1 className="text-[48px] md:text-[90px] font-semibold leading-[.9em]">
           {company?.name || ""}
         </h1>
       </div>

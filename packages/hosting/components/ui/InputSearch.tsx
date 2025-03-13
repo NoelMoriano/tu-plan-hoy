@@ -128,8 +128,19 @@ export const InputSearch = ({ placeholder, className }: Props) => {
                               className="w-full h-auto object-contain rounded-[.2em]"
                             />
                           </div>
-                          <div className="description grid gap-[.3em]">
-                            <div className="name text-[1.2em] font-semibold text-primary">
+                          <div className="description grid gap-[.5em]">
+                            <div className="name text-[1.2em] font-semibold text-primary flex gap-[.5em]">
+                              <Image
+                                src={
+                                  hit?.logo?.thumbUrl ||
+                                  hit?.logo?.url ||
+                                  "/images/image-no-found.png"
+                                }
+                                width={30}
+                                height={30}
+                                alt="Tu plan hoy - logo"
+                                className="w-[1.3em] h-[1.3em] z-20 object-contain rounded-full"
+                              />{" "}
                               {hit.name}
                             </div>
                             <div className="categories flex flex-wrap gap-[.7em]">
