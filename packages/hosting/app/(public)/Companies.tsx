@@ -15,7 +15,8 @@ export const MoreCompanies = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
-  const onSeeMore = () => onNavigateGoTo("/events/aniversario/aniversario-10");
+  const onGoToCompany = (nameId: string) =>
+    onNavigateGoTo(`/companies/${nameId}`);
 
   const fetchCompanies = () => {
     startTransition(async () => {
@@ -63,7 +64,7 @@ export const MoreCompanies = () => {
                 <CompanyCard
                   key={index}
                   company={company}
-                  onSeeMore={onSeeMore}
+                  onGoToCompany={onGoToCompany}
                 />
               ))
             )}

@@ -18,7 +18,8 @@ export const HighlightedCompanies = () => {
   );
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
-  const onSeeMore = () => onNavigateGoTo("/events/aniversario/aniversario-10");
+  const onGoToCompany = (nameId: string) =>
+    onNavigateGoTo(`/companies/${nameId}`);
 
   const fetchCompanies = () => {
     startTransition(async () => {
@@ -66,7 +67,7 @@ export const HighlightedCompanies = () => {
                 <HighlightedCompanyCard
                   key={index}
                   company={company}
-                  onSeeMore={onSeeMore}
+                  onGoToCompany={onGoToCompany}
                 />
               ))
             )}

@@ -4,10 +4,10 @@ import Image from "next/image";
 
 interface Props {
   company: Company;
-  onSeeMore: () => void;
+  onGoToCompany: (nameId: string) => void;
 }
 
-export const CompanyCard = ({ company, onSeeMore }: Props) => {
+export const CompanyCard = ({ company, onGoToCompany }: Props) => {
   return (
     <div className="w-full max-w-[17em] p-3 bg-quaternary rounded-[10px]">
       <div className="img">
@@ -34,7 +34,7 @@ export const CompanyCard = ({ company, onSeeMore }: Props) => {
           <Button
             variant="tertiary"
             className="grid place-items-center h-[30px] py-1 px-3 text-[14px]"
-            onClick={onSeeMore}
+            onClick={() => onGoToCompany(company.nameId)}
           >
             <span className="m-auto">Ver más</span>
           </Button>
