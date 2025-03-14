@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useApi } from "./useApi";
 
 export const useApiCompanyPost = () => {
-  const { post, loading, response } = useApi("/company");
+  const { post, loading, response } = useApi(`/companies/:companyId`);
 
   const postCompany = useCallback(
     async (company) => {
