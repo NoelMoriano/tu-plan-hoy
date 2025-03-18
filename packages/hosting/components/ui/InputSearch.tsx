@@ -100,7 +100,7 @@ export const InputSearch = ({ placeholder, className }: Props) => {
         )}
       </div>
       {showResults && (
-        <div className="w-full absolute z-50 top-[3em] left-0 bg-quaternary rounded-[.5em] p-[1em]">
+        <div className="w-full h-[50svh] absolute z-50 top-[3em] left-0 bg-quaternary rounded-[.5em] p-[1em] overflow-auto">
           <ul className="grid gap-2">
             {isPending
               ? "Loading..."
@@ -148,7 +148,7 @@ export const InputSearch = ({ placeholder, className }: Props) => {
                                 (category: any, index: number) => (
                                   <span
                                     key={index}
-                                    className="bg-tertiary min-w-[5em] pl-2 pr-2 rounded-[3em] text-center text-[.7em] text-secondary capitalize"
+                                    className="bg-tertiary min-w-[5em] pl-2 pr-2 rounded-[3em] text-center text-[.7em] text-secondary capitalize flex items-center"
                                   >
                                     {category.name}
                                   </span>
