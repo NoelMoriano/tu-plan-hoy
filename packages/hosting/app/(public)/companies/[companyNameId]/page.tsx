@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { currentConfig } from "@/config";
 import axios from "axios";
 import assert from "assert";
+import { Loader2 } from "lucide-react";
 
 export default function CompanyPage() {
   const router = useRouter();
@@ -48,7 +49,15 @@ export default function CompanyPage() {
     });
   };
 
-  if (isPending || !company) return "Loading...";
+  if (isPending || !company)
+    return (
+      <div className="w-full min-h-[70svh] grid place-items-center">
+        <div>
+          <Loader2 className="animate-spin size-20 text-secondary mb-2" />
+          <span className="text-primary">Cargando...</span>
+        </div>
+      </div>
+    );
 
   assert(company, "Missing company!");
 
@@ -57,8 +66,8 @@ export default function CompanyPage() {
       <div className="absolute top-0 w-full h-auto">
         <Image
           src={
-            company?.coverImage?.url ||
             company?.coverImage?.thumbUrl ||
+            company?.coverImage?.url ||
             "/images/image-no-found.png"
           }
           width={1233}

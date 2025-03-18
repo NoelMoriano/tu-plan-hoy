@@ -25,8 +25,8 @@ export const MoreCompanies = () => {
           `${currentConfig.apiUrl}/companies/filters`,
           {
             params: {
-              isHighlighted: false,
               active: true,
+              isHighlighted: false,
               limit: 24,
             },
           },
