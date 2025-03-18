@@ -1,8 +1,9 @@
 import React from "react";
 import { Form } from "@/components/ui/Form";
-import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
+import { default as Cities } from "@/app/data-list/cities.json";
+import { concat } from "lodash";
 
 export const FormSearchNightClubs = () => {
   return (
@@ -13,19 +14,35 @@ export const FormSearchNightClubs = () => {
         </h1>
       </div>
       <Form>
-        <Input placeholder="Ingresa tu ubicación" />
-        <Input type="date" placeholder="Ingresa la fecha" />
         <Select
-          options={[
-            {
-              label: "Cumpleaños",
-              value: "birthdate",
-            },
-            {
-              label: "Casual",
-              value: "casual",
-            },
-          ]}
+          placeholder="¿En que ciudad te encuentras?"
+          options={concat(
+            [
+              {
+                label: "Todos",
+                value: "all",
+              },
+            ],
+            Cities.map((city) => ({
+              label: city.value,
+              value: city.id,
+            })),
+          )}
+        />
+        <Select
+          placeholder="¿En que ciudad te encuentras?"
+          options={concat(
+            [
+              {
+                label: "Todos",
+                value: "all",
+              },
+            ],
+            Cities.map((city) => ({
+              label: city.value,
+              value: city.id,
+            })),
+          )}
         />
         <Button
           variant="tertiary"

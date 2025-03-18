@@ -1,11 +1,63 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
-import { SearchIcon, WatchIcon } from "lucide-react";
+import { Loader2, SearchIcon, WatchIcon } from "lucide-react";
 import { Select } from "@/components/ui/Select";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { currentConfig } from "@/config";
+import { isEmpty } from "lodash";
 
 export default function SearchPage() {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+
+  const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
+  const onGoToCompany = (nameId: string) =>
+    onNavigateGoTo(`/companies/${nameId}`);
+
+  const fetchCompanies = () => {
+    startTransition(async () => {
+      try {
+        const p0 = axios.get<Company[]>(
+          `${currentConfig.apiUrl}/companies/filters`,
+          {
+            params: {
+              active: true,
+              isHighlighted: true,
+              limit: 24,
+            },
+          },
+        );
+
+        const p1 = axios.get<Company[]>(
+          `${currentConfig.apiUrl}/companies/filters`,
+          {
+            params: {
+              active: true,
+              isHighlighted: false,
+              limit: 24,
+            },
+          },
+        );
+
+        const [highlightedCompanies, companies] = await Promise.all([p0, p1]);
+
+        setCompanies([...highlightedCompanies.data, ...companies.data]);
+      } catch (err) {
+        console.log("ErrorFetchAdvertisements: ", err);
+      }
+    });
+  };
+
+  useEffect(() => {
+    fetchCompanies();
+  }, []);
+
   return (
     <div className="w-full px-5 py-7">
       <WrapperComponent>
@@ -53,86 +105,74 @@ export default function SearchPage() {
           </div>
           <div className="content w-full grid grid-cols-1 lg:grid-cols-[1fr,30em] gap-[3em]">
             <div className="left-items">
-              <div className="card-list w-full">
-                {[1, 2, 3].map((ads, index) => (
-                  <div
-                    key={index}
-                    className="bg-quaternary grid gap-3 rounded-[10px] p-3 mb-5"
-                  >
-                    <div className="grid grid-cols-1 xs:grid-cols-[auto,1fr] gap-5">
-                      <div className="grid">
-                        <Image
-                          src="/images/ads-banner.png"
-                          alt="logo empresa"
-                          width={210}
-                          height={132}
-                          className="object-cover rounded-[5px] w-full h-auto xs:w-[190px] xs:h-[122px]"
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <div className="w-full flex gap-2 flex-wrap items-center">
-                          <span className="text-primary font-bold text-[20px] md:text-[24px] leading-[.8em]">
-                            Inka Team
-                          </span>
-                          <div className="tags flex gap-2">
-                            <div className="tag w-auto h-[24px] md:h-[27px] rounded-[5px] text-secondary text-[10px] md:text-[12px] text-center leading-[1em] font-semibold grid place-items-center bg-tertiary px-3">
-                              Exclusivas
-                            </div>
-                            <div className="tag w-auto h-[24px] md:h-[27px] rounded-[5px] text-secondary text-[10px] md:text-[12px] text-center leading-[1em] font-semibold grid place-items-center bg-tertiary px-3">
-                              Música Electrónica
-                            </div>
-                          </div>
+              {isPending ? (
+                <div className="w-full min-h-[70svh] grid place-items-center">
+                  <div>
+                    <Loader2 className="animate-spin size-20 text-secondary mb-2" />
+                    <span className="text-primary">Cargando...</span>
+                  </div>
+                </div>
+              ) : isEmpty(companies) ? (
+                "No se encontraron resultados..."
+              ) : (
+                <div className="card-list w-full">
+                  {companies.map((company, index) => (
+                    <div
+                      key={index}
+                      className="bg-quaternary grid gap-3 rounded-[10px] p-3 mb-5"
+                    >
+                      <div className="grid grid-cols-1 xs:grid-cols-[auto,1fr] gap-5">
+                        <div className="grid">
+                          <Image
+                            src={
+                              company?.coverImage?.thumbUrl ||
+                              company?.coverImage?.url ||
+                              "/images/img-no-found.jpg"
+                            }
+                            alt="logo empresa"
+                            width={210}
+                            height={132}
+                            className="object-cover rounded-[5px] w-full h-auto xs:w-[190px] xs:h-[122px]"
+                          />
                         </div>
-                        <div className="w-full flex justify-between flex-wrap gap-2">
-                          <div className="hours">
-                            <div className="item flex items-center gap-2">
-                              <div>
-                                <span className="text-secondary font-medium text-[12px] md:text-[14px]">
-                                  Inicio:
-                                </span>{" "}
-                                <span className="text-primary font-semibold text-[13px] md:text-[15px]">
-                                  20/Dic/2024
-                                </span>
-                              </div>
-                              <div>
-                                <span className="text-secondary font-medium text-[12px] md:text-[14px]">
-                                  a las:
-                                </span>{" "}
-                                <span className="text-primary font-semibold text-[13px] md:text-[15px]">
-                                  12:00 AM
-                                </span>
-                              </div>
+                        <div className="grid gap-2">
+                          <div className="w-full grid gap-2 flex-wrap items-center">
+                            <div>
+                              <span className="text-primary font-bold text-[20px] md:text-[24px] leading-[.8em]">
+                                {company.name}
+                              </span>
                             </div>
-                            <div className="item flex items-center gap-2">
-                              <div>
-                                <span className="text-secondary font-medium text-[12px] md:text-[14px]">
-                                  Final:
-                                </span>{" "}
-                                <span className="text-primary font-semibold text-[13px] md:text-[15px]">
-                                  20/Dic/2024
-                                </span>
-                              </div>
-                              <div>
-                                <span className="text-secondary font-medium text-[12px] md:text-[14px]">
-                                  a las:
-                                </span>{" "}
-                                <span className="text-primary font-semibold text-[13px] md:text-[15px]">
-                                  06:00 AM
-                                </span>
+                            <div>
+                              <div className="tags flex gap-2">
+                                {company.categories.map((category, index) => (
+                                  <div
+                                    key={index}
+                                    className="tag w-auto h-[24px] md:h-[27px] rounded-[5px] text-secondary text-[10px] md:text-[12px] text-center leading-[1em] font-semibold grid place-items-center bg-tertiary px-3"
+                                  >
+                                    <span className="text-center capitalize">
+                                      {category.name}
+                                    </span>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           </div>
-                          <div className="btns flex items-center gap-2">
-                            <Button className="h-[37px] grid place-items-center py-2 px-4">
-                              Ver anuncio
-                            </Button>
+                          <div className="w-full flex justify-end flex-wrap gap-2">
+                            <div className="btns flex items-center gap-2">
+                              <Button
+                                className="h-[37px] grid place-items-center py-2 px-4 cursor-pointer"
+                                onClick={() => onGoToCompany(company.nameId)}
+                              >
+                                Ver más
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="right-items hidden lg:block">
               <div className="categories mb-[2em]">
