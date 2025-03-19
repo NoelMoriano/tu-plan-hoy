@@ -21,7 +21,7 @@ export default function CreateAds() {
         <div className="content px-[1em] py-[2em]">
           <div className="titles grid gap-[.5em] mb-[1.5em]">
             <h1 className="text-[40px] font-bold text-primary">
-              Crear anuncio
+              Registrar mi discoteca
             </h1>
             <p className="text-[16px] font-medium text-secondary w-full sm:w-[40em] leading-[1.2em]">
               <strong>Haz un evento inolvidable.</strong> Elige el nombre,

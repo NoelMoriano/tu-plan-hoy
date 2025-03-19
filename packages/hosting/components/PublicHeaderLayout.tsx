@@ -99,7 +99,7 @@ export const PublicHeaderLayout = () => {
                   className="leading-3 hidden md:flex"
                   onClick={() => onNavigateGoTo("/activity/create")}
                 >
-                  Crear anuncio
+                  Registrar mi discoteca
                 </Button>
                 <Menu>
                   <MenuButton
