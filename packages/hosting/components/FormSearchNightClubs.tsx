@@ -15,7 +15,7 @@ export const FormSearchNightClubs = () => {
       </div>
       <Form>
         <Select
-          placeholder="¿En que ciudad te encuentras?"
+          multiple
           options={concat(
             [
               {

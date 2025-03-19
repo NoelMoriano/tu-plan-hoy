@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactSelect from "react-select";
+import { twMerge } from "tailwind-merge";
 
 type Option = {
   label: string | React.ReactNode;
@@ -13,6 +15,40 @@ interface Props {
 }
 
 export const Select = ({ label, options = [], multiple }: Props) => {
+  const [selectedOption, setSelectedOption] = useState<any>();
+
+  const customStyles = {
+    control: (base: any) => ({
+      ...base,
+      backgroundColor: "white",
+      border: "none",
+      outline: "none",
+      focus: "none",
+    }),
+    multiValue: (base: any) => ({
+      ...base,
+      backgroundColor: "bg-secondary",
+      color: "white",
+      borderRadius: "0.25rem",
+      padding: "2px 6px",
+    }),
+    multiValueLabel: (base: any) => ({
+      ...base,
+      color: "white",
+    }),
+    multiValueRemove: (base: any) => ({
+      ...base,
+      color: "white",
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: "bg-secondary",
+        color: "white",
+      },
+    }),
+  };
+
+  console.log("selectedOption: ", selectedOption);
+
   return (
     <div className="w-full">
       {label && (
@@ -25,17 +61,31 @@ export const Select = ({ label, options = [], multiple }: Props) => {
           </label>
         </div>
       )}
-      <div className="w-full h-[47px] p-1 px-2 pr-3 bg-white border-tertiary border-[1px] rounded-[5px] outline-none m-0 overflow-hidden">
-        <select
-          className="w-full h-full p-1 text-secondary text-[14px] outline-none m-0"
-          multiple={multiple}
-        >
-          {options.map((option, index) => (
-            <option key={option?.value || index} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+      <div className="w-full min-h-[47px] h-auto bg-white border-tertiary border-[1px] rounded-[5px] outline-none m-0">
+        <ReactSelect
+          className="w-full h-full p-1 text-secondary text-[14px]"
+          classNames={{
+            container: () => twMerge("border-none outline-none"),
+            control: ({ isFocused }) =>
+              twMerge(
+                "border-none outline-none focus:border-none",
+                isFocused && "border-none",
+              ),
+            multiValue: () =>
+              twMerge("bg-secondary border-none outline-none rounded px-2"),
+            multiValueLabel: () => twMerge("text-black"),
+            multiValueRemove: () =>
+              twMerge(
+                "text-white cursor-pointer px-1 rounded bg-secondary hover:bg-secondary",
+              ),
+          }}
+          isMulti={multiple}
+          closeMenuOnSelect={false}
+          defaultValue={selectedOption}
+          onChange={setSelectedOption}
+          options={options}
+          styles={customStyles}
+        />
       </div>
     </div>
   );

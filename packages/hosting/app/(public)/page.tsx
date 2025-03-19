@@ -11,7 +11,7 @@ import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
 export default function HomePage() {
   return (
     <div className="general-wrapper">
-      <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
+      <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center">
         <video
           width="1243"
           height="970"
