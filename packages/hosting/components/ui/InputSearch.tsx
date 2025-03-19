@@ -160,6 +160,15 @@ export const InputSearch = ({ placeholder, className }: Props) => {
                       </Link>
                     ),
                   )}
+            <Link href="/search" onClick={() => onResetSearch()}>
+              <li className="grid place-items-center gap-2 hover:bg-tertiary p-2 rounded-[.5em]">
+                <div className="img grid place-items-center">
+                  <span className="text-[1.2em] text-primary">
+                    Ver todos los resultados...
+                  </span>
+                </div>
+              </li>
+            </Link>
           </ul>
         </div>
       )}
