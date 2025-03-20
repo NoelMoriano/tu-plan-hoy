@@ -1,6 +1,11 @@
 type RoleCode = "super_admin" | "user";
 type CurrencyCode = "PEN" | "USD";
 
+type SelectOption = {
+  label: string | React.ReactNode;
+  value: string;
+};
+
 interface _Image {
   createAt: any;
   name: string;
@@ -40,6 +45,20 @@ interface DefaultFirestoreProps {
   updateBy: string;
   isDeleted: boolean;
   createBy?: string;
+}
+
+interface SearchKey {
+  text?: string;
+  maps?: boolean;
+  filters: {
+    price?: { min: string; max: string };
+    categories?: string[];
+    dates?: { key: string; dateStart: string; dateEnd: string };
+    location?: { z: number; center: { lat: number; lng: number } };
+    city?: string[];
+  };
+  page?: number;
+  country?: string;
 }
 
 interface User extends DefaultFirestoreProps {
