@@ -1,39 +1,77 @@
 import React from "react";
 import { Button } from "@/components/ui/Button";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
+  size?: "small" | "medium" | "large";
   company: Company;
   onGoToCompany: (nameId: string) => void;
 }
 
-export const CompanyCard = ({ company, onGoToCompany }: Props) => {
+export const CompanyCard = ({
+  size = "medium",
+  company,
+  onGoToCompany,
+}: Props) => {
+  const sizes = {
+    small: "text-[14px]",
+    medium: "text-[16px]",
+    large: "text-[19px]",
+  };
+
   return (
-    <div className="w-[12em] h-[15em] p-3 bg-quaternary rounded-[10px]">
-      <div className="img">
+    <div
+      className={twMerge(
+        "w-[17em] h-[20em] bg-quaternary rounded-[10px] relative overflow-hidden grid grid-rows-[11em,1fr]",
+        sizes[size],
+      )}
+    >
+      <div className="img w-full h-full">
         <Image
           src={
             company?.coverImage.thumbUrl ||
             company?.coverImage.url ||
             "/images/img-no-found.jpg"
           }
-          width={320}
-          height={160}
+          width={290}
+          height={338}
           alt={company?.name || ""}
-          className="w-full h-[11.5em] object-cover rounded-[5px]"
+          className="w-full h-full object-cover"
         />
       </div>
-      <div className="footer pt-3">
-        <div className="title">
-          <h3 className="text-primary font-bold text-[20px] leading-[1em]">
+      <div className="footer w-full p-3 grid grid-rows-[1fr,1fr,auto]">
+        <div className="title flex items-center gap-2">
+          <Image
+            src={
+              company?.logo?.thumbUrl ||
+              company?.logo?.url ||
+              "/images/image-no-found.png"
+            }
+            width={30}
+            height={30}
+            alt="Tu plan hoy - logo"
+            className="w-[1.4em] h-[1.4em] z-20 object-contain rounded-full"
+          />
+          <h3 className="text-primary font-bold text-[1.2em] leading-[1em] w-full max-w-full line-clamp-2 text-ellipsis overflow-hidden">
             {company?.name}
           </h3>
         </div>
-        <div className="price-and-btn flex items-center justify-between">
+        <div className="w-full max-w-full inline-flex items-center gap-1 overflow-x-auto">
+          {(company?.categories || []).map((category, index) => (
+            <div
+              key={index}
+              className="bg-tertiary w-auto h-[2em] pl-3 pr-3 rounded-[3em] text-[.7em] text-secondary capitalize grid place-items-center font-semibold whitespace-nowrap"
+            >
+              {category.name}
+            </div>
+          ))}
+        </div>
+        <div className="price-and-btn flex items-end justify-between">
           <div />
           <Button
             variant="tertiary"
-            className="grid place-items-center h-[30px] py-1 px-3 text-[14px]"
+            className="w-auto h-[2em] grid place-items-center px-[1em] py-0 text-[.75em]"
             onClick={() => onGoToCompany(company.nameId)}
           >
             <span className="m-auto">Ver más</span>

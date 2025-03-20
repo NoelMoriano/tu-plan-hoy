@@ -1,4 +1,5 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   children?: React.ReactNode;
@@ -24,7 +25,11 @@ export const Button = ({
   return (
     <button
       type={type}
-      className={`w-auto p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
+      className={twMerge(
+        "w-auto p-3 rounded-[5px] text-[14px] font-bold cursor-pointer",
+        variants[variant],
+        className,
+      )}
       onClick={onClick}
     >
       {children}
