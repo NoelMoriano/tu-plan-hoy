@@ -5,6 +5,7 @@ interface Props {
   variant?: "primary" | "secondary" | "tertiary";
   className?: string;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }
 
 export const Button = ({
@@ -12,6 +13,7 @@ export const Button = ({
   className,
   onClick,
   children,
+  type = "button",
 }: Props) => {
   const variants = {
     primary: "bg-primary text-white hover:bg-primary-dark focus-none",
@@ -21,6 +23,7 @@ export const Button = ({
 
   return (
     <button
+      type={type}
       className={`w-auto p-3 rounded-[5px] text-[14px] font-bold cursor-pointer ${variants[variant]} ${className && className}`}
       onClick={onClick}
     >

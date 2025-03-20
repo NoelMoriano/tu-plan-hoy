@@ -1,53 +1,33 @@
-import React, { useState } from "react";
+"use cliente";
+import React, { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import { twMerge } from "tailwind-merge";
-
-type Option = {
-  label: string | React.ReactNode;
-  value: string;
-};
 
 interface Props {
   label?: string;
   placeholder?: string;
-  options: Option[];
+  options: SelectOption[];
   multiple?: boolean;
+  closeMenuOnSelect?: boolean;
+  onChange?: (value: any) => void;
+  value?: any;
 }
 
-export const Select = ({ label, options = [], multiple }: Props) => {
-  const [selectedOption, setSelectedOption] = useState<any>();
+export const Select = ({
+  label,
+  options = [],
+  multiple,
+  closeMenuOnSelect = false,
+  onChange,
+  value = "",
+}: Props) => {
+  const [isMounted, setIsMounted] = useState(false);
 
-  const customStyles = {
-    control: (base: any) => ({
-      ...base,
-      backgroundColor: "white",
-      border: "none",
-      outline: "none",
-      focus: "none",
-    }),
-    multiValue: (base: any) => ({
-      ...base,
-      backgroundColor: "bg-secondary",
-      color: "white",
-      borderRadius: "0.25rem",
-      padding: "2px 6px",
-    }),
-    multiValueLabel: (base: any) => ({
-      ...base,
-      color: "white",
-    }),
-    multiValueRemove: (base: any) => ({
-      ...base,
-      color: "white",
-      cursor: "pointer",
-      "&:hover": {
-        backgroundColor: "bg-secondary",
-        color: "white",
-      },
-    }),
-  };
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-  console.log("selectedOption: ", selectedOption);
+  if (!isMounted) return null;
 
   return (
     <div className="w-full">
@@ -80,13 +60,43 @@ export const Select = ({ label, options = [], multiple }: Props) => {
               ),
           }}
           isMulti={multiple}
-          closeMenuOnSelect={false}
-          defaultValue={selectedOption}
-          onChange={setSelectedOption}
+          closeMenuOnSelect={closeMenuOnSelect}
+          defaultValue={value}
+          onChange={onChange}
           options={options}
           styles={customStyles}
         />
       </div>
     </div>
   );
+};
+
+const customStyles = {
+  control: (base: any) => ({
+    ...base,
+    backgroundColor: "white",
+    border: "none",
+    outline: "none",
+    focus: "none",
+  }),
+  multiValue: (base: any) => ({
+    ...base,
+    backgroundColor: "bg-secondary",
+    color: "white",
+    borderRadius: "0.25rem",
+    padding: "2px 6px",
+  }),
+  multiValueLabel: (base: any) => ({
+    ...base,
+    color: "white",
+  }),
+  multiValueRemove: (base: any) => ({
+    ...base,
+    color: "white",
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: "bg-secondary",
+      color: "white",
+    },
+  }),
 };
