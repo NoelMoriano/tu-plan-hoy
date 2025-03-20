@@ -6,8 +6,8 @@ import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import { Star } from "lucide-react";
 import { AdvertisementSkeleton } from "@/components/AdvertisementSkeleton";
 import { isEmpty } from "lodash";
-import { HighlightedCompanyCard } from "@/components/HighlightedCompanyCard";
 import { useRouter } from "next/navigation";
+import { CompanyCard } from "@/components/CompanyCard";
 
 export const HighlightedCompanies = () => {
   const router = useRouter();
@@ -64,8 +64,9 @@ export const HighlightedCompanies = () => {
               <p className="text-[1.2em]">No se encontraron resultados...</p>
             ) : (
               companiesHighlighted.map((company, index) => (
-                <HighlightedCompanyCard
+                <CompanyCard
                   key={index}
+                  size="large"
                   company={company}
                   onGoToCompany={onGoToCompany}
                 />
