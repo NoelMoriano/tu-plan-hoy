@@ -9,7 +9,7 @@ interface Props {
 
 export const CompanyCard = ({ company, onGoToCompany }: Props) => {
   return (
-    <div className="w-full max-w-[17em] p-3 bg-quaternary rounded-[10px]">
+    <div className="w-[12em] h-[15em] p-3 bg-quaternary rounded-[10px]">
       <div className="img">
         <Image
           src={
@@ -20,7 +20,7 @@ export const CompanyCard = ({ company, onGoToCompany }: Props) => {
           width={320}
           height={160}
           alt={company?.name || ""}
-          className="w-full h-[9em] object-cover rounded-[5px]"
+          className="w-full h-[11.5em] object-cover rounded-[5px]"
         />
       </div>
       <div className="footer pt-3">

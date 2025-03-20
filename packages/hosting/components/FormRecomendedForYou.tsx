@@ -14,6 +14,7 @@ export const FormRecomendedForYou = () => {
       </div>
       <Form>
         <Select
+          multiple
           options={[
             {
               label: "Disco bar",
