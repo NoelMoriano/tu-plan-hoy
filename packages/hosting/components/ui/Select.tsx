@@ -11,6 +11,8 @@ interface Props {
   closeMenuOnSelect?: boolean;
   onChange?: (value: any) => void;
   value?: any;
+  error?: boolean;
+  required?: boolean;
 }
 
 export const Select = ({
@@ -20,6 +22,8 @@ export const Select = ({
   closeMenuOnSelect = false,
   onChange,
   value = "",
+  error = false,
+  required = false,
 }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
 
