@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { FormSearchNightClubs } from "@/components/FormSearchNightClubs";
+import { FormSearchResults } from "@/components/FormSearchResults";
 import { WrapperComponent } from "@/components/ui/WrapperComponent";
 import { DiscountAndNews } from "@/components/DiscountAndNews";
 import Image from "next/image";
@@ -33,7 +33,7 @@ export default function HomePage() {
               "linear-gradient(to right, rgba(35, 20, 115, 47%), rgba(35, 20, 115, 37%)",
           }}
         />
-        <FormSearchNightClubs />
+        <FormSearchResults />
       </div>
       <HighlightedCompanies />
       <div className="w-full h-[560px] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">

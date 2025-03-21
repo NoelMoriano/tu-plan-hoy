@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { default as Cities } from "@/app/data-list/cities.json";
@@ -7,27 +7,51 @@ import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 import { Form } from "@/components/ui/Form";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+import { InferType } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormUtils } from "@/hooks/useFormUtils";
 
 interface FormData {
-  city: string[];
-  categories: string[];
+  city: SelectOption[];
+  categories: SelectOption[];
 }
 
-export const FormSearchNightClubs = () => {
-  const { updateSearchKey } = useSearchParamsState();
+export const FormSearchResults = () => {
+  const { redirectToWithSearchKey } = useSearchParamsState();
 
   const schema = yup.object({
     city: yup.array().required(),
     categories: yup.array().required(),
   });
 
-  const { handleSubmit, control, reset } = useForm<FormData>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<InferType<typeof schema>>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (formData: any) => {
-    console.log("formData: ", formData);
+  const { required, error, errorMessage } = useFormUtils({ errors, schema });
+
+  console.log("errors: ", errors);
+
+  useEffect(() => {
+    reset({
+      city: undefined,
+      categories: undefined,
+    });
+  }, []);
+
+  const onSubmit = (formData: FormData) => {
+    redirectToWithSearchKey("/search", {
+      filters: {
+        city: formData?.city.map((city) => city.value) || [],
+        categories:
+          formData?.categories.map((category) => category.value) || [],
+      },
+    });
   };
 
   return (
@@ -58,6 +82,8 @@ export const FormSearchNightClubs = () => {
               )}
               onChange={onChange}
               value={value}
+              error={error(name)}
+              required={required(name)}
             />
           )}
         />
