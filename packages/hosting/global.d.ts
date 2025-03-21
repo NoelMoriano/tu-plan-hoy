@@ -39,14 +39,6 @@ interface Social {
   url: string;
 }
 
-interface DefaultFirestoreProps {
-  createAt: any;
-  updateAt: any;
-  updateBy: string;
-  isDeleted: boolean;
-  createBy?: string;
-}
-
 interface SearchKey {
   text?: string;
   maps?: boolean;
