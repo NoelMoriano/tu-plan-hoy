@@ -107,6 +107,8 @@ export const FormSearchResults = () => {
               )}
               onChange={onChange}
               value={value}
+              error={error(name)}
+              required={required(name)}
             />
           )}
         />
