@@ -33,9 +33,7 @@ export const FormSearchResults = () => {
     resolver: yupResolver(schema),
   });
 
-  const { required, error, errorMessage } = useFormUtils({ errors, schema });
-
-  console.log("errors: ", errors);
+  const { required, error } = useFormUtils({ errors, schema });
 
   useEffect(() => {
     reset({
