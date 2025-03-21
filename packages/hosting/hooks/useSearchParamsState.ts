@@ -68,6 +68,34 @@ export const useSearchParamsState = () => {
     [router, getSearchKey],
   );
 
+  // 📌 🔥 Merge the new values with the existing ones in the URL and redirect to a new page
+  const redirectToWithSearchKey = useCallback(
+    (pathname: string, newValues: Partial<SearchKey>) => {
+      const currentParams = getSearchKey();
+
+      // 🔄 Keep existing values and merge new ones
+      const updatedParams = {
+        ...currentParams,
+        ...newValues,
+        filters: {
+          ...currentParams.filters,
+          ...newValues.filters,
+        },
+      };
+
+      const encodedSearchKey = encodeURIComponent(
+        JSON.stringify(updatedParams),
+      );
+
+      console.log("pathname: ", `${pathname}?searchKey=${encodedSearchKey}`);
+
+      router.push(`${pathname}?searchKey=${encodedSearchKey}`, {
+        scroll: false,
+      });
+    },
+    [router, getSearchKey],
+  );
+
   // 📌 🗑️ Delete a field, but keep the structure
   const removeSearchKeyField = useCallback(
     (key: keyof SearchKey) => {
@@ -97,6 +125,7 @@ export const useSearchParamsState = () => {
     searchKey,
     getSearchKey,
     updateSearchKey,
+    redirectToWithSearchKey,
     removeSearchKeyField,
     resetSearchKey,
   };
