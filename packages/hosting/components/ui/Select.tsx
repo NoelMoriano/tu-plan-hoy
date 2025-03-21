@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import { twMerge } from "tailwind-merge";
+import { ComponentWrapper } from "@/components/ui/ComponentWrapper";
 
 interface Props {
   label?: string;
@@ -13,6 +14,7 @@ interface Props {
   value?: any;
   error?: boolean;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export const Select = ({
@@ -24,6 +26,7 @@ export const Select = ({
   value = "",
   error = false,
   required = false,
+  disabled = false,
 }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -34,44 +37,37 @@ export const Select = ({
   if (!isMounted) return null;
 
   return (
-    <div className="w-full">
-      {label && (
-        <div>
-          <label
-            htmlFor="input"
-            className="text-[15px] font-bold m-0 text-primary"
-          >
-            {label}
-          </label>
-        </div>
-      )}
-      <div className="w-full min-h-[47px] h-auto bg-white border-tertiary border-[1px] rounded-[5px] outline-none m-0">
-        <ReactSelect
-          className="w-full h-full p-1 text-secondary text-[14px]"
-          classNames={{
-            container: () => twMerge("border-none outline-none"),
-            control: ({ isFocused }) =>
-              twMerge(
-                "border-none outline-none focus:border-none",
-                isFocused && "border-none",
-              ),
-            multiValue: () =>
-              twMerge("bg-secondary border-none outline-none rounded px-2"),
-            multiValueLabel: () => twMerge("text-black"),
-            multiValueRemove: () =>
-              twMerge(
-                "text-white cursor-pointer px-1 rounded bg-secondary hover:bg-secondary",
-              ),
-          }}
-          isMulti={multiple}
-          closeMenuOnSelect={closeMenuOnSelect}
-          defaultValue={value}
-          onChange={onChange}
-          options={options}
-          styles={customStyles}
-        />
-      </div>
-    </div>
+    <ComponentWrapper
+      label={label}
+      error={error}
+      required={required}
+      disabled={disabled}
+    >
+      <ReactSelect
+        className="w-full h-full p-1 text-secondary text-[14px]"
+        classNames={{
+          container: () => twMerge("border-none outline-none"),
+          control: ({ isFocused }) =>
+            twMerge(
+              "border-none outline-none focus:border-none",
+              isFocused && "border-none",
+            ),
+          multiValue: () =>
+            twMerge("bg-secondary border-none outline-none rounded px-2"),
+          multiValueLabel: () => twMerge("text-black"),
+          multiValueRemove: () =>
+            twMerge(
+              "text-white cursor-pointer px-1 rounded bg-secondary hover:bg-secondary",
+            ),
+        }}
+        isMulti={multiple}
+        closeMenuOnSelect={closeMenuOnSelect}
+        defaultValue={value}
+        onChange={onChange}
+        options={options}
+        styles={customStyles}
+      />
+    </ComponentWrapper>
   );
 };
 
