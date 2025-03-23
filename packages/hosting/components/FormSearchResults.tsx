@@ -11,12 +11,16 @@ import { InferType } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFormUtils } from "@/hooks/useFormUtils";
 
+interface Props {
+  categories: Category[];
+}
+
 interface FormData {
   city: SelectOption[];
   categories: SelectOption[];
 }
 
-export const FormSearchResults = () => {
+export const FormSearchResults = ({ categories }: Props) => {
   const { redirectToWithSearchKey } = useSearchParamsState();
 
   const schema = yup.object({
@@ -98,9 +102,9 @@ export const FormSearchResults = () => {
                     value: "all",
                   },
                 ],
-                Cities.map((city) => ({
-                  label: city.value,
-                  value: city.id,
+                (categories || []).map((category) => ({
+                  label: category.name,
+                  value: category.nameId,
                 })),
               )}
               onChange={onChange}

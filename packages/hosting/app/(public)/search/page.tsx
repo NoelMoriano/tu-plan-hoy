@@ -7,10 +7,12 @@ import axios from "axios";
 import { currentConfig } from "@/config";
 import { isEmpty } from "lodash";
 import { CompanyCard } from "@/components/CompanyCard";
+import { useSearchParamsState } from "@/hooks/useSearchParamsState";
 
 export default function SearchPage() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { getSearchKey } = useSearchParamsState();
 
   const [companies, setCompanies] = useState<Company[]>([]);
 
@@ -19,6 +21,10 @@ export default function SearchPage() {
     onNavigateGoTo(`/companies/${nameId}`);
 
   const fetchCompanies = () => {
+    const searchKey = getSearchKey();
+
+    console.log("searchKey: ", searchKey);
+
     startTransition(async () => {
       try {
         const p0 = axios.get<Company[]>(

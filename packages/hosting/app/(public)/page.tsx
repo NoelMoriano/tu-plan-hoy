@@ -7,8 +7,13 @@ import Image from "next/image";
 import { HighlightedCompanies } from "@/app/(public)/HighlightedCompanies";
 import { MoreCompanies } from "@/app/(public)/Companies";
 import { FormRecomendedForYou } from "@/components/FormRecomendedForYou";
+import { useAppStore } from "@/store/useAppStore";
 
 export default function HomePage() {
+  const { categories = [], loadingCategories } = useAppStore((state) => state);
+
+  console.log("categories: ", categories);
+
   return (
     <div className="general-wrapper">
       <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center">
@@ -33,7 +38,7 @@ export default function HomePage() {
               "linear-gradient(to right, rgba(35, 20, 115, 47%), rgba(35, 20, 115, 37%)",
           }}
         />
-        <FormSearchResults />
+        {!loadingCategories && <FormSearchResults categories={categories} />}
       </div>
       <HighlightedCompanies />
       <div className="w-full h-[560px] relative bg-blend-multiply bg-primary grid place-items-center overflow-hidden">
