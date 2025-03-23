@@ -12,8 +12,6 @@ import { useAppStore } from "@/store/useAppStore";
 export default function HomePage() {
   const { categories = [], loadingCategories } = useAppStore((state) => state);
 
-  console.log("categories: ", categories);
-
   return (
     <div className="general-wrapper">
       <div className="w-full h-[80svh] relative bg-blend-multiply bg-primary grid place-items-center">
