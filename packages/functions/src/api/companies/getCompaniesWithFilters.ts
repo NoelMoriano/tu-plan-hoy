@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { fetchCategories, fetchCompanies } from "../../_firebase/collections";
 import { WhereClauses } from "../../_firebase";
 import type { Company } from "../../globalTypes";
-import { orderBy } from "lodash";
+import { isEmpty, orderBy } from "lodash";
 import { getCategoriesByIds, logger } from "../../utils";
 
 interface Query {
@@ -25,17 +25,14 @@ export const getCompaniesWithFilters = async (
       query: req.query,
     });
 
-    const isActive = active === "true";
-    const _isHighlighted = isHighlighted === "true";
-
     let whereClauses: WhereClauses<Company>[] = [["isDeleted", "==", false]];
 
-    if (isActive) {
-      whereClauses.push(["active", "==", isActive]);
+    if (!isEmpty(active)) {
+      whereClauses.push(["active", "==", active === "true"]);
     }
 
-    if (_isHighlighted) {
-      whereClauses.push(["isHighlighted", "==", _isHighlighted]);
+    if (!isEmpty(isHighlighted)) {
+      whereClauses.push(["isHighlighted", "==", isHighlighted === "true"]);
     }
 
     const p0 = fetchCategories();
