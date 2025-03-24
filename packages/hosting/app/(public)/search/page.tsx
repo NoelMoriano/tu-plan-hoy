@@ -85,14 +85,16 @@ export default function SearchPage() {
               ) : isEmpty(companies) ? (
                 "No se encontraron resultados..."
               ) : (
-                <div className="search__cards-wrapper w-full h-auto grid gap-[1em]">
-                  {companies.map((company, index) => (
-                    <CompanyCard
-                      key={index}
-                      company={company}
-                      onGoToCompany={onGoToCompany}
-                    />
-                  ))}
+                <div className="cards-wrapper w-full h-auto grid place-items-center">
+                  <div className="cards-wrapper__items w-auto h-auto m-auto flex flex-wrap justify-start gap-5">
+                    {companies.map((company, index) => (
+                      <CompanyCard
+                        key={index}
+                        company={company}
+                        onGoToCompany={onGoToCompany}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
