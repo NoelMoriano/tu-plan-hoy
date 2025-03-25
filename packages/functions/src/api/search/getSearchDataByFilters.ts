@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { logger } from "../../utils";
 import { algoliaClient } from "../../algolia";
+import { isEmpty } from "lodash";
 
 interface Body {
   searchKey?: string;
@@ -20,6 +21,14 @@ export const getSearchDataByFilters = async (
   });
 
   try {
+    if (!isEmpty(searchKey)) {
+      const parsedKey = searchKey
+        ? JSON.parse(decodeURIComponent(searchKey))
+        : {};
+
+      logger.log("parsedKey: ", parsedKey);
+    }
+
     const { results } = await algoliaClient.search({
       requests: [
         {
