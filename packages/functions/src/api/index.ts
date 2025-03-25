@@ -5,7 +5,7 @@ import UsersRouter from "./users";
 import CompaniesRouter from "./companies";
 import AdvertisementsRouter from "./advertisements";
 import CategoriesRouter from "./categories";
-import { getSearchData } from "./search";
+import SearchRouter from "./search";
 
 const app: express.Application = express();
 
@@ -30,7 +30,7 @@ app.use("/companies", CompaniesRouter);
 app.use("/advertisements", AdvertisementsRouter);
 
 // SEARCH
-app.get("/search", getSearchData);
+app.use("/search", SearchRouter);
 
 app.use(errorHandler);
 
