@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 interface Props {
   size?: "small" | "medium" | "large";
-  company: Company;
+  company: Company | Hit;
   onGoToCompany: (nameId: string) => void;
 }
 
@@ -30,8 +30,8 @@ export const CompanyCard = ({
       <div className="img w-full h-full">
         <Image
           src={
-            company?.coverImage.thumbUrl ||
-            company?.coverImage.url ||
+            company?.coverImage?.thumbUrl ||
+            company?.coverImage?.url ||
             "/images/img-no-found.jpg"
           }
           width={290}

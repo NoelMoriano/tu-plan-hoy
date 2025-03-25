@@ -14,7 +14,7 @@ export default function SearchPage() {
   const [isPending, startTransition] = useTransition();
   const { getSearchKey } = useSearchParamsState();
 
-  const [companies, setCompanies] = useState<Company[]>([]);
+  const [results, setResults] = useState<any>([]);
 
   const onNavigateGoTo = (pathname: string = "/") => router.push(pathname);
   const onGoToCompany = (nameId: string) =>
@@ -23,35 +23,18 @@ export default function SearchPage() {
   const fetchCompanies = () => {
     const searchKey = getSearchKey();
 
-    console.log("searchKey: ", searchKey);
-
     startTransition(async () => {
       try {
-        const p0 = axios.get<Company[]>(
-          `${currentConfig.apiUrl}/companies/filters`,
+        const _results = await axios.post<Company[]>(
+          `${currentConfig.apiUrl}/search/filters`,
           {
-            params: {
-              active: true,
-              isHighlighted: true,
-              limit: 24,
+            body: {
+              searchKey,
             },
           },
         );
 
-        const p1 = axios.get<Company[]>(
-          `${currentConfig.apiUrl}/companies/filters`,
-          {
-            params: {
-              active: true,
-              isHighlighted: false,
-              limit: 24,
-            },
-          },
-        );
-
-        const [highlightedCompanies, companies] = await Promise.all([p0, p1]);
-
-        setCompanies([...highlightedCompanies.data, ...companies.data]);
+        setResults(_results.data);
       } catch (err) {
         console.log("ErrorFetchAdvertisements: ", err);
       }
@@ -62,6 +45,14 @@ export default function SearchPage() {
     fetchCompanies();
   }, []);
 
+  const resultsView = results.map((result: any) => ({
+    ...result,
+    hits: (result?.hits || []).map((hit: Hit) => ({
+      ...hit,
+      categories: [],
+    })),
+  }));
+
   return (
     <div className="w-full px-5 py-7">
       <WrapperComponent>
@@ -69,7 +60,8 @@ export default function SearchPage() {
           <div className="tabs flex gap-[1em] border-b-[2px] mb-[1em] border-tertiary">
             <div className="tab flex items-center gap-[1em] py-[.5em] px-[1.2em] text-primary text-[16px] font-bold border-b-[2px] border-primary cursor-pointer">
               <span>
-                <strong>{companies.length}</strong> Resultados
+                <strong>{(resultsView?.[0]?.hits || []).length}</strong>{" "}
+                Resultados
               </span>
             </div>
           </div>
@@ -82,18 +74,20 @@ export default function SearchPage() {
                     <span className="text-primary">Cargando...</span>
                   </div>
                 </div>
-              ) : isEmpty(companies) ? (
+              ) : isEmpty(resultsView) ? (
                 "No se encontraron resultados..."
               ) : (
                 <div className="cards-wrapper w-full h-auto grid place-items-center">
                   <div className="cards-wrapper__items w-auto h-auto m-auto flex flex-wrap justify-start gap-5">
-                    {companies.map((company, index) => (
-                      <CompanyCard
-                        key={index}
-                        company={company}
-                        onGoToCompany={onGoToCompany}
-                      />
-                    ))}
+                    {(resultsView?.[0]?.hits || []).map(
+                      (hit: Hit, index: number) => (
+                        <CompanyCard
+                          key={index}
+                          company={hit}
+                          onGoToCompany={onGoToCompany}
+                        />
+                      ),
+                    )}
                   </div>
                 </div>
               )}
